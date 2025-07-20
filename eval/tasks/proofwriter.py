@@ -1,3 +1,4 @@
+from datasets import load_dataset
 from eval.base import OWAFOLTask
 
 _CITATION = """
@@ -30,6 +31,7 @@ class ProofWriterBase(OWAFOLTask):
     DATASET_NAME = None
 
     def __init__(self, mode, n, seed=7):
+        self.dataset = load_dataset(self.DATASET_PATH, self.DATASET_NAME)
         super().__init__(mode, n)
         self._test = self.reformat(self.dataset["test"]).shuffle(seed)
 
