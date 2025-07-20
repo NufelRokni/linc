@@ -1,0 +1,35 @@
+# Byte‑compiled / caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+*.whl
+
+# Conda / virtualenv
+env/
+.venv/
+venv/
+*.conda
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data, logs, outputs
+outputs/
+.cache/
+*.log
+
+# HuggingFace / model caches
+~/.cache/huggingface/
+
