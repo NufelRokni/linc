@@ -171,4 +171,3 @@ def parse_infill(code, tokenizer):
         else:
             code = code.replace(v, "")
     return code
-
