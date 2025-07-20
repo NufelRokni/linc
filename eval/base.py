@@ -289,4 +289,3 @@ class OWAFOLTask(Task):
         for doc in self._train.select(range(self._nshot)):
             examples.append(self.format_train_example(doc))
         return "\n".join(examples)
-
