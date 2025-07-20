@@ -37,4 +37,3 @@ for model in "bigcode/starcoderbase-3b"; do
 done
 
 touch ${outdir}/run.done
-
