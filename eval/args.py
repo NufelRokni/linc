@@ -1,17 +1,12 @@
 from dataclasses import dataclass, field
 from typing import Optional, List
-
 from eval.tasks import ALL_TASKS
-
 
 @dataclass
 class RunnerArguments:
-    """
-    Arguments for running the evaluator.
-    """
-
+    """ Arguments for running the evaluator. """
     model: str = field(
-        default="Salesforce/codegen-350M-mono",
+        default="bigcode/starcoderbase-3b",
         metadata={"help": "Model to evaluate, all HuggingFace models supported"},
     )
     tasks: Optional[str] = field(
@@ -87,15 +82,11 @@ class RunnerArguments:
         metadata={"help": "Path to cache directory"},
     )
 
-
 @dataclass
 class HFArguments:
-    """
-    Arguments specific to Hugging Face models.
-    """
-
+    """ Arguments specific to Hugging Face models. """
     precision: Optional[str] = field(
-        default="fp32",
+        default="fp16",
         metadata={"help": "Precision to use (fp32, fp16, bf16)"},
     )
     revision: Optional[str] = field(
@@ -115,39 +106,17 @@ class HFArguments:
         },
     )
 
-
-@dataclass
-class OAIArguments:
-    """
-    Arguments for OpenAI models.
-    """
-
-    openai_api_env_keys: List[str] = field(
-        default=None,
-        metadata={"help": "The environment variable(s) pointing to OpenAI API key(s)"},
-    )
-    chat_system_instruction: Optional[str] = field(
-        default="You are a helpful assistant that carefully follows instructions. "
-        + "You should complete the user text, continuing from the example format, "
-        + "rather than providing a conversational response.",
-        metadata={"help": "System instruction to use for chat models"},
-    )
-
-
 @dataclass
 class GenerationArguments:
-    """
-    Arguments for generations.
-    """
-
+    """ Arguments for generations. """
     prefix: Optional[str] = field(
         default="",
         metadata={
-            "help": "Prefix to add to the prompt. For example InCoder needs prefix='<| file ext=.py |>\n'"
+            "help": "Prefix to add to the prompt. For example InCoder needs prefix='<|file ext=.py|>\n'"
         },
     )
     max_length_generation: int = field(
-        default=1024,
+        default=512,
         metadata={"help": "Maximum length of generated sequence (prompt+generation)"},
     )
     do_sample: Optional[bool] = field(
@@ -155,17 +124,23 @@ class GenerationArguments:
         metadata={"help": "Sample from the language model's output distribution."},
     )
     temperature: Optional[float] = field(
-        default=0.2, metadata={"help": "Sampling temperature used for generation."}
+        default=0.2,
+        metadata={"help": "Sampling temperature used for generation."}
     )
     top_k: Optional[int] = field(
-        default=0, metadata={"help": "Top-k parameter used for generation."}
+        default=0,
+        metadata={"help": "Top-k parameter used for generation."}
     )
     top_p: Optional[float] = field(
-        default=0.95, metadata={"help": "Top-p parameter used for nucleus sampling."}
+        default=0.95,
+        metadata={"help": "Top-p parameter used for nucleus sampling."}
     )
     eos: Optional[str] = field(
-        default="<|endoftext|>", metadata={"help": "end of sentence token."}
+        default="<|endoftext|>",
+        metadata={"help": "End of sentence token."}
     )
     seed: Optional[int] = field(
-        default=0, metadata={"help": "Random seed used for evaluation."}
+        default=0,
+        metadata={"help": "Random seed used for evaluation."}
     )
+
