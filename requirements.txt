@@ -1,10 +1,16 @@
- torch==1.13.1
- transformers==4.28.1
- accelerate==0.13.2
- datasets==2.6.1
- openai==0.27.4
- diskcache==5.5.1
- nltk==3.8.1
- matplotlib==3.7.1
-+numpy<2       # ensure NumPy stays in the 1.x series
-+pyarrow<15    # keep pyarrow compatible with datasets
+torch==1.13.1
+transformers==4.28.1
+accelerate==0.13.2
+
+# upgraded – fixes LocalFileSystem bug
+datasets>=2.14.6,<3
+
+openai==0.27.4
+diskcache==5.5.1
+nltk==3.8.1
+matplotlib==3.7.1
+
+# compatibility pins
+numpy<2          # keeps 1.26.x
+pyarrow<15       # works with datasets 2.x
+

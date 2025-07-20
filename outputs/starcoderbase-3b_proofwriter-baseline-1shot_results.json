@@ -1,0 +1,9 @@
+{
+  "config": {
+    "model": "bigcode/starcoderbase-3b",
+    "precision": "bf16"
+  },
+  "proofwriter-baseline-1shot": {
+    "accuracy (pass@1 majority)": 0.0
+  }
+}
