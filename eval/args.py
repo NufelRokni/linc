@@ -143,4 +143,3 @@ class GenerationArguments:
         default=0,
         metadata={"help": "Random seed used for evaluation."}
     )
-
