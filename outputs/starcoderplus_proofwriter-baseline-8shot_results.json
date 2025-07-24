@@ -3,7 +3,7 @@
     "model": "bigcode/starcoderplus",
     "precision": "bf16"
   },
-  "proofwriter-baseline-1shot": {
+  "proofwriter-baseline-8shot": {
     "accuracy (pass@1 majority)": 0.0
   }
 }

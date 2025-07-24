@@ -31,7 +31,7 @@ def create_all_tasks():
 
 
 class FOLIOBase(OWAFOLTask):
-    DATASET_PATH = "minimario/FOLIO"
+    DATASET_PATH = "benlipkin/folio"
     DATASET_NAME = None
 
     def __init__(self, mode, n, seed=7):

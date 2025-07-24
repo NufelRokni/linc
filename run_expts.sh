@@ -9,7 +9,7 @@ for model in "bigcode/starcoderplus"; do
     batch_size=5
     max_length=8192
 #    for n in "1" "2" "4" "8"; do
-    for n in "1"; do
+    for n in "8"; do
 #      if [[ ${n} != "8" && ${base} != "folio" ]]; then
 #        continue
 #      fi
@@ -21,7 +21,7 @@ for model in "bigcode/starcoderplus"; do
         job+=" --model ${model} --precision bf16"
         job+=" --use_auth_token"
         job+=" --tasks ${task} --n_samples 10 --batch_size ${batch_size}"
-	job+=" --limit 3"
+	job+=" --limit 10"
         job+=" --max_length_generation ${max_length} --temperature 0.8"
         job+=" --allow_code_execution --trust_remote_code --output_dir ${outdir}"
         job+=" --save_generations_raw --save_generations_raw_path ${run_id}_generations_raw.json"

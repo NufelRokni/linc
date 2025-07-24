@@ -36,6 +36,9 @@ class TokenizedDataset(IterableDataset):
         prompts = []
         infill = []
         for sample in range(self.n_tasks):
+            if sample >= len(self.dataset):
+                print(f"Warning: sample {sample} >= dataset size {len(self.dataset)}")
+                continue
             prompt_contents = self.task.get_prompt(self.dataset[sample])
             if isinstance(prompt_contents, str):
                 infill.append(False)
