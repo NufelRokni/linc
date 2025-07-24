@@ -6,7 +6,7 @@ from eval.tasks import ALL_TASKS
 class RunnerArguments:
     """ Arguments for running the evaluator. """
     model: str = field(
-        default="bigcode/starcoderbase-3b",
+        default="Salesforce/codegen-350M-mono",
         metadata={"help": "Model to evaluate, all HuggingFace models supported"},
     )
     tasks: Optional[str] = field(

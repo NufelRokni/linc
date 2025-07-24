@@ -6,6 +6,7 @@ License: MIT
 Requires-Python: >=3.10
 Requires-Dist: torch==1.13.1
 Requires-Dist: transformers==4.28.1
+Requires-Dist: huggingface-hub<1.0.0,>=0.9.0
 Requires-Dist: accelerate==0.13.2
 Requires-Dist: datasets<3,>=2.14.6
 Requires-Dist: openai==0.27.4

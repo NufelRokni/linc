@@ -4,10 +4,10 @@ set -xeuo pipefail
 outdir="outputs"
 mkdir -p ${outdir}
 
-for model in "bigcode/starcoderbase-3b"; do
+for model in "bigcode/starcoderplus"; do
   for base in "proofwriter"; do
-    batch_size=2
-    max_length=1024
+    batch_size=5
+    max_length=8192
 #    for n in "1" "2" "4" "8"; do
     for n in "1"; do
 #      if [[ ${n} != "8" && ${base} != "folio" ]]; then
@@ -21,7 +21,7 @@ for model in "bigcode/starcoderbase-3b"; do
         job+=" --model ${model} --precision bf16"
         job+=" --use_auth_token"
         job+=" --tasks ${task} --n_samples 10 --batch_size ${batch_size}"
-	job+=" --limit 10"
+	job+=" --limit 3"
         job+=" --max_length_generation ${max_length} --temperature 0.8"
         job+=" --allow_code_execution --trust_remote_code --output_dir ${outdir}"
         job+=" --save_generations_raw --save_generations_raw_path ${run_id}_generations_raw.json"

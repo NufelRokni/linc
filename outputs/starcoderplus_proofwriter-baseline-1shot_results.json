@@ -1,6 +1,6 @@
 {
   "config": {
-    "model": "bigcode/starcoderbase-3b",
+    "model": "bigcode/starcoderplus",
     "precision": "bf16"
   },
   "proofwriter-baseline-1shot": {

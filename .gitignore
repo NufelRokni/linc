@@ -26,7 +26,6 @@ venv/
 .ipynb_checkpoints/
 
 # Data, logs, outputs
-outputs/
 .cache/
 *.log
 
