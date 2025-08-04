@@ -19,10 +19,9 @@ update :
 .PHONY : env
 env : $(PACKAGE).egg-info/
 $(PACKAGE).egg-info/ : setup.py requirements.txt
-	@conda create -yn $(NAME) $(EXEC)
-	@$(ACTIVATE) ; \
-		python -m pip install -e "." ; \
-		conda install -yc conda-forge git-lfs
+	@conda create -yn $(NAME) $(EXEC) && \
+	conda run -n $(NAME) python -m pip install -e "." && \
+	conda run -n $(NAME) conda install -yc conda-forge git-lfs
 		
 ## setup	 : login to huggingface and setup accelerate.
 .PHONY : setup
