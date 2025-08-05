@@ -31,7 +31,8 @@ class TokenizedDataset(IterableDataset):
         self.tokenizer = tokenizer
         self.num_devices = num_devices
         self.max_length = max_length
-        self.n_tasks = n_tasks
+        # Ensure n_tasks does not exceed dataset length
+        self.n_tasks = min(n_tasks if n_tasks is not None else len(dataset), len(dataset))
         self.n_copies = n_copies
         self.prefix = prefix
 
@@ -69,14 +70,16 @@ class TokenizedDataset(IterableDataset):
             return_token_type_ids=return_token_type_ids,
         )
 
-        if self.n_copies == 1 and self.n_tasks % self.num_devices != 0:
-            self.n_copies = 2
+        # Use a local variable for n_copies adjustment
+        n_copies = self.n_copies
+        if n_copies == 1 and self.n_tasks % self.num_devices != 0:
+            n_copies = 2
             warnings.warn(
                 "n_copies (n_samples/batch_size) was changed from 1 to 2 because n_tasks isn't proportional to num devices"
             )
 
         for sample in range(self.n_tasks):
-            for _ in range(self.n_copies):
+            for _ in range(n_copies):
                 yield {
                     "ids": outputs.input_ids[sample],
                     "task_id": sample,
@@ -147,15 +150,24 @@ def complete_code(
     def parse_infill(code, tokenizer):
         """Reorder infill code and remove remaining special tokens."""
         model_id = tokenizer.name_or_path
-        if model_id in ["facebook/incoder-1B", "facebook/incoder-6B"]:
-            prefix, suffix, infill = code.split("<|mask:0|>", 2)
-            infill = infill.split("<|endofmask|>")[0]
-        elif model_id in ["bigcode/santacoder"]:
-            prefix, rest = code.split("<fim-suffix>", 1)
-            suffix, infill = rest.split("<fim-middle>", 1)
-            infill = infill.split("<|endoftext|>")[0]
-        else:
-            raise ValueError(f"Infilling not yet supported for: {model_id}")
+        try:
+            if model_id in ["facebook/incoder-1B", "facebook/incoder-6B"]:
+                parts = code.split("<|mask:0|>")
+                if len(parts) < 3:
+                    raise ValueError("Malformed infill output for InCoder.")
+                prefix, suffix, infill = parts[0], parts[1], parts[2]
+                infill = infill.split("<|endofmask|>")[0]
+            elif model_id in ["bigcode/santacoder"]:
+                if "<fim-suffix>" not in code or "<fim-middle>" not in code:
+                    raise ValueError("Malformed infill output for SantaCoder.")
+                prefix, rest = code.split("<fim-suffix>", 1)
+                suffix, infill = rest.split("<fim-middle>", 1)
+                infill = infill.split("<|endoftext|>")[0]
+            else:
+                raise ValueError(f"Infilling not yet supported for: {model_id}")
+        except Exception as e:
+            warnings.warn(f"Failed to parse infill output: {e}")
+            return code
         code = "".join([prefix, infill, suffix])
         for k, v in tokenizer.special_tokens_map.items():
             if k == "additional_special_tokens":

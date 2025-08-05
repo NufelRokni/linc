@@ -117,24 +117,6 @@ class HFArguments:
 
 
 @dataclass
-class OAIArguments:
-    """
-    Arguments for OpenAI models.
-    """
-
-    openai_api_env_keys: List[str] = field(
-        default=None,
-        metadata={"help": "The environment variable(s) pointing to OpenAI API key(s)"},
-    )
-    chat_system_instruction: Optional[str] = field(
-        default="You are a helpful assistant that carefully follows instructions. "
-        + "You should complete the user text, continuing from the example format, "
-        + "rather than providing a conversational response.",
-        metadata={"help": "System instruction to use for chat models"},
-    )
-
-
-@dataclass
 class GenerationArguments:
     """
     Arguments for generations.

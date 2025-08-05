@@ -1,4 +1,5 @@
 import json
+import math
 
 from torch.utils.data.dataloader import DataLoader
 from transformers import StoppingCriteria, StoppingCriteriaList
@@ -59,7 +60,7 @@ def parallel_generations(task, dataset, accelerator, model, tokenizer, n_tasks, 
 
     if accelerator.is_main_process:
         print(f"number of problems for this task is {n_tasks}")
-    n_copies = args.n_samples // args.batch_size
+    n_copies = math.ceil(args.n_samples / args.batch_size)  # ensure enough copies
 
     ds_tokenized = TokenizedDataset(
         task,
