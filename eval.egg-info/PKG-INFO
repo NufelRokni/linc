@@ -13,6 +13,8 @@ Requires-Dist: diskcache==5.6.3
 Requires-Dist: nltk==3.9.1
 Requires-Dist: matplotlib
 Requires-Dist: safetensors>=0.4.3
+Requires-Dist: huggingface_hub
+Requires-Dist: debugpy
 Dynamic: description
 Dynamic: license
 Dynamic: requires-dist

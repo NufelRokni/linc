@@ -7,3 +7,5 @@ diskcache==5.6.3
 nltk==3.9.1
 matplotlib
 safetensors>=0.4.3
+huggingface_hub
+debugpy

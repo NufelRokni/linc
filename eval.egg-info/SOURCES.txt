@@ -4,7 +4,9 @@ eval/__init__.py
 eval/args.py
 eval/base.py
 eval/evaluator.py
+eval/fol_utils.py
 eval/generation.py
+eval/task_base.py
 eval/utils.py
 eval.egg-info/PKG-INFO
 eval.egg-info/SOURCES.txt

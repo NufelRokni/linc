@@ -3,11 +3,11 @@ ipex flag is deprecated, will be removed in Accelerate v1.10. From 2.7.0, PyTorc
   warnings.warn(
 Selected Tasks: ['folio-baseline-1shot']
 Loading the model and tokenizer from HF (in fp32)
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.32s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  2.93s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.14s/it]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.56s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  2.97s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.21s/it]
 /opt/conda/envs/linc/lib/python3.10/site-packages/transformers/models/auto/tokenization_auto.py:999: FutureWarning: The `use_auth_token` argument is deprecated and will be removed in v5 of Transformers. Please use `token` instead.
   warnings.warn(
 number of problems for this task is 5
-  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:06<00:25,  6.36s/it] 40%|████      | 2/5 [00:06<00:08,  2.91s/it] 60%|██████    | 3/5 [00:08<00:04,  2.44s/it] 80%|████████  | 4/5 [00:13<00:03,  3.44s/it]100%|██████████| 5/5 [00:15<00:00,  2.76s/it]100%|██████████| 5/5 [00:15<00:00,  3.05s/it]
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:06<00:25,  6.42s/it] 40%|████      | 2/5 [00:06<00:08,  2.94s/it] 60%|██████    | 3/5 [00:08<00:04,  2.45s/it] 80%|████████  | 4/5 [00:13<00:03,  3.47s/it]100%|██████████| 5/5 [00:15<00:00,  2.77s/it]100%|██████████| 5/5 [00:15<00:00,  3.07s/it]
 Error in parsing and/or evaluating LLM output: Increase `--max_length_generation` to avoid truncation
 Error in parsing and/or evaluating LLM output: Increase `--max_length_generation` to avoid truncation
 Error in parsing and/or evaluating LLM output: Increase `--max_length_generation` to avoid truncation

@@ -30,7 +30,12 @@ for model in "mistralai/Mistral-7B-v0.1"; do
             for mode in "baseline"; do
                 task="${base}-${mode}-${n}shot"
                 run_id="${model#*/}_${task}"
-                job="cd $(pwd); source activate linc; accelerate launch runner.py"
+                job="cd $(pwd); source activate linc; "
+                if [[ ! -z "${DEBUG}" ]]; then
+                    job+="accelerate launch --module debugpy --listen 0.0.0.0:5679 --wait-for-client runner.py"
+                else
+                    job+="accelerate launch runner.py"
+                fi
                 job+=" --model ${model} --precision ${precision}"
                 job+=" --use_auth_token --limit 5"
                 job+=" --tasks ${task} --n_samples 1 --batch_size ${batch_size}"
