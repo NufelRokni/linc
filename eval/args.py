@@ -129,8 +129,12 @@ class GenerationArguments:
         },
     )
     max_length_generation: int = field(
-        default=1024,
+        default=8192,
         metadata={"help": "Maximum length of generated sequence (prompt+generation)"},
+    )
+    max_new_tokens: int = field(
+        default=256,
+        metadata={"help": "Maximum number of new tokens to generate (output only)."},
     )
     do_sample: Optional[bool] = field(
         default=True,

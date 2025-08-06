@@ -122,7 +122,8 @@ class OWAFOLTask(Task):
             if completion_only:
                 gen = generation.strip()
             else:
-                prefix = self.get_prompt(self.get_dataset()[idx])
+                sample = self.get_dataset()[idx]
+                prefix = self.get_prompt(sample)
                 assert generation.startswith(
                     prefix
                 ), "Increase `--max_length_generation` to avoid truncation"

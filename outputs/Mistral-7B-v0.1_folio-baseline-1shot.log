@@ -1,15 +1,199 @@
 ipex flag is deprecated, will be removed in Accelerate v1.10. From 2.7.0, PyTorch has all needed optimizations for Intel CPU and XPU.
 Selected Tasks: ['folio-baseline-1shot']
 Loading the model and tokenizer from HF (in fp32)
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.87s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.25s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.50s/it]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.29s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  2.84s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.06s/it]
 /opt/conda/envs/linc/lib/python3.10/site-packages/transformers/models/auto/tokenization_auto.py:999: FutureWarning: The `use_auth_token` argument is deprecated and will be removed in v5 of Transformers. Please use `token` instead.
   warnings.warn(
 number of problems for this task is 5
-  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:06<00:25,  6.43s/it] 40%|████      | 2/5 [00:06<00:08,  2.95s/it] 60%|██████    | 3/5 [00:08<00:04,  2.46s/it] 80%|████████  | 4/5 [00:13<00:03,  3.47s/it]100%|██████████| 5/5 [00:15<00:00,  2.78s/it]100%|██████████| 5/5 [00:15<00:00,  3.08s/it]
-Error in parsing and/or evaluating LLM output: Increase `--max_length_generation` to avoid truncation
-Error in parsing and/or evaluating LLM output: Increase `--max_length_generation` to avoid truncation
-Error in parsing and/or evaluating LLM output: Increase `--max_length_generation` to avoid truncation
-Error in parsing and/or evaluating LLM output: Increase `--max_length_generation` to avoid truncation
+  0%|          | 0/5 [00:00<?, ?it/s]/opt/conda/envs/linc/lib/python3.10/site-packages/transformers/tokenization_utils_base.py:2695: UserWarning: `max_length` is ignored when `padding`=`True` and there is no truncation strategy. To pad to max length, use `padding='max_length'`.
+  warnings.warn(
+ 20%|██        | 1/5 [00:00<00:02,  1.59it/s] 40%|████      | 2/5 [00:01<00:01,  1.67it/s] 60%|██████    | 3/5 [00:01<00:01,  1.81it/s] 80%|████████  | 4/5 [00:02<00:00,  1.96it/s]100%|██████████| 5/5 [00:02<00:00,  1.98it/s]100%|██████████| 5/5 [00:02<00:00,  1.89it/s]
+Using stopping criteria ===============================
+input_len.max() 306
+ids.shape[-1] (padded) 366
+PROMPT: <s> The following is a first-order logic (FOL) problem.
+The problem is to determine whether the conclusion follows from the premises.
+The premises are given in the form of a set of first-order logic sentences.
+The conclusion is given in the form of a single first-order logic sentence.
+The task is to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
+
+
+<PREMISES>
+All dispensable things are environment-friendly.
+All woodware is dispensable.
+All paper is woodware.
+No good things are bad.
+All environment-friendly things are good.
+A worksheet is either paper or is environment-friendly.
+</PREMISES>
+<CONCLUSION>
+A worksheet is not dispensable.
+</CONCLUSION>
+<EVALUATE>
+Uncertain
+</EVALUATE>
+
+<PREMISES>
+All students are humans.
+If someone studies, then they are a student.
+A person either studys or teaches.
+No young person teaches.
+Jerry neither teaches nor is a manager.
+Rose is young or a student.
+</PREMISES>
+<CONCLUSION>
+Rose is a human or Jerry is a manager.
+</CONCLUSION>
+<EVALUATE>
+
+Using stopping criteria ===============================
+input_len.max() 366
+ids.shape[-1] (padded) 366
+PROMPT: <s> The following is a first-order logic (FOL) problem.
+The problem is to determine whether the conclusion follows from the premises.
+The premises are given in the form of a set of first-order logic sentences.
+The conclusion is given in the form of a single first-order logic sentence.
+The task is to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
+
+
+<PREMISES>
+All dispensable things are environment-friendly.
+All woodware is dispensable.
+All paper is woodware.
+No good things are bad.
+All environment-friendly things are good.
+A worksheet is either paper or is environment-friendly.
+</PREMISES>
+<CONCLUSION>
+A worksheet is not dispensable.
+</CONCLUSION>
+<EVALUATE>
+Uncertain
+</EVALUATE>
+
+<PREMISES>
+Beijing is the capital of the People's Republic of China.
+Beijing is the world's most populous national capital city.
+Beijing is located in Northern China.
+Beijing hosted the 2008 Summer Olympics and 2008 Summer Paralympics Games.
+Beijing has hosted both the Summer and Winter Olympics, along with the Summer and Winter Paralympics
+Many of Beijing's 91 universities consistently rank among the best in the Asia-Pacific and the world.
+</PREMISES>
+<CONCLUSION>
+Beijing is located in southern China.
+</CONCLUSION>
+<EVALUATE>
+
+Using stopping criteria ===============================
+input_len.max() 335
+ids.shape[-1] (padded) 366
+PROMPT: <s> The following is a first-order logic (FOL) problem.
+The problem is to determine whether the conclusion follows from the premises.
+The premises are given in the form of a set of first-order logic sentences.
+The conclusion is given in the form of a single first-order logic sentence.
+The task is to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
+
+
+<PREMISES>
+All dispensable things are environment-friendly.
+All woodware is dispensable.
+All paper is woodware.
+No good things are bad.
+All environment-friendly things are good.
+A worksheet is either paper or is environment-friendly.
+</PREMISES>
+<CONCLUSION>
+A worksheet is not dispensable.
+</CONCLUSION>
+<EVALUATE>
+Uncertain
+</EVALUATE>
+
+<PREMISES>
+Monkeypox is an infectious disease caused by the monkeypox virus.
+Monkeypox virus can occur in certain animals, including humans.
+Humans are mammals.
+Mammals are animals.
+Symptons of Monkeypox include fever, headache, muscle pains, feeling tired, and so on.
+People feel tired when they get a glu.
+</PREMISES>
+<CONCLUSION>
+No one gets flu.
+</CONCLUSION>
+<EVALUATE>
+
+Using stopping criteria ===============================
+input_len.max() 291
+ids.shape[-1] (padded) 366
+PROMPT: <s> The following is a first-order logic (FOL) problem.
+The problem is to determine whether the conclusion follows from the premises.
+The premises are given in the form of a set of first-order logic sentences.
+The conclusion is given in the form of a single first-order logic sentence.
+The task is to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
+
+
+<PREMISES>
+All dispensable things are environment-friendly.
+All woodware is dispensable.
+All paper is woodware.
+No good things are bad.
+All environment-friendly things are good.
+A worksheet is either paper or is environment-friendly.
+</PREMISES>
+<CONCLUSION>
+A worksheet is not dispensable.
+</CONCLUSION>
+<EVALUATE>
+Uncertain
+</EVALUATE>
+
+<PREMISES>
+Heinrich Scmidt was a Nazi German politician.
+Heeinrich Scmidt was also a member of the Prussian State Parliament and the Nazi Reichstag.
+</PREMISES>
+<CONCLUSION>
+Heinrich Schmidt was either German or Russian.
+</CONCLUSION>
+<EVALUATE>
+
+Using stopping criteria ===============================
+input_len.max() 340
+ids.shape[-1] (padded) 366
+PROMPT: <s> The following is a first-order logic (FOL) problem.
+The problem is to determine whether the conclusion follows from the premises.
+The premises are given in the form of a set of first-order logic sentences.
+The conclusion is given in the form of a single first-order logic sentence.
+The task is to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
+
+
+<PREMISES>
+All dispensable things are environment-friendly.
+All woodware is dispensable.
+All paper is woodware.
+No good things are bad.
+All environment-friendly things are good.
+A worksheet is either paper or is environment-friendly.
+</PREMISES>
+<CONCLUSION>
+A worksheet is not dispensable.
+</CONCLUSION>
+<EVALUATE>
+Uncertain
+</EVALUATE>
+
+<PREMISES>
+If an animal barks, then Jane does not like it.
+All dogs are animals that bark.
+If an animal jumps, then Jane likes it.
+If an animal has legs, then it jumps.
+If an animal is terricolous, then it has legs.
+If KiKi neither jumps nor has legs, then KiKi is terricolous or has legs.
+</PREMISES>
+<CONCLUSION>
+KiKi neither barks nor is a dog.
+</CONCLUSION>
+<EVALUATE>
+
 raw generations were saved
 processed generations were saved
 references were saved
@@ -18,6 +202,6 @@ references were saved
     "model": "mistralai/Mistral-7B-v0.1"
   },
   "folio-baseline-1shot": {
-    "accuracy (pass@1 majority)": 0.0
+    "accuracy (pass@1 majority)": 0.6
   }
 }

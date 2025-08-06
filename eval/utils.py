@@ -6,7 +6,7 @@ import torch
 from torch.utils.data import IterableDataset
 from tqdm import tqdm
 
-INFILL_MODE = True
+INFILL_MODE = False
 
 
 class TokenizedDataset(IterableDataset):
@@ -61,10 +61,11 @@ class TokenizedDataset(IterableDataset):
         else:
             return_token_type_ids = None
 
+        self.tokenizer.padding_side = 'right'  # Add this line
         outputs = self.tokenizer(
             prompts,
             padding=True,
-            truncation=True,
+            truncation=False,
             return_tensors="pt",
             max_length=self.max_length,
             return_token_type_ids=return_token_type_ids,
@@ -127,8 +128,13 @@ def complete_code(
     ):
         with torch.no_grad():
             if task.stop_words:
-                gen_kwargs["stopping_criteria"][0].start_length = batch["ids"].shape[-1]
+                print("Using stopping criteria ===============================")
+                print("input_len.max()", int(batch["input_len"].max().item()))
+                print("ids.shape[-1] (padded)", batch["ids"].shape[-1])
+                gen_kwargs["stopping_criteria"][0].start_length = batch["input_len"].max().item()
             # Compute the maximum original length of the prompts in the batch:
+            decoded_prompt = tokenizer.decode(batch["ids"][0, :batch["input_len"].max().item()])
+            print(f"PROMPT: {decoded_prompt}") # Print first 100 chars
             generated_tokens = accelerator.unwrap_model(model).generate(
                 input_ids=batch["ids"][:, :batch["input_len"].max().item()],
                 num_return_sequences=batch_size,
@@ -202,8 +208,9 @@ def complete_code(
                 )
             code_gens_raw[sample].append(gen_code[len(prefix) :])
             if postprocess:
+                x = int(sample)
                 code_gens_prc[sample].append(
-                    task.postprocess_generation(gen_code[len(prefix) :], int(sample))
+                    task.postprocess_generation(gen_code[len(prefix) :], x)
                 )
             else:
                 warnings.warn(
