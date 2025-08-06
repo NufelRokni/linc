@@ -69,7 +69,7 @@ def main():
             revision=args.revision,
             torch_dtype=dict_precisions[args.precision],
             trust_remote_code=args.trust_remote_code,
-            use_auth_token=args.use_auth_token,
+            token=args.use_auth_token,
         )
         tokenizer = AutoTokenizer.from_pretrained(
             args.model,

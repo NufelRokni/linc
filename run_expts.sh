@@ -52,4 +52,4 @@ for model in "mistralai/Mistral-7B-v0.1"; do
         done
     done
 done
-touch ${outdir}/run.done
+# touch ${outdir}/run.done

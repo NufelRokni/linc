@@ -2,7 +2,11 @@ from functools import cache
 from collections import Counter
 from eval.tasks.utils import evaluate
 from eval.task_base import Task
-from eval.fol_utils import reformat_fol_samples_train, add_conclusion_fols_train, add_cot_train
+from eval.fol_utils import (
+    reformat_fol_samples_train,
+    add_conclusion_fols_train,
+    add_cot_train,
+)
 from datasets import load_dataset
 
 
@@ -18,7 +22,8 @@ class OWAFOLTask(Task):
     def __init__(self, mode, n):
         assert n <= self.MAX_SHOTS, f"supports up to {self.MAX_SHOTS}-shot"
         super().__init__(
-            stop_words=["</EVALUATE>"], requires_execution=True,
+            stop_words=["</EVALUATE>"],
+            requires_execution=True,
         )
         self._mode = mode
         self._nshot = n

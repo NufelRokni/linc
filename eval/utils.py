@@ -6,7 +6,7 @@ import torch
 from torch.utils.data import IterableDataset
 from tqdm import tqdm
 
-INFILL_MODE = False
+INFILL_MODE = True
 
 
 class TokenizedDataset(IterableDataset):
@@ -70,7 +70,7 @@ class TokenizedDataset(IterableDataset):
             return_token_type_ids=return_token_type_ids,
         )
 
-        # Use a local variable for n_copies adjustment
+ 
         n_copies = self.n_copies
         if n_copies == 1 and self.n_tasks % self.num_devices != 0:
             n_copies = 2
@@ -128,8 +128,9 @@ def complete_code(
         with torch.no_grad():
             if task.stop_words:
                 gen_kwargs["stopping_criteria"][0].start_length = batch["ids"].shape[-1]
+            # Compute the maximum original length of the prompts in the batch:
             generated_tokens = accelerator.unwrap_model(model).generate(
-                input_ids=batch["ids"][:, : batch["input_len"]],
+                input_ids=batch["ids"][:, :batch["input_len"].max().item()],
                 num_return_sequences=batch_size,
                 **gen_kwargs,
             )
@@ -160,6 +161,13 @@ def complete_code(
             elif model_id in ["bigcode/santacoder"]:
                 if "<fim-suffix>" not in code or "<fim-middle>" not in code:
                     raise ValueError("Malformed infill output for SantaCoder.")
+                prefix, rest = code.split("<fim-suffix>", 1)
+                suffix, infill = rest.split("<fim-middle>", 1)
+                infill = infill.split("<|endoftext|>")[0]
+            elif model_id.startswith("mistralai"):
+                # New branch for Mistral infill parsing.
+                if "<fim-suffix>" not in code or "<fim-middle>" not in code:
+                    raise ValueError("Malformed infill output for Mistral.")
                 prefix, rest = code.split("<fim-suffix>", 1)
                 suffix, infill = rest.split("<fim-middle>", 1)
                 infill = infill.split("<|endoftext|>")[0]
