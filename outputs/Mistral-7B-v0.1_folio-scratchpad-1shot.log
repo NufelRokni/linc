@@ -1,21 +1,20 @@
 ipex flag is deprecated, will be removed in Accelerate v1.10. From 2.7.0, PyTorch has all needed optimizations for Intel CPU and XPU.
-Selected Tasks: ['folio-baseline-1shot']
+Selected Tasks: ['folio-scratchpad-1shot']
 Loading the model and tokenizer from HF (in fp32)
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.28s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  2.84s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.06s/it]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.19s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  2.81s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.02s/it]
 /opt/conda/envs/linc/lib/python3.10/site-packages/transformers/models/auto/tokenization_auto.py:999: FutureWarning: The `use_auth_token` argument is deprecated and will be removed in v5 of Transformers. Please use `token` instead.
   warnings.warn(
 number of problems for this task is 5
   0%|          | 0/5 [00:00<?, ?it/s]/opt/conda/envs/linc/lib/python3.10/site-packages/transformers/tokenization_utils_base.py:2695: UserWarning: `max_length` is ignored when `padding`=`True` and there is no truncation strategy. To pad to max length, use `padding='max_length'`.
   warnings.warn(
- 20%|██        | 1/5 [00:00<00:02,  1.68it/s] 40%|████      | 2/5 [00:01<00:01,  1.73it/s] 60%|██████    | 3/5 [00:01<00:01,  1.86it/s] 80%|████████  | 4/5 [00:02<00:00,  1.98it/s]100%|██████████| 5/5 [00:02<00:00,  1.97it/s]100%|██████████| 5/5 [00:02<00:00,  1.91it/s]
-Using stopping criteria ===============================
-input_len.max() 306
-ids.shape[-1] (padded) 366
+ 20%|██        | 1/5 [00:10<00:43, 10.90s/it] 40%|████      | 2/5 [00:25<00:39, 13.30s/it] 60%|██████    | 3/5 [00:37<00:25, 12.56s/it] 80%|████████  | 4/5 [00:43<00:09,  9.82s/it]Using stopping criteria ===============================
+input_len.max() 570
+ids.shape[-1] (padded) 630
 PROMPT: <s> The following is a first-order logic (FOL) problem.
 The problem is to determine whether the conclusion follows from the premises.
 The premises are given in the form of a set of first-order logic sentences.
 The conclusion is given in the form of a single first-order logic sentence.
-The task is to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
+The task is to translate each of the premises and conclusions into FOL expressions, and then to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
 
 
 <PREMISES>
@@ -30,7 +29,21 @@ A worksheet is either paper or is environment-friendly.
 A worksheet is not dispensable.
 </CONCLUSION>
 <EVALUATE>
-Uncertain
+TEXT:	All dispensable things are environment-friendly.
+FOL:	all x. (Dispensable(x) -> EnvironmentFriendly(x))
+TEXT:	All woodware is dispensable.
+FOL:	all x. (Woodware(x) -> Dispensable(x))
+TEXT:	All paper is woodware.
+FOL:	all x. (Paper(x) -> Woodware(x))
+TEXT:	No good things are bad.
+FOL:	all x. (Good(x) -> -Bad(x))
+TEXT:	All environment-friendly things are good.
+FOL:	all x. (EnvironmentFriendly(x) -> Good(x))
+TEXT:	A worksheet is either paper or is environment-friendly.
+FOL:	((Paper(Worksheet) & -EnvironmentFriendly(Worksheet)) | (-Paper(Worksheet) & EnvironmentFriendly(Worksheet)))
+TEXT:	A worksheet is not dispensable.
+FOL:	-Dispensable(Worksheet)
+ANSWER:	Uncertain
 </EVALUATE>
 
 <PREMISES>
@@ -47,13 +60,13 @@ Rose is a human or Jerry is a manager.
 <EVALUATE>
 
 Using stopping criteria ===============================
-input_len.max() 366
-ids.shape[-1] (padded) 366
+input_len.max() 630
+ids.shape[-1] (padded) 630
 PROMPT: <s> The following is a first-order logic (FOL) problem.
 The problem is to determine whether the conclusion follows from the premises.
 The premises are given in the form of a set of first-order logic sentences.
 The conclusion is given in the form of a single first-order logic sentence.
-The task is to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
+The task is to translate each of the premises and conclusions into FOL expressions, and then to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
 
 
 <PREMISES>
@@ -68,7 +81,21 @@ A worksheet is either paper or is environment-friendly.
 A worksheet is not dispensable.
 </CONCLUSION>
 <EVALUATE>
-Uncertain
+TEXT:	All dispensable things are environment-friendly.
+FOL:	all x. (Dispensable(x) -> EnvironmentFriendly(x))
+TEXT:	All woodware is dispensable.
+FOL:	all x. (Woodware(x) -> Dispensable(x))
+TEXT:	All paper is woodware.
+FOL:	all x. (Paper(x) -> Woodware(x))
+TEXT:	No good things are bad.
+FOL:	all x. (Good(x) -> -Bad(x))
+TEXT:	All environment-friendly things are good.
+FOL:	all x. (EnvironmentFriendly(x) -> Good(x))
+TEXT:	A worksheet is either paper or is environment-friendly.
+FOL:	((Paper(Worksheet) & -EnvironmentFriendly(Worksheet)) | (-Paper(Worksheet) & EnvironmentFriendly(Worksheet)))
+TEXT:	A worksheet is not dispensable.
+FOL:	-Dispensable(Worksheet)
+ANSWER:	Uncertain
 </EVALUATE>
 
 <PREMISES>
@@ -85,13 +112,13 @@ Beijing is located in southern China.
 <EVALUATE>
 
 Using stopping criteria ===============================
-input_len.max() 335
-ids.shape[-1] (padded) 366
+input_len.max() 599
+ids.shape[-1] (padded) 630
 PROMPT: <s> The following is a first-order logic (FOL) problem.
 The problem is to determine whether the conclusion follows from the premises.
 The premises are given in the form of a set of first-order logic sentences.
 The conclusion is given in the form of a single first-order logic sentence.
-The task is to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
+The task is to translate each of the premises and conclusions into FOL expressions, and then to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
 
 
 <PREMISES>
@@ -106,7 +133,21 @@ A worksheet is either paper or is environment-friendly.
 A worksheet is not dispensable.
 </CONCLUSION>
 <EVALUATE>
-Uncertain
+TEXT:	All dispensable things are environment-friendly.
+FOL:	all x. (Dispensable(x) -> EnvironmentFriendly(x))
+TEXT:	All woodware is dispensable.
+FOL:	all x. (Woodware(x) -> Dispensable(x))
+TEXT:	All paper is woodware.
+FOL:	all x. (Paper(x) -> Woodware(x))
+TEXT:	No good things are bad.
+FOL:	all x. (Good(x) -> -Bad(x))
+TEXT:	All environment-friendly things are good.
+FOL:	all x. (EnvironmentFriendly(x) -> Good(x))
+TEXT:	A worksheet is either paper or is environment-friendly.
+FOL:	((Paper(Worksheet) & -EnvironmentFriendly(Worksheet)) | (-Paper(Worksheet) & EnvironmentFriendly(Worksheet)))
+TEXT:	A worksheet is not dispensable.
+FOL:	-Dispensable(Worksheet)
+ANSWER:	Uncertain
 </EVALUATE>
 
 <PREMISES>
@@ -123,13 +164,13 @@ No one gets flu.
 <EVALUATE>
 
 Using stopping criteria ===============================
-input_len.max() 291
-ids.shape[-1] (padded) 366
+input_len.max() 555
+ids.shape[-1] (padded) 630
 PROMPT: <s> The following is a first-order logic (FOL) problem.
 The problem is to determine whether the conclusion follows from the premises.
 The premises are given in the form of a set of first-order logic sentences.
 The conclusion is given in the form of a single first-order logic sentence.
-The task is to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
+The task is to translate each of the premises and conclusions into FOL expressions, and then to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
 
 
 <PREMISES>
@@ -144,7 +185,21 @@ A worksheet is either paper or is environment-friendly.
 A worksheet is not dispensable.
 </CONCLUSION>
 <EVALUATE>
-Uncertain
+TEXT:	All dispensable things are environment-friendly.
+FOL:	all x. (Dispensable(x) -> EnvironmentFriendly(x))
+TEXT:	All woodware is dispensable.
+FOL:	all x. (Woodware(x) -> Dispensable(x))
+TEXT:	All paper is woodware.
+FOL:	all x. (Paper(x) -> Woodware(x))
+TEXT:	No good things are bad.
+FOL:	all x. (Good(x) -> -Bad(x))
+TEXT:	All environment-friendly things are good.
+FOL:	all x. (EnvironmentFriendly(x) -> Good(x))
+TEXT:	A worksheet is either paper or is environment-friendly.
+FOL:	((Paper(Worksheet) & -EnvironmentFriendly(Worksheet)) | (-Paper(Worksheet) & EnvironmentFriendly(Worksheet)))
+TEXT:	A worksheet is not dispensable.
+FOL:	-Dispensable(Worksheet)
+ANSWER:	Uncertain
 </EVALUATE>
 
 <PREMISES>
@@ -157,13 +212,14 @@ Heinrich Schmidt was either German or Russian.
 <EVALUATE>
 
 Using stopping criteria ===============================
-input_len.max() 340
-ids.shape[-1] (padded) 366
+input_len.max() 604
+ids.shape[-1] (padded) 630
+100%|██████████| 5/5 [00:56<00:00, 11.09s/it]100%|██████████| 5/5 [00:56<00:00, 11.31s/it]
 PROMPT: <s> The following is a first-order logic (FOL) problem.
 The problem is to determine whether the conclusion follows from the premises.
 The premises are given in the form of a set of first-order logic sentences.
 The conclusion is given in the form of a single first-order logic sentence.
-The task is to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
+The task is to translate each of the premises and conclusions into FOL expressions, and then to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
 
 
 <PREMISES>
@@ -178,7 +234,21 @@ A worksheet is either paper or is environment-friendly.
 A worksheet is not dispensable.
 </CONCLUSION>
 <EVALUATE>
-Uncertain
+TEXT:	All dispensable things are environment-friendly.
+FOL:	all x. (Dispensable(x) -> EnvironmentFriendly(x))
+TEXT:	All woodware is dispensable.
+FOL:	all x. (Woodware(x) -> Dispensable(x))
+TEXT:	All paper is woodware.
+FOL:	all x. (Paper(x) -> Woodware(x))
+TEXT:	No good things are bad.
+FOL:	all x. (Good(x) -> -Bad(x))
+TEXT:	All environment-friendly things are good.
+FOL:	all x. (EnvironmentFriendly(x) -> Good(x))
+TEXT:	A worksheet is either paper or is environment-friendly.
+FOL:	((Paper(Worksheet) & -EnvironmentFriendly(Worksheet)) | (-Paper(Worksheet) & EnvironmentFriendly(Worksheet)))
+TEXT:	A worksheet is not dispensable.
+FOL:	-Dispensable(Worksheet)
+ANSWER:	Uncertain
 </EVALUATE>
 
 <PREMISES>
@@ -201,7 +271,7 @@ references were saved
   "config": {
     "model": "mistralai/Mistral-7B-v0.1"
   },
-  "folio-baseline-1shot": {
-    "accuracy (pass@1 majority)": 0.6
+  "folio-scratchpad-1shot": {
+    "accuracy (pass@1 majority)": 0.4
   }
 }

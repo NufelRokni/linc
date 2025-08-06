@@ -1,0 +1,111 @@
+ipex flag is deprecated, will be removed in Accelerate v1.10. From 2.7.0, PyTorch has all needed optimizations for Intel CPU and XPU.
+Selected Tasks: ['folio-neurosymbolic-1shot']
+Loading the model and tokenizer from HF (in fp32)
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.77s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.20s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.43s/it]
+/opt/conda/envs/linc/lib/python3.10/site-packages/transformers/models/auto/tokenization_auto.py:999: FutureWarning: The `use_auth_token` argument is deprecated and will be removed in v5 of Transformers. Please use `token` instead.
+  warnings.warn(
+number of problems for this task is 5
+  0%|          | 0/10 [00:00<?, ?it/s]/opt/conda/envs/linc/lib/python3.10/site-packages/transformers/tokenization_utils_base.py:2695: UserWarning: `max_length` is ignored when `padding`=`True` and there is no truncation strategy. To pad to max length, use `padding='max_length'`.
+  warnings.warn(
+ 10%|█         | 1/10 [00:17<02:35, 17.27s/it] 20%|██        | 2/10 [00:33<02:15, 16.90s/it] 30%|███       | 3/10 [01:01<02:33, 21.99s/it] 40%|████      | 4/10 [01:28<02:22, 23.77s/it] 50%|█████     | 5/10 [01:49<01:54, 22.85s/it] 60%|██████    | 6/10 [02:10<01:29, 22.31s/it] 70%|███████   | 7/10 [02:24<00:58, 19.33s/it] 80%|████████  | 8/10 [02:36<00:34, 17.24s/it] 90%|█████████ | 9/10 [03:01<00:19, 19.44s/it]100%|██████████| 10/10 [03:22<00:00, 20.00s/it]100%|██████████| 10/10 [03:22<00:00, 20.24s/it]
+Error in parsing and/or evaluating LLM output: Unexpected token: 'v'.  Expected token ')'.
+forall x. (Person(x) -> (Studies(x) v Teaches(x)))
+                                    ^
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: A term cannot be constructed from the marked string:
+
+
+    (Jerry -> (%%START ERROR%%~Teaches(Jerry) & -(Manager(Jerry))%%END ERROR%%)).
+
+Fatal error:  sread_term error
+Error in parsing and/or evaluating LLM output: Unexpected token: 'rank'.  Expected token ')'.
+all x. (University(x) & (Beijing_x) & (Consistently rank(x, Asia_Pacific_&_World))
+                                                    ^
+Error in parsing and/or evaluating LLM output: Unexpected token: '&'.  Expected token ')'.
+Hosted(Beijing, TwoZeroZeroEightSummerOlympics_&_TwoZeroZeroEightSummerParalympics)
+                                               ^
+Error in parsing and/or evaluating LLM output: Unexpected token: ','.  Expected token ')'.
+Hosted(Beijing, ((Summer_Olympics, Winter_Olympics) & (Summer_Paralympics, Winter_Paralympics)))
+                                 ^
+Error in parsing and/or evaluating LLM output: Unexpected token: '.'.  Expected token ')'.
+Many(x.University(x) & LocatedIn(x, Beijing) & Ranks(x, AsiaPacific) & Ranks(x, World))
+      ^
+Error in parsing and/or evaluating LLM output: Unexpected token: '&'.  Expected token ')'.
+Beijing(TwoZeroZeroEightSummerOlympics_&_TwoZeroZeroEightSummerParalympics)
+                                       ^
+Error in parsing and/or evaluating LLM output: Unexpected token: '-'.  Expected token ')'.
+Beijing(most-populous-city(national_capital))
+            ^
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: A term cannot be constructed from the marked string:
+
+
+    %%START ERROR%%World'sMostPopulousNationalCapitalCity(Beijing).%%END ERROR%%
+
+Fatal error:  sread_term error
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: A term cannot be constructed from the marked string:
+
+
+    ((%%START ERROR%%World'sMostPopulous(x) & NationalCapitalCity(x)%%END ERROR%%) & (x = Beijing)).
+
+Fatal error:  sread_term error
+Error in parsing and/or evaluating LLM output: Unexpected token: '<'.
+Monkeypox(X) <- (InfectiousDisease(X) & (MonkeypoxVirus(Y) <- (CausedBy(X,Y))))
+             ^
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols/arities are used as both relation and function symbols: Monkeypox/1, Mammal/1.
+
+
+Fatal error:  The following symbols/arities are used as both relation and function symbols: Monkeypox/1, Mammal/1
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: FeelingTired/1, FeelingTired/0, Monkeypox/1, Monkeypox/0, Human/1, Human/0, Animal/1, Animal/0, MonkeypoxVirus/1, MonkeypoxVirus/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: FeelingTired/1, FeelingTired/0, Monkeypox/1, Monkeypox/0, Human/1, Human/0, Animal/1, Animal/0, MonkeypoxVirus/1, MonkeypoxVirus/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: Monkeypox/1, Monkeypox/0, Humans/1, Humans/0, Animals/1, Animals/0, MonkeypoxVirus/1, MonkeypoxVirus/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: Monkeypox/1, Monkeypox/0, Humans/1, Humans/0, Animals/1, Animals/0, MonkeypoxVirus/1, MonkeypoxVirus/0
+Error in parsing and/or evaluating LLM output: Unexpected token: '.'.  Expression expected.
+Monkeypox(x) -> ((Fever(x) & Headache(x) & MusclePains(x) & FeelingTired(x)) |...)
+                                                                              ^
+Error in parsing and/or evaluating LLM output: Unexpected token: 'one'.
+no one = glu
+   ^
+Error in parsing and/or evaluating LLM output: Unexpected token: 'on'.  Expected token ')'.
+all x. (Monkeypox(x) -> (Fever(x) & Headache(x) & MusclePain(x) & Tired(x) & so on))
+                                                                                ^
+Error in parsing and/or evaluating LLM output: Unexpected token: '.'.  Expression expected.
+Symptom(x) -> (IncludedIn(x, Fever) | IncludedIn(x, Headache) | IncludedIn(x, MusclePain) | IncludedIn(x, FeelingTired) |...)
+                                                                                                                         ^
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols/arities are used as both relation and function symbols: Human/1.
+
+
+Fatal error:  The following symbols/arities are used as both relation and function symbols: Human/1
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: animal/1, animal/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: animal/1, animal/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: Animal/1, Animal/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: Animal/1, Animal/0
+Error in parsing and/or evaluating LLM output: Unexpected token: 'Bark'.
+if Bark(x) then -Likes(Jane, x)
+   ^
+raw generations were saved
+processed generations were saved
+references were saved
+{
+  "config": {
+    "model": "mistralai/Mistral-7B-v0.1"
+  },
+  "folio-neurosymbolic-1shot": {
+    "accuracy (pass@1 majority)": 0.2
+  }
+}

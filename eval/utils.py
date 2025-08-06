@@ -128,13 +128,13 @@ def complete_code(
     ):
         with torch.no_grad():
             if task.stop_words:
-                print("Using stopping criteria ===============================")
-                print("input_len.max()", int(batch["input_len"].max().item()))
-                print("ids.shape[-1] (padded)", batch["ids"].shape[-1])
+                # print("Using stopping criteria ===============================")
+                # print("input_len.max()", int(batch["input_len"].max().item()))
+                # print("ids.shape[-1] (padded)", batch["ids"].shape[-1])
                 gen_kwargs["stopping_criteria"][0].start_length = batch["input_len"].max().item()
             # Compute the maximum original length of the prompts in the batch:
-            decoded_prompt = tokenizer.decode(batch["ids"][0, :batch["input_len"].max().item()])
-            print(f"PROMPT: {decoded_prompt}") # Print first 100 chars
+            # decoded_prompt = tokenizer.decode(batch["ids"][0, :batch["input_len"].max().item()])
+            # print(f"PROMPT: {decoded_prompt}") # Print first 100 chars
             generated_tokens = accelerator.unwrap_model(model).generate(
                 input_ids=batch["ids"][:, :batch["input_len"].max().item()],
                 num_return_sequences=batch_size,

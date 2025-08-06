@@ -1,0 +1,278 @@
+ipex flag is deprecated, will be removed in Accelerate v1.10. From 2.7.0, PyTorch has all needed optimizations for Intel CPU and XPU.
+Selected Tasks: ['folio-neurosymbolic-4shot']
+Loading the model and tokenizer from HF (in fp32)
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.75s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.18s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.41s/it]
+/opt/conda/envs/linc/lib/python3.10/site-packages/transformers/models/auto/tokenization_auto.py:999: FutureWarning: The `use_auth_token` argument is deprecated and will be removed in v5 of Transformers. Please use `token` instead.
+  warnings.warn(
+Map:   0%|          | 0/204 [00:00<?, ? examples/s]Map:   7%|▋         | 14/204 [00:00<00:01, 134.99 examples/s]Map:  14%|█▎        | 28/204 [00:00<00:01, 98.82 examples/s] Map:  21%|██        | 42/204 [00:00<00:01, 90.32 examples/s]Map:  27%|██▋       | 56/204 [00:00<00:01, 86.28 examples/s]Map:  32%|███▏      | 65/204 [00:00<00:01, 84.09 examples/s]Map:  38%|███▊      | 78/204 [00:00<00:01, 83.75 examples/s]Map:  43%|████▎     | 87/204 [00:01<00:01, 80.71 examples/s]Map:  49%|████▊     | 99/204 [00:01<00:01, 87.20 examples/s]Map:  55%|█████▌    | 113/204 [00:01<00:00, 98.28 examples/s]Map:  62%|██████▏   | 126/204 [00:02<00:02, 37.02 examples/s]Map:  67%|██████▋   | 137/204 [00:02<00:01, 44.48 examples/s]Map:  73%|███████▎  | 148/204 [00:02<00:01, 52.69 examples/s]Map:  77%|███████▋  | 157/204 [00:02<00:00, 58.18 examples/s]Map:  81%|████████▏ | 166/204 [00:02<00:00, 63.16 examples/s]Map:  87%|████████▋ | 178/204 [00:02<00:00, 74.09 examples/s]Map:  92%|█████████▏| 188/204 [00:02<00:00, 76.41 examples/s]Map:  99%|█████████▊| 201/204 [00:02<00:00, 76.24 examples/s]Map: 100%|██████████| 204/204 [00:02<00:00, 69.31 examples/s]
+Filter:   0%|          | 0/204 [00:00<?, ? examples/s]Filter: 100%|██████████| 204/204 [00:00<00:00, 55818.25 examples/s]
+number of problems for this task is 18
+  0%|          | 0/36 [00:00<?, ?it/s]/opt/conda/envs/linc/lib/python3.10/site-packages/transformers/tokenization_utils_base.py:2695: UserWarning: `max_length` is ignored when `padding`=`True` and there is no truncation strategy. To pad to max length, use `padding='max_length'`.
+  warnings.warn(
+  3%|▎         | 1/36 [00:33<19:38, 33.67s/it]  6%|▌         | 2/36 [01:07<19:15, 33.98s/it]  8%|▊         | 3/36 [01:53<21:40, 39.40s/it] 11%|█         | 4/36 [02:51<24:53, 46.66s/it] 14%|█▍        | 5/36 [03:30<22:44, 44.02s/it] 17%|█▋        | 6/36 [04:18<22:33, 45.10s/it] 19%|█▉        | 7/36 [04:49<19:38, 40.64s/it] 22%|██▏       | 8/36 [05:15<16:51, 36.11s/it] 25%|██▌       | 9/36 [05:58<17:12, 38.24s/it] 28%|██▊       | 10/36 [06:40<16:58, 39.16s/it] 31%|███       | 11/36 [07:11<15:22, 36.89s/it] 33%|███▎      | 12/36 [07:43<14:07, 35.32s/it] 36%|███▌      | 13/36 [08:16<13:18, 34.73s/it] 39%|███▉      | 14/36 [09:11<14:54, 40.64s/it] 42%|████▏     | 15/36 [09:44<13:29, 38.54s/it] 44%|████▍     | 16/36 [10:17<12:16, 36.83s/it] 47%|████▋     | 17/36 [11:03<12:32, 39.62s/it] 50%|█████     | 18/36 [12:02<13:33, 45.22s/it] 53%|█████▎    | 19/36 [12:50<13:03, 46.09s/it] 56%|█████▌    | 20/36 [13:40<12:35, 47.21s/it] 58%|█████▊    | 21/36 [14:42<12:54, 51.66s/it] 61%|██████    | 22/36 [15:48<13:04, 56.04s/it] 64%|██████▍   | 23/36 [16:34<11:29, 53.01s/it] 67%|██████▋   | 24/36 [17:23<10:23, 51.98s/it] 69%|██████▉   | 25/36 [17:55<08:24, 45.85s/it] 72%|███████▏  | 26/36 [18:28<06:59, 41.97s/it] 75%|███████▌  | 27/36 [19:22<06:50, 45.62s/it] 78%|███████▊  | 28/36 [20:18<06:30, 48.81s/it] 81%|████████  | 29/36 [20:56<05:18, 45.55s/it] 83%|████████▎ | 30/36 [21:33<04:17, 42.96s/it] 86%|████████▌ | 31/36 [22:18<03:37, 43.49s/it] 89%|████████▉ | 32/36 [23:02<02:55, 43.82s/it] 92%|█████████▏| 33/36 [23:33<01:59, 40.00s/it] 94%|█████████▍| 34/36 [24:04<01:14, 37.04s/it] 97%|█████████▋| 35/36 [24:55<00:41, 41.21s/it]100%|██████████| 36/36 [25:46<00:00, 44.41s/it]100%|██████████| 36/36 [25:46<00:00, 42.97s/it]
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols/arities are used as both relation and function symbols: Jerry/0.
+
+
+Fatal error:  The following symbols/arities are used as both relation and function symbols: Jerry/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols/arities are used as both relation and function symbols: Jerry/0.
+
+
+Fatal error:  The following symbols/arities are used as both relation and function symbols: Jerry/0
+Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
+many x. (University(x) & Beijing(x) & AsiaPacific(x) & World(x))
+     ^
+Error in parsing and/or evaluating LLM output: Unexpected token: '&'.  Expected token ')'.
+Many(University(Beijing) & (AsiaPacific(University) & World(University)))
+                         ^
+Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
+most x. (NationalCapitalCity(x) -> Populous(x))
+     ^
+Error in parsing and/or evaluating LLM output: Unexpected token: '&'.  Expected token ')'.
+Best(BeijingsNineOneuniversities, Asia_Pacific&theworld)
+                                              ^
+Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
+((SummerOlympics(Beijing) & WinterOlympics(Beijing)) & ((SummerParalympics(Beijing) & WinterParalympics(Beijing)))
+                                                                                                                  ^
+Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
+many x. ((University(x) & City(Beijing) & AsiaPacific(x) & World(x)) | ((University(x) & City(Beijing) & AsiaPacific(x) & World(x)) & -City(Beijing) & AsiaPacific(x) & World(x)) | ((University(x) & City(Beijing) & AsiaPacific(x) & World(x)) & -City(Beijing) & -AsiaPacific(x) & World(x)) | ((University(x) & City(Beijing) & AsiaPacific(x) & World(x)) & -City(Beijing) & -AsiaPacific(x) & -World(x)))
+     ^
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: A term cannot be constructed from the marked string:
+
+
+    %%START ERROR%%World'sMostPopulousNationalCapitalCity(Beijing).%%END ERROR%%
+
+Fatal error:  sread_term error
+Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
+many x. (University(x) & Rank(x, Best, AsiaPacific, World))
+     ^
+Error in parsing and/or evaluating LLM output: Unexpected token: '.'.  Expression expected.
+all x. (Monkeypox(x) -> (Fever(x) | Headache(x) | MusclePains(x) | FeelingTired(x) |...))
+                                                                                    ^
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols/arities are used as both relation and function symbols: Mammal/1, Human/1.
+
+
+Fatal error:  The following symbols/arities are used as both relation and function symbols: Mammal/1, Human/1
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: Monkeypox/1, Monkeypox/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: Monkeypox/1, Monkeypox/0
+Error in parsing and/or evaluating LLM output: Unexpected token: 'on'.  Expected token ')'.
+all x. (Monkeypox(x) -> Fever(x) & Headache(x) & MusclePains(x) & FeelingTired(x) & so on(x))
+                                                                                       ^
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: Human/1, Human/0, MonkeypoxVirus/1, MonkeypoxVirus/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: Human/1, Human/0, MonkeypoxVirus/1, MonkeypoxVirus/0
+Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
+no x. Flu(x)
+   ^
+Error in parsing and/or evaluating LLM output: Unexpected token: 'on'.  Expected token ')'.
+all x. (Monkeypox(x) -> (Fever(x) | Headache(x) | MusclePains(x) | Tired(x) | so on(x)))
+                                                                                 ^
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols/arities are used as both relation and function symbols: GetFlu/1.
+
+
+Fatal error:  The following symbols/arities are used as both relation and function symbols: GetFlu/1
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: HeinrichScmidt/1, HeinrichScmidt/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: HeinrichScmidt/1, HeinrichScmidt/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: A term cannot be constructed from the marked string:
+
+
+    (((DayOfWeek(BreakingBad) & Time(BreakingBad)) & -(Roses(BreakingBad))) & -((%%START ERROR%%BreakingBad = exists x all y ((((((((((DayOfWeek(x) & Time(x)) & -(BreakingBad(x))) & Television(y)) & -(Roses(y))) & DayOfWeek(y)) & Time(y)) & -(BreakingBad(y))) & -(Roses(y))) & -((x_ = _y))) & (((x_ = _y) | -((x_ = _y))) -> (x_ = _y)))%%END ERROR%%))).
+
+Fatal error:  sread_term error
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: BreakingBad/1, BreakingBad/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: BreakingBad/1, BreakingBad/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: Employee/1, Employee/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: Employee/1, Employee/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: Employee/1, Employee/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: Employee/1, Employee/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: Employee/1, Employee/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: Employee/1, Employee/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: Manager/1, Manager/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: Manager/1, Manager/0
+Error in parsing and/or evaluating LLM output: Unexpected token: '.'.  Expected token ')'.
+(RosesOnTV(MondayAtEightPM) & Some(x. Monday(x) & At8PM(x) -> RosesOnTV(x)))
+                                    ^
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: BreakingBad/1, BreakingBad/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: BreakingBad/1, BreakingBad/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols/arities are used as both relation and function symbols: BreakingBad/0.
+
+
+Fatal error:  The following symbols/arities are used as both relation and function symbols: BreakingBad/0
+Error in parsing and/or evaluating LLM output: Unexpected token: ')'.  Expression expected.
+all x. (Student(x) & WorkInLibrary(x) & ComputerScienceDepartment(x) -> -)
+                                                                         ^
+Error in parsing and/or evaluating LLM output: Unexpected token: '&'.  Expected token ')'.
+-HasFeud(Imperium, ProfessionalWrestlingStable(y) & Includes(IvyNile, y))
+                                                  ^
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols/arities are used as both relation and function symbols: ProfessionalWrestlingStable/1.
+
+
+Fatal error:  The following symbols/arities are used as both relation and function symbols: ProfessionalWrestlingStable/1
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols cannot be used as atomic formulas, because they are variables: x.
+
+
+Fatal error:  The following symbols cannot be used as atomic formulas, because they are variables: x
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: DiamondMine/1, DiamondMine/0, ProfessionalWrestlingStable/1, ProfessionalWrestlingStable/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: DiamondMine/1, DiamondMine/0, ProfessionalWrestlingStable/1, ProfessionalWrestlingStable/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols/arities are used as both relation and function symbols: IvyNile/0, Wrestler/1.
+
+
+Fatal error:  The following symbols/arities are used as both relation and function symbols: IvyNile/0, Wrestler/1
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: DiamondMine/1, DiamondMine/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: DiamondMine/1, DiamondMine/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols/arities are used as both relation and function symbols: OlympicGames/1.
+
+
+Fatal error:  The following symbols/arities are used as both relation and function symbols: OlympicGames/1
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: Tokyo/1, Tokyo/0, OlympicGames/1, OlympicGames/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: Tokyo/1, Tokyo/0, OlympicGames/1, OlympicGames/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols/arities are used as both relation and function symbols: LastOlympicGames/1.
+
+
+Fatal error:  The following symbols/arities are used as both relation and function symbols: LastOlympicGames/1
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: LastOlympicGames/1, LastOlympicGames/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: LastOlympicGames/1, LastOlympicGames/0
+Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
+most x. (Medal(x) & UnitedStates(x) & Last(OlympicGames))
+     ^
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: Tokyo/1, Tokyo/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: Tokyo/1, Tokyo/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: Tokyo/1, Tokyo/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: Tokyo/1, Tokyo/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: Tokyo/1, Tokyo/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: Tokyo/1, Tokyo/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: Team/1, Team/2.
+
+
+Fatal error:  The following symbols are used with multiple arities: Team/1, Team/2
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols/arities are used as both relation and function symbols: Jerry/0.
+
+
+Fatal error:  The following symbols/arities are used as both relation and function symbols: Jerry/0
+Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
+no x. (Platypus(x) -> HasTeeth(x))
+   ^
+Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
+Some x. (Mammal(x) -> HasTeeth(x))
+     ^
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: NewVesselPress/1, NewVesselPress/0, Translate/2, Translate/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: NewVesselPress/1, NewVesselPress/0, Translate/2, Translate/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: English/1, English/0, NewVesselPress/1, NewVesselPress/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: English/1, English/0, NewVesselPress/1, NewVesselPress/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: NewVesselPress/1, NewVesselPress/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: NewVesselPress/1, NewVesselPress/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: NeapolitanChronicles/1, NeapolitanChronicles/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: NeapolitanChronicles/1, NeapolitanChronicles/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols/arities are used as both relation and function symbols: English/1.
+
+
+Fatal error:  The following symbols/arities are used as both relation and function symbols: English/1
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: English/1, English/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: English/1, English/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: NeapolitanChronicles/1, NeapolitanChronicles/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: NeapolitanChronicles/1, NeapolitanChronicles/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: NewVesselPress/1, NewVesselPress/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: NewVesselPress/1, NewVesselPress/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: NewVesselPress/1, NewVesselPress/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: NewVesselPress/1, NewVesselPress/0
+Error in parsing and/or evaluating LLM output: (FATAL)
+%%ERROR: The following symbols are used with multiple arities: TranslateForeignLiteratureIntoEnglish/2, TranslateForeignLiteratureIntoEnglish/1, NeapolitanChronicles/1, NeapolitanChronicles/0.
+
+
+Fatal error:  The following symbols are used with multiple arities: TranslateForeignLiteratureIntoEnglish/2, TranslateForeignLiteratureIntoEnglish/1, NeapolitanChronicles/1, NeapolitanChronicles/0
+raw generations were saved
+processed generations were saved
+references were saved
+{
+  "config": {
+    "model": "mistralai/Mistral-7B-v0.1"
+  },
+  "folio-neurosymbolic-4shot": {
+    "accuracy (pass@1 majority)": 0.7222222222222222
+  }
+}

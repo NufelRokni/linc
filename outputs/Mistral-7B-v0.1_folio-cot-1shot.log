@@ -1,21 +1,22 @@
 ipex flag is deprecated, will be removed in Accelerate v1.10. From 2.7.0, PyTorch has all needed optimizations for Intel CPU and XPU.
-Selected Tasks: ['folio-baseline-1shot']
+Selected Tasks: ['folio-cot-1shot']
 Loading the model and tokenizer from HF (in fp32)
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.28s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  2.84s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.06s/it]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.76s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.19s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.42s/it]
 /opt/conda/envs/linc/lib/python3.10/site-packages/transformers/models/auto/tokenization_auto.py:999: FutureWarning: The `use_auth_token` argument is deprecated and will be removed in v5 of Transformers. Please use `token` instead.
   warnings.warn(
+Map:   0%|          | 0/204 [00:00<?, ? examples/s]Map:   7%|▋         | 14/204 [00:00<00:01, 122.03 examples/s]Map:  14%|█▎        | 28/204 [00:00<00:01, 96.01 examples/s] Map:  19%|█▉        | 39/204 [00:00<00:01, 93.32 examples/s]Map:  24%|██▍       | 49/204 [00:00<00:01, 89.79 examples/s]Map:  29%|██▉       | 59/204 [00:00<00:01, 88.08 examples/s]Map:  33%|███▎      | 68/204 [00:00<00:01, 86.72 examples/s]Map:  38%|███▊      | 78/204 [00:00<00:01, 87.00 examples/s]Map:  43%|████▎     | 87/204 [00:00<00:01, 86.11 examples/s]Map:  49%|████▊     | 99/204 [00:01<00:01, 90.64 examples/s]Map:  56%|█████▌    | 114/204 [00:01<00:00, 102.93 examples/s]Map:  62%|██████▏   | 126/204 [00:01<00:02, 37.19 examples/s] Map:  67%|██████▋   | 136/204 [00:02<00:01, 43.81 examples/s]Map:  71%|███████   | 145/204 [00:02<00:01, 49.44 examples/s]Map:  76%|███████▌  | 155/204 [00:02<00:00, 56.95 examples/s]Map:  81%|████████▏ | 166/204 [00:02<00:00, 64.43 examples/s]Map:  88%|████████▊ | 180/204 [00:02<00:00, 77.96 examples/s]Map:  94%|█████████▍| 192/204 [00:02<00:00, 77.11 examples/s]Map: 100%|██████████| 204/204 [00:02<00:00, 75.67 examples/s]Map: 100%|██████████| 204/204 [00:02<00:00, 70.42 examples/s]
+Filter:   0%|          | 0/204 [00:00<?, ? examples/s]Filter: 100%|██████████| 204/204 [00:00<00:00, 22947.97 examples/s]
 number of problems for this task is 5
   0%|          | 0/5 [00:00<?, ?it/s]/opt/conda/envs/linc/lib/python3.10/site-packages/transformers/tokenization_utils_base.py:2695: UserWarning: `max_length` is ignored when `padding`=`True` and there is no truncation strategy. To pad to max length, use `padding='max_length'`.
   warnings.warn(
- 20%|██        | 1/5 [00:00<00:02,  1.68it/s] 40%|████      | 2/5 [00:01<00:01,  1.73it/s] 60%|██████    | 3/5 [00:01<00:01,  1.86it/s] 80%|████████  | 4/5 [00:02<00:00,  1.98it/s]100%|██████████| 5/5 [00:02<00:00,  1.97it/s]100%|██████████| 5/5 [00:02<00:00,  1.91it/s]
-Using stopping criteria ===============================
-input_len.max() 306
-ids.shape[-1] (padded) 366
+ 20%|██        | 1/5 [00:06<00:26,  6.56s/it] 40%|████      | 2/5 [00:10<00:15,  5.06s/it] 60%|██████    | 3/5 [00:17<00:11,  5.78s/it] 80%|████████  | 4/5 [00:19<00:04,  4.36s/it]Using stopping criteria ===============================
+input_len.max() 436
+ids.shape[-1] (padded) 496
 PROMPT: <s> The following is a first-order logic (FOL) problem.
 The problem is to determine whether the conclusion follows from the premises.
 The premises are given in the form of a set of first-order logic sentences.
 The conclusion is given in the form of a single first-order logic sentence.
-The task is to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
+The task is to translate each of the premises and conclusions into FOL expressions, 
 
 
 <PREMISES>
@@ -30,7 +31,8 @@ A worksheet is either paper or is environment-friendly.
 A worksheet is not dispensable.
 </CONCLUSION>
 <EVALUATE>
-Uncertain
+Let's think step by step. We want to evaluate if a worksheet is not dispensable. From premise 6, we know that a worksheet is either paper or is environment-friendly. If it is paper, then from premise 3, a worksheet is woodware, and from premise 2, a worksheet is dispensable. If it is environment-friendly, we know it is good from premise 5, but we know nothing about whether it is dispensable. Therefore, we don't know if a worksheet is dispensible or not, so the statement is uncertain.
+ANSWER:	Uncertain
 </EVALUATE>
 
 <PREMISES>
@@ -47,13 +49,13 @@ Rose is a human or Jerry is a manager.
 <EVALUATE>
 
 Using stopping criteria ===============================
-input_len.max() 366
-ids.shape[-1] (padded) 366
+input_len.max() 496
+ids.shape[-1] (padded) 496
 PROMPT: <s> The following is a first-order logic (FOL) problem.
 The problem is to determine whether the conclusion follows from the premises.
 The premises are given in the form of a set of first-order logic sentences.
 The conclusion is given in the form of a single first-order logic sentence.
-The task is to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
+The task is to translate each of the premises and conclusions into FOL expressions, 
 
 
 <PREMISES>
@@ -68,7 +70,8 @@ A worksheet is either paper or is environment-friendly.
 A worksheet is not dispensable.
 </CONCLUSION>
 <EVALUATE>
-Uncertain
+Let's think step by step. We want to evaluate if a worksheet is not dispensable. From premise 6, we know that a worksheet is either paper or is environment-friendly. If it is paper, then from premise 3, a worksheet is woodware, and from premise 2, a worksheet is dispensable. If it is environment-friendly, we know it is good from premise 5, but we know nothing about whether it is dispensable. Therefore, we don't know if a worksheet is dispensible or not, so the statement is uncertain.
+ANSWER:	Uncertain
 </EVALUATE>
 
 <PREMISES>
@@ -85,13 +88,13 @@ Beijing is located in southern China.
 <EVALUATE>
 
 Using stopping criteria ===============================
-input_len.max() 335
-ids.shape[-1] (padded) 366
+input_len.max() 465
+ids.shape[-1] (padded) 496
 PROMPT: <s> The following is a first-order logic (FOL) problem.
 The problem is to determine whether the conclusion follows from the premises.
 The premises are given in the form of a set of first-order logic sentences.
 The conclusion is given in the form of a single first-order logic sentence.
-The task is to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
+The task is to translate each of the premises and conclusions into FOL expressions, 
 
 
 <PREMISES>
@@ -106,7 +109,8 @@ A worksheet is either paper or is environment-friendly.
 A worksheet is not dispensable.
 </CONCLUSION>
 <EVALUATE>
-Uncertain
+Let's think step by step. We want to evaluate if a worksheet is not dispensable. From premise 6, we know that a worksheet is either paper or is environment-friendly. If it is paper, then from premise 3, a worksheet is woodware, and from premise 2, a worksheet is dispensable. If it is environment-friendly, we know it is good from premise 5, but we know nothing about whether it is dispensable. Therefore, we don't know if a worksheet is dispensible or not, so the statement is uncertain.
+ANSWER:	Uncertain
 </EVALUATE>
 
 <PREMISES>
@@ -123,13 +127,13 @@ No one gets flu.
 <EVALUATE>
 
 Using stopping criteria ===============================
-input_len.max() 291
-ids.shape[-1] (padded) 366
+input_len.max() 421
+ids.shape[-1] (padded) 496
 PROMPT: <s> The following is a first-order logic (FOL) problem.
 The problem is to determine whether the conclusion follows from the premises.
 The premises are given in the form of a set of first-order logic sentences.
 The conclusion is given in the form of a single first-order logic sentence.
-The task is to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
+The task is to translate each of the premises and conclusions into FOL expressions, 
 
 
 <PREMISES>
@@ -144,7 +148,8 @@ A worksheet is either paper or is environment-friendly.
 A worksheet is not dispensable.
 </CONCLUSION>
 <EVALUATE>
-Uncertain
+Let's think step by step. We want to evaluate if a worksheet is not dispensable. From premise 6, we know that a worksheet is either paper or is environment-friendly. If it is paper, then from premise 3, a worksheet is woodware, and from premise 2, a worksheet is dispensable. If it is environment-friendly, we know it is good from premise 5, but we know nothing about whether it is dispensable. Therefore, we don't know if a worksheet is dispensible or not, so the statement is uncertain.
+ANSWER:	Uncertain
 </EVALUATE>
 
 <PREMISES>
@@ -157,13 +162,14 @@ Heinrich Schmidt was either German or Russian.
 <EVALUATE>
 
 Using stopping criteria ===============================
-input_len.max() 340
-ids.shape[-1] (padded) 366
+input_len.max() 470
+ids.shape[-1] (padded) 496
+100%|██████████| 5/5 [00:24<00:00,  4.77s/it]100%|██████████| 5/5 [00:24<00:00,  4.98s/it]
 PROMPT: <s> The following is a first-order logic (FOL) problem.
 The problem is to determine whether the conclusion follows from the premises.
 The premises are given in the form of a set of first-order logic sentences.
 The conclusion is given in the form of a single first-order logic sentence.
-The task is to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises.
+The task is to translate each of the premises and conclusions into FOL expressions, 
 
 
 <PREMISES>
@@ -178,7 +184,8 @@ A worksheet is either paper or is environment-friendly.
 A worksheet is not dispensable.
 </CONCLUSION>
 <EVALUATE>
-Uncertain
+Let's think step by step. We want to evaluate if a worksheet is not dispensable. From premise 6, we know that a worksheet is either paper or is environment-friendly. If it is paper, then from premise 3, a worksheet is woodware, and from premise 2, a worksheet is dispensable. If it is environment-friendly, we know it is good from premise 5, but we know nothing about whether it is dispensable. Therefore, we don't know if a worksheet is dispensible or not, so the statement is uncertain.
+ANSWER:	Uncertain
 </EVALUATE>
 
 <PREMISES>
@@ -201,7 +208,7 @@ references were saved
   "config": {
     "model": "mistralai/Mistral-7B-v0.1"
   },
-  "folio-baseline-1shot": {
+  "folio-cot-1shot": {
     "accuracy (pass@1 majority)": 0.6
   }
 }
