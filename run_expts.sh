@@ -14,7 +14,7 @@ for model in "mistralai/Mistral-7B-v0.1"; do
             max_length=8192 # max model context including prompt
             precision="bf16"
         elif [[ ${model} == "mistralai/Mistral-7B-v0.1" ]]; then
-            batch_size=1
+            batch_size=5
             max_length=8192 # max model context including prompt
             precision="fp32"
         else
