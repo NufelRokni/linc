@@ -1,0 +1,8 @@
+{
+  "config": {
+    "model": "mistralai/Mistral-7B-v0.1"
+  },
+  "folio-cot-2shot": {
+    "accuracy (pass@1 majority)": 0.4166666666666667
+  }
+}

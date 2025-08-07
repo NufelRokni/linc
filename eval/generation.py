@@ -51,7 +51,9 @@ def parallel_generations(task, dataset, accelerator, model, tokenizer, n_tasks, 
         "temperature": args.temperature,
         "top_p": args.top_p,
         "top_k": args.top_k,
-        "max_new_tokens": args.max_new_tokens, 
+        "max_new_tokens": args.max_new_tokens,
+        "eos_token_id": tokenizer.eos_token_id,  # Set EOS token ID
+        "pad_token_id": tokenizer.eos_token_id,  # Set pad token ID to EOS token ID
     }
     if task.stop_words:
         gen_kwargs["stopping_criteria"] = StoppingCriteriaList(

@@ -3,6 +3,6 @@
     "model": "mistralai/Mistral-7B-v0.1"
   },
   "folio-neurosymbolic-1shot": {
-    "accuracy (pass@1 majority)": 0.2
+    "accuracy (pass@1 majority)": 0.6166666666666667
   }
 }

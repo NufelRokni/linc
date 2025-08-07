@@ -74,7 +74,7 @@ def main():
         tokenizer = AutoTokenizer.from_pretrained(
             args.model,
             revision=args.revision,
-            use_auth_token=args.use_auth_token,
+            token=args.use_auth_token,
             truncation_side="left",
         )
         if not tokenizer.eos_token:

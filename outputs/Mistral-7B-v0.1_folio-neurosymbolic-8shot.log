@@ -1,0 +1,70 @@
+ipex flag is deprecated, will be removed in Accelerate v1.10. From 2.7.0, PyTorch has all needed optimizations for Intel CPU and XPU.
+Selected Tasks: ['folio-neurosymbolic-8shot']
+Loading the model and tokenizer from HF (in fp32)
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.44s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.04s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.25s/it]
+Map:   0%|          | 0/204 [00:00<?, ? examples/s]Map:  15%|█▍        | 30/204 [00:00<00:00, 295.10 examples/s]Map:  35%|███▌      | 72/204 [00:00<00:00, 278.39 examples/s]Map:  50%|████▉     | 101/204 [00:00<00:00, 277.71 examples/s]Map:  65%|██████▌   | 133/204 [00:01<00:00, 77.12 examples/s] Map:  78%|███████▊  | 160/204 [00:01<00:00, 99.23 examples/s]Map:  94%|█████████▎| 191/204 [00:01<00:00, 128.95 examples/s]Map: 100%|██████████| 204/204 [00:01<00:00, 134.52 examples/s]
+Filter:   0%|          | 0/204 [00:00<?, ? examples/s]Filter: 100%|██████████| 204/204 [00:00<00:00, 31261.89 examples/s]
+number of problems for this task is 60
+  0%|          | 0/120 [00:00<?, ?it/s]  0%|          | 0/120 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "/app/linc/runner.py", line 124, in <module>
+    main()
+  File "/app/linc/runner.py", line 110, in main
+    results[task] = evaluator.evaluate(task)
+  File "/app/linc/eval/evaluator.py", line 40, in evaluate
+    generations_prc, generations_raw, references = self.generate_text(task_name)
+  File "/app/linc/eval/evaluator.py", line 86, in generate_text
+    generations_prc, generations_raw = parallel_generations(
+  File "/app/linc/eval/generation.py", line 82, in parallel_generations
+    generations_prc, generations_raw = complete_code(
+  File "/app/linc/eval/utils.py", line 138, in complete_code
+    generated_tokens = accelerator.unwrap_model(model).generate(
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/transformers/generation/utils.py", line 2633, in generate
+    result = self._sample(
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/transformers/generation/utils.py", line 3614, in _sample
+    outputs = self(**model_inputs, return_dict=True)
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/transformers/utils/generic.py", line 961, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/transformers/models/mistral/modeling_mistral.py", line 434, in forward
+    outputs: BaseModelOutputWithPast = self.model(
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/transformers/utils/generic.py", line 1069, in wrapper
+    outputs = func(self, *args, **kwargs)
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/transformers/models/mistral/modeling_mistral.py", line 364, in forward
+    hidden_states = decoder_layer(
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/transformers/modeling_layers.py", line 94, in __call__
+    return super().__call__(*args, **kwargs)
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/transformers/models/mistral/modeling_mistral.py", line 228, in forward
+    hidden_states, _ = self.self_attn(
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/transformers/models/mistral/modeling_mistral.py", line 167, in forward
+    attn_output, attn_weights = attention_interface(
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/transformers/integrations/sdpa_attention.py", line 81, in sdpa_attention_forward
+    attn_output = torch.nn.functional.scaled_dot_product_attention(
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 9.04 GiB. GPU 0 has a total capacity of 47.49 GiB of which 3.86 GiB is free. Process 3079581 has 4.36 GiB memory in use. Process 3124639 has 39.26 GiB memory in use. Of the allocated memory 38.48 GiB is allocated by PyTorch, and 297.95 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+Traceback (most recent call last):
+  File "/opt/conda/envs/linc/bin/accelerate", line 8, in <module>
+    sys.exit(main())
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/accelerate/commands/accelerate_cli.py", line 50, in main
+    args.func(args)
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/accelerate/commands/launch.py", line 1199, in launch_command
+    simple_launcher(args)
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/accelerate/commands/launch.py", line 785, in simple_launcher
+    raise subprocess.CalledProcessError(returncode=process.returncode, cmd=cmd)
+subprocess.CalledProcessError: Command '['/opt/conda/envs/linc/bin/python', 'runner.py', '--model', 'mistralai/Mistral-7B-v0.1', '--precision', 'fp32', '--use_auth_token', '--limit', '60', '--tasks', 'folio-neurosymbolic-8shot', '--n_samples', '10', '--batch_size', '5', '--max_length_generation', '8192', '--temperature', '0.8', '--allow_code_execution', '--trust_remote_code', '--output_dir', 'outputs', '--save_generations_raw', '--save_generations_raw_path', 'Mistral-7B-v0.1_folio-neurosymbolic-8shot_generations_raw.json', '--save_generations_prc', '--save_generations_prc_path', 'Mistral-7B-v0.1_folio-neurosymbolic-8shot_generations_prc.json', '--save_references', '--save_references_path', 'Mistral-7B-v0.1_folio-neurosymbolic-8shot_references.json', '--save_results', '--save_results_path', 'Mistral-7B-v0.1_folio-neurosymbolic-8shot_results.json']' returned non-zero exit status 1.

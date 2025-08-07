@@ -65,7 +65,7 @@ class TokenizedDataset(IterableDataset):
         outputs = self.tokenizer(
             prompts,
             padding=True,
-            truncation=False,
+            truncation=True,
             return_tensors="pt",
             max_length=self.max_length,
             return_token_type_ids=return_token_type_ids,

@@ -3,6 +3,6 @@
     "model": "mistralai/Mistral-7B-v0.1"
   },
   "folio-cot-1shot": {
-    "accuracy (pass@1 majority)": 0.6
+    "accuracy (pass@1 majority)": 0.4
   }
 }
