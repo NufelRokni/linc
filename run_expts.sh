@@ -14,17 +14,17 @@ for model in "mistralai/Mistral-7B-v0.1"; do
             max_length=8192 # max model context including prompt
             precision="bf16"
         elif [[ ${model} == "mistralai/Mistral-7B-v0.1" ]]; then
-            batch_size=5
+            batch_size=1
             max_length=8192 # max model context including prompt
             precision="fp32"
         else
             echo "Unknown model ${model}"
             exit 1
         fi
-        for n in "1" "2" "4" "8"; do
-        # for n in "8"; do
-            for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
-            # for mode in "scratchpad"; do
+        # for n in "1" "2" "4" "8"; do
+        for n in "1"; do
+            # for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
+            for mode in "neurosymbolic_v1"; do
                 task="${base}-${mode}-${n}shot"
                 run_id="${model#*/}_${task}"
                 job="cd $(pwd); source activate linc; "
@@ -34,8 +34,8 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     job+="accelerate launch runner.py"
                 fi
                 job+=" --model ${model} --precision ${precision}"
-                job+=" --use_auth_token --limit 60"
-                job+=" --tasks ${task} --n_samples 10 --batch_size ${batch_size}"
+                job+=" --use_auth_token --limit 1"
+                job+=" --tasks ${task} --n_samples 3 --batch_size ${batch_size}"
                 job+=" --max_length_generation ${max_length} --temperature 0.8"
                 job+=" --allow_code_execution --trust_remote_code --output_dir ${outdir}"
                 job+=" --save_generations_raw --save_generations_raw_path ${run_id}_generations_raw.json"

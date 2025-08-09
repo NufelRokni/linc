@@ -1,0 +1,59 @@
+ipex flag is deprecated, will be removed in Accelerate v1.10. From 2.7.0, PyTorch has all needed optimizations for Intel CPU and XPU.
+Selected Tasks: ['folio-neurosymbolic_v1-1shot']
+Loading the model and tokenizer from HF (in fp32)
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:05<00:05,  5.40s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:07<00:00,  3.57s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:07<00:00,  3.84s/it]
+number of problems for this task is 1
+  0%|          | 0/3 [00:00<?, ?it/s] 33%|███▎      | 1/3 [00:15<00:30, 15.11s/it] 67%|██████▋   | 2/3 [00:27<00:13, 13.55s/it]100%|██████████| 3/3 [00:40<00:00, 13.13s/it]100%|██████████| 3/3 [00:40<00:00, 13.40s/it]
+Counter: {'all x. (Student(x) -> Human(x))': 3, 'all x. (Studies(x) -> Student(x))': 2, 'all x. (Person(x) -> (Studies(x) | Teaches(x)))': 1, 'all x. (Young(x) -> -Teaches(x))': 2, '((-Teaches(Jerry) & -Manager(Jerry)) | (-Studies(Jerry) & Manager(Jerry)))': 1, '((Young(Rose) & -Student(Rose)) | (Student(Rose) & -Young(Rose)))': 1, '((Human(Rose) & -Manager(Jerry)) | (Human(Jerry) & Manager(Rose)))': 1, '(Studies(x) -> Student(x))': 1, '((Studies(x) | Teaches(x)) & Person(x))': 1, 'all x. ((Young(x) & Person(x)) -> -Teaches(x))': 1, '((-Teaches(Jerry) & -Manager(Jerry)) | (-Studies(Jerry) & -Manager(Jerry)))': 1, '(Young(Rose) | Student(Rose))': 2, '(Human(Rose) | Manager(Jerry))': 2, 'all x. ((Studies(x) | Teaches(x)) & Person(x))': 1, '(-Teaches(Jerry) & -Manager(Jerry))': 1}
+All keys have a non-zero count.
+removed duplicates for key: all x. (Student(x) -> Human(x)) with 2 duplicates
+removed duplicates for key: all x. (Studies(x) -> Student(x)) with 1 duplicates
+removed duplicates for key: all x. (Person(x) -> (Studies(x) | Teaches(x))) with 0 duplicates
+removed duplicates for key: all x. (Young(x) -> -Teaches(x)) with 1 duplicates
+removed duplicates for key: ((-Teaches(Jerry) & -Manager(Jerry)) | (-Studies(Jerry) & Manager(Jerry))) with 0 duplicates
+removed duplicates for key: ((Young(Rose) & -Student(Rose)) | (Student(Rose) & -Young(Rose))) with 0 duplicates
+removed duplicates for key: ((Human(Rose) & -Manager(Jerry)) | (Human(Jerry) & Manager(Rose))) with 0 duplicates
+removed duplicates for key: (Studies(x) -> Student(x)) with 0 duplicates
+removed duplicates for key: ((Studies(x) | Teaches(x)) & Person(x)) with 0 duplicates
+removed duplicates for key: all x. ((Young(x) & Person(x)) -> -Teaches(x)) with 0 duplicates
+removed duplicates for key: ((-Teaches(Jerry) & -Manager(Jerry)) | (-Studies(Jerry) & -Manager(Jerry))) with 0 duplicates
+removed duplicates for key: (Young(Rose) | Student(Rose)) with 1 duplicates
+removed duplicates for key: (Human(Rose) | Manager(Jerry)) with 1 duplicates
+removed duplicates for key: all x. ((Studies(x) | Teaches(x)) & Person(x)) with 0 duplicates
+removed duplicates for key: (-Teaches(Jerry) & -Manager(Jerry)) with 0 duplicates
+Values: {'all x. (Student(x) -> Human(x))': [<AllExpression all x.(Student(x) -> Human(x))>], 'all x. (Studies(x) -> Student(x))': [<AllExpression all x.(Studies(x) -> Student(x))>], 'all x. (Person(x) -> (Studies(x) | Teaches(x)))': [<AllExpression all x.(Person(x) -> (Studies(x) | Teaches(x)))>], 'all x. (Young(x) -> -Teaches(x))': [<AllExpression all x.(Young(x) -> -Teaches(x))>], '((-Teaches(Jerry) & -Manager(Jerry)) | (-Studies(Jerry) & Manager(Jerry)))': [<OrExpression ((-Teaches(Jerry) & -Manager(Jerry)) | (-Studies(Jerry) & Manager(Jerry)))>], '((Young(Rose) & -Student(Rose)) | (Student(Rose) & -Young(Rose)))': [<OrExpression ((Young(Rose) & -Student(Rose)) | (Student(Rose) & -Young(Rose)))>], '((Human(Rose) & -Manager(Jerry)) | (Human(Jerry) & Manager(Rose)))': [<OrExpression ((Human(Rose) & -Manager(Jerry)) | (Human(Jerry) & Manager(Rose)))>], '(Studies(x) -> Student(x))': [<ImpExpression (Studies(x) -> Student(x))>], '((Studies(x) | Teaches(x)) & Person(x))': [<AndExpression ((Studies(x) | Teaches(x)) & Person(x))>], 'all x. ((Young(x) & Person(x)) -> -Teaches(x))': [<AllExpression all x.((Young(x) & Person(x)) -> -Teaches(x))>], '((-Teaches(Jerry) & -Manager(Jerry)) | (-Studies(Jerry) & -Manager(Jerry)))': [<OrExpression ((-Teaches(Jerry) & -Manager(Jerry)) | (-Studies(Jerry) & -Manager(Jerry)))>], '(Young(Rose) | Student(Rose))': [<OrExpression (Young(Rose) | Student(Rose))>], '(Human(Rose) | Manager(Jerry))': [<OrExpression (Human(Rose) | Manager(Jerry))>], 'all x. ((Studies(x) | Teaches(x)) & Person(x))': [<AllExpression all x.((Studies(x) | Teaches(x)) & Person(x))>], '(-Teaches(Jerry) & -Manager(Jerry))': [<AndExpression (-Teaches(Jerry) & -Manager(Jerry))>]}
+Possible combinations: [(<AllExpression all x.(Student(x) -> Human(x))>, <AllExpression all x.(Studies(x) -> Student(x))>, <AllExpression all x.(Person(x) -> (Studies(x) | Teaches(x)))>, <AllExpression all x.(Young(x) -> -Teaches(x))>, <OrExpression ((-Teaches(Jerry) & -Manager(Jerry)) | (-Studies(Jerry) & Manager(Jerry)))>, <OrExpression ((Young(Rose) & -Student(Rose)) | (Student(Rose) & -Young(Rose)))>, <OrExpression ((Human(Rose) & -Manager(Jerry)) | (Human(Jerry) & Manager(Rose)))>, <ImpExpression (Studies(x) -> Student(x))>, <AndExpression ((Studies(x) | Teaches(x)) & Person(x))>, <AllExpression all x.((Young(x) & Person(x)) -> -Teaches(x))>, <OrExpression ((-Teaches(Jerry) & -Manager(Jerry)) | (-Studies(Jerry) & -Manager(Jerry)))>, <OrExpression (Young(Rose) | Student(Rose))>, <OrExpression (Human(Rose) | Manager(Jerry))>, <AllExpression all x.((Studies(x) | Teaches(x)) & Person(x))>, <AndExpression (-Teaches(Jerry) & -Manager(Jerry))>)]
+Number of combinations: 1
+raw generations were saved
+Traceback (most recent call last):
+  File "/app/linc/runner.py", line 124, in <module>
+    main()
+  File "/app/linc/runner.py", line 110, in main
+    results[task] = evaluator.evaluate(task)
+  File "/app/linc/eval/evaluator.py", line 59, in evaluate
+    json.dump(generations_prc, fp)
+  File "/opt/conda/envs/linc/lib/python3.10/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+  File "/opt/conda/envs/linc/lib/python3.10/json/encoder.py", line 429, in _iterencode
+    yield from _iterencode_list(o, _current_indent_level)
+  File "/opt/conda/envs/linc/lib/python3.10/json/encoder.py", line 325, in _iterencode_list
+    yield from chunks
+  File "/opt/conda/envs/linc/lib/python3.10/json/encoder.py", line 325, in _iterencode_list
+    yield from chunks
+  File "/opt/conda/envs/linc/lib/python3.10/json/encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "/opt/conda/envs/linc/lib/python3.10/json/encoder.py", line 438, in _iterencode
+    o = _default(o)
+  File "/opt/conda/envs/linc/lib/python3.10/json/encoder.py", line 179, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type AllExpression is not JSON serializable
+Traceback (most recent call last):
+  File "/opt/conda/envs/linc/bin/accelerate", line 8, in <module>
+    sys.exit(main())
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/accelerate/commands/accelerate_cli.py", line 50, in main
+    args.func(args)
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/accelerate/commands/launch.py", line 1199, in launch_command
+    simple_launcher(args)
+  File "/opt/conda/envs/linc/lib/python3.10/site-packages/accelerate/commands/launch.py", line 785, in simple_launcher
+    raise subprocess.CalledProcessError(returncode=process.returncode, cmd=cmd)
+subprocess.CalledProcessError: Command '['/opt/conda/envs/linc/bin/python', 'runner.py', '--model', 'mistralai/Mistral-7B-v0.1', '--precision', 'fp32', '--use_auth_token', '--limit', '1', '--tasks', 'folio-neurosymbolic_v1-1shot', '--n_samples', '3', '--batch_size', '1', '--max_length_generation', '8192', '--temperature', '0.8', '--allow_code_execution', '--trust_remote_code', '--output_dir', 'outputs', '--save_generations_raw', '--save_generations_raw_path', 'Mistral-7B-v0.1_folio-neurosymbolic_v1-1shot_generations_raw.json', '--save_generations_prc', '--save_generations_prc_path', 'Mistral-7B-v0.1_folio-neurosymbolic_v1-1shot_generations_prc.json', '--save_references', '--save_references_path', 'Mistral-7B-v0.1_folio-neurosymbolic_v1-1shot_references.json', '--save_results', '--save_results_path', 'Mistral-7B-v0.1_folio-neurosymbolic_v1-1shot_results.json']' returned non-zero exit status 1.

@@ -75,7 +75,7 @@ def main():
             args.model,
             revision=args.revision,
             token=args.use_auth_token,
-            truncation_side="left",
+            # truncation_side="left",
         )
         if not tokenizer.eos_token:
             if tokenizer.bos_token:

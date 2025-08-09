@@ -87,8 +87,6 @@ def parallel_generations(task, dataset, accelerator, model, tokenizer, n_tasks, 
         ds_loader,
         n_tasks=n_tasks,
         batch_size=args.batch_size,
-        prefix=args.prefix,
-        postprocess=args.postprocess,
         **gen_kwargs,
     )
     return generations_prc, generations_raw

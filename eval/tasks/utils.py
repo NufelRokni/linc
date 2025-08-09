@@ -103,7 +103,7 @@ def reformat_fol(fol):
         fol = fol.replace(variable, variable_new)
     return fol
 
-def evaluate(premises, conclusion):
+def evaluate_original(premises, conclusion):
     premises = [reformat_fol(p) for p in premises]
     conclusion = reformat_fol(conclusion)
 
@@ -121,3 +121,19 @@ def evaluate(premises, conclusion):
             return "False"
         else:
             return "Uncertain"
+
+def filter_error(premises, conclusion):
+    premises = [reformat_fol(p) for p in premises]
+    conclusion = reformat_fol(conclusion)
+
+    # Validation results
+    output = {}
+
+    for p in premises + [conclusion]:
+        try:
+            expr = read_expr(p)
+            output[p] = expr
+        except:
+            output[p] = "Invalid"
+
+    return output

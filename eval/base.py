@@ -1,6 +1,9 @@
 from functools import cache
 from collections import Counter
-from eval.tasks.utils import evaluate
+import itertools
+from sys import prefix
+import warnings
+from eval.tasks.utils import evaluate_original, filter_error
 from eval.task_base import Task
 from eval.fol_utils import (
     reformat_fol_samples_train,
@@ -109,6 +112,50 @@ class OWAFOLTask(Task):
         """
         return doc["label"]
 
+    def pre_postprocess_generation(self, tokenizer, sample, generated_tokens):
+        list_raw, list_prc = [], []
+        for s in generated_tokens:
+            gen_code = tokenizer.decode(
+                s, skip_special_tokens=True, clean_up_tokenization_spaces=True
+            )
+            list_raw.append(gen_code)
+            list_prc.append(self.postprocess_generation(gen_code, int(sample)))
+        
+        if self._mode == "neurosymbolic_v1":
+            # Rather than assuming the first dictionary contains all keys,
+            # accumulate counts for all keys present in any dictionary.
+            from collections import defaultdict
+            counter = defaultdict(int)
+            for dictionary in list_prc:
+                for key, value in dictionary.items():
+                    if value != "Invalid":
+                        counter[key] += 1
+            print(f"Counter: {dict(counter)}")
+            if any(value == 0 for value in counter.values()):
+                print("One or more keys have a count of zero.")
+                print("Keys with zero count:", [key for key, value in counter.items() if value == 0])
+            else:
+                print("All keys have a non-zero count.")
+                # Now let's create a list of lists of values for same keys while removing duplicates
+                values = defaultdict(list)
+                for dictionary in list_prc:
+                    for key, value in dictionary.items():
+                        if value != "Invalid":
+                            values[key].append(value)
+                # Remove duplicates
+                for key in values:
+                    print(f"removed duplicates for key: {key} with {len(values[key]) - len(set(values[key]))} duplicates")
+                    values[key] = list(set(values[key]))
+                print(f"Values: {dict(len(values))}")
+
+                # Now let's create a combination of all keys and one value without duplicates
+                possible_combinations = list(itertools.product(*values.values()))
+
+                print(f"Possible combinations: {possible_combinations}")
+                print(f"Number of combinations: {len(possible_combinations)}")
+
+        return list_raw, list_prc
+
     def postprocess_generation(self, generation, idx, completion_only=False):
         """
         Defines the postprocessing for a LM generation.
@@ -135,6 +182,9 @@ class OWAFOLTask(Task):
             elif self._mode == "scratchpad":
                 flag = "ANSWER:"
                 resp = gen.split(flag)[-1].strip()
+            elif self._mode == "cot":
+                flag = "ANSWER:"
+                resp = gen.split(flag)[-1].strip()
             elif self._mode == "neurosymbolic":
                 flag = "FOL:"
                 parses = [
@@ -143,17 +193,24 @@ class OWAFOLTask(Task):
                     if flag in line
                 ]
                 premises, conclusion = parses[:-1], parses[-1]
-                resp = evaluate(premises, conclusion)
-            elif self._mode == "cot":
-                flag = "ANSWER:"
-                resp = gen.split(flag)[-1].strip()
+                resp = evaluate_original(premises, conclusion)
+            elif self._mode == "neurosymbolic_v1":
+                flag = "FOL:"
+                parses = [
+                    line.replace(flag, "").strip()
+                    for line in gen.split("\n")
+                    if flag in line
+                ]
+                premises, conclusion = parses[:-1], parses[-1]
+                return filter_error(premises, conclusion)
+
             else:
                 raise ValueError(f"Invalid mode: {self._mode}")
             assert resp in ["True", "False", "Uncertain"], f"Invalid generation: {resp}"
             return resp
         except Exception as e:
             # TODO: explore failure cases and improve postprocessing
-            print(f"Error in parsing and/or evaluating LLM output: {e}")
+            print(f"Error in parsing: {e}")
             return self.ERROR_TOKEN
 
     @staticmethod

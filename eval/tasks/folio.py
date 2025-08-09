@@ -3,7 +3,7 @@ FOLIO: Natural Language Reasoning with First-Order Logic
 https://arxiv.org/pdf/2209.00840.pdf
 """
 from eval.base import OWAFOLTask
-from eval.tasks.utils import evaluate, convert_to_nltk_rep
+from eval.tasks.utils import evaluate_original, convert_to_nltk_rep
 
 _CITATION = """
 @article{han2022folio,
@@ -25,7 +25,7 @@ def create_all_tasks():
 
     return {
         f"folio-{mode}-{n}shot": create_task(mode, n)
-        for mode in ["baseline", "scratchpad", "neurosymbolic", "cot"]
+        for mode in ["baseline", "scratchpad", "neurosymbolic", "neurosymbolic_v1", "cot"]
         for n in [1, 2, 4, 8, 16]
     }
 
@@ -48,7 +48,7 @@ class FOLIOBase(OWAFOLTask):
             sample["conclusion-FOL"] = convert_to_nltk_rep(sample["conclusion-FOL"])
             try:
                 assert len(sample["premises"]) == len(sample["premises-FOL"])
-                label = evaluate(sample["premises-FOL"], sample["conclusion-FOL"])
+                label = evaluate_original(sample["premises-FOL"], sample["conclusion-FOL"])
                 assert sample["label"] == label
             except Exception as e:
                 # print(f"Error in parsing FOL: {e}")
