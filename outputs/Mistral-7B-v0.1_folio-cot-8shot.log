@@ -1,10 +1,9 @@
 ipex flag is deprecated, will be removed in Accelerate v1.10. From 2.7.0, PyTorch has all needed optimizations for Intel CPU and XPU.
 Selected Tasks: ['folio-cot-8shot']
 Loading the model and tokenizer from HF (in fp32)
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.48s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.00s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.22s/it]
-number of problems for this task is 3
-  0%|          | 0/9 [00:00<?, ?it/s] 11%|█         | 1/9 [00:06<00:54,  6.82s/it] 22%|██▏       | 2/9 [00:18<01:08,  9.73s/it] 33%|███▎      | 3/9 [00:30<01:04, 10.83s/it] 44%|████▍     | 4/9 [00:39<00:50, 10.16s/it] 56%|█████▌    | 5/9 [00:52<00:43, 10.94s/it] 67%|██████▋   | 6/9 [00:59<00:29,  9.82s/it] 78%|███████▊  | 7/9 [01:10<00:20, 10.10s/it] 89%|████████▉ | 8/9 [01:25<00:11, 11.53s/it]100%|██████████| 9/9 [01:36<00:00, 11.54s/it]100%|██████████| 9/9 [01:36<00:00, 10.74s/it]
-Error in parsing and/or evaluating LLM output: Invalid generation: Not Applicable
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.35s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  2.89s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.11s/it]
+number of problems for this task is 1
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:04<00:00,  4.89s/it]100%|██████████| 1/1 [00:04<00:00,  4.89s/it]
 raw generations were saved
 processed generations were saved
 references were saved
@@ -13,6 +12,6 @@ references were saved
     "model": "mistralai/Mistral-7B-v0.1"
   },
   "folio-cot-8shot": {
-    "accuracy (pass@1 majority)": 0.6666666666666666
+    "accuracy (pass@1 majority)": 1.0
   }
 }

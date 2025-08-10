@@ -26,8 +26,8 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     job+="accelerate launch runner.py"
                 fi
                 job+=" --model ${model} --precision ${precision}"
-                job+=" --use_auth_token --limit 3"
-                job+=" --tasks ${task} --n_samples 3 --batch_size ${batch_size}"
+                job+=" --use_auth_token --limit 1"
+                job+=" --tasks ${task} --n_samples 1 --batch_size ${batch_size}"
                 job+=" --max_length_generation ${max_length} --temperature 0.8"
                 job+=" --allow_code_execution --trust_remote_code --output_dir ${outdir}"
                 job+=" --save_generations_raw --save_generations_raw_path ${run_id}_generations_raw.json"

@@ -1,37 +1,9 @@
 ipex flag is deprecated, will be removed in Accelerate v1.10. From 2.7.0, PyTorch has all needed optimizations for Intel CPU and XPU.
 Selected Tasks: ['folio-neurosymbolic-8shot']
 Loading the model and tokenizer from HF (in fp32)
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.88s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.19s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.44s/it]
-number of problems for this task is 3
-  0%|          | 0/9 [00:00<?, ?it/s] 11%|█         | 1/9 [00:24<03:14, 24.30s/it] 22%|██▏       | 2/9 [00:47<02:44, 23.47s/it] 33%|███▎      | 3/9 [01:08<02:15, 22.62s/it] 44%|████▍     | 4/9 [01:44<02:18, 27.80s/it] 56%|█████▌    | 5/9 [02:21<02:04, 31.14s/it] 67%|██████▋   | 6/9 [02:58<01:39, 33.08s/it] 78%|███████▊  | 7/9 [03:30<01:05, 32.61s/it] 89%|████████▉ | 8/9 [04:00<00:31, 31.88s/it]100%|██████████| 9/9 [04:31<00:00, 31.53s/it]100%|██████████| 9/9 [04:31<00:00, 30.13s/it]
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Beijing/1, Beijing/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Beijing/1, Beijing/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Beijing/1, Beijing/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Beijing/1, Beijing/0
-Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
-most x. (Populous(x) & NationalCapitalCity(x))
-     ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Feelingtired/1, Feelingtired/0, Humans/1, Humans/0, Monkeypoxvirus/1, Monkeypoxvirus/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Feelingtired/1, Feelingtired/0, Humans/1, Humans/0, Monkeypoxvirus/1, Monkeypoxvirus/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Human/1, Human/0, MonkeypoxVirus/1, MonkeypoxVirus/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Human/1, Human/0, MonkeypoxVirus/1, MonkeypoxVirus/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: MonkeypoxVirus/1, MonkeypoxVirus/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: MonkeypoxVirus/1, MonkeypoxVirus/0
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.44s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  2.99s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.21s/it]
+number of problems for this task is 1
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:17<00:00, 17.33s/it]100%|██████████| 1/1 [00:17<00:00, 17.33s/it]
 raw generations were saved
 processed generations were saved
 references were saved

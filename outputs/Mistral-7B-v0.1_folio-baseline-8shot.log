@@ -1,9 +1,9 @@
 ipex flag is deprecated, will be removed in Accelerate v1.10. From 2.7.0, PyTorch has all needed optimizations for Intel CPU and XPU.
 Selected Tasks: ['folio-baseline-8shot']
 Loading the model and tokenizer from HF (in fp32)
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.60s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.06s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.29s/it]
-number of problems for this task is 3
-  0%|          | 0/9 [00:00<?, ?it/s] 11%|█         | 1/9 [00:02<00:16,  2.02s/it] 22%|██▏       | 2/9 [00:03<00:13,  1.99s/it] 33%|███▎      | 3/9 [00:05<00:11,  1.94s/it] 44%|████▍     | 4/9 [00:07<00:09,  1.93s/it] 56%|█████▌    | 5/9 [00:09<00:07,  1.90s/it] 67%|██████▋   | 6/9 [00:11<00:05,  1.89s/it] 78%|███████▊  | 7/9 [00:13<00:03,  1.88s/it] 89%|████████▉ | 8/9 [00:15<00:01,  1.91s/it]100%|██████████| 9/9 [00:17<00:00,  1.89s/it]100%|██████████| 9/9 [00:17<00:00,  1.91s/it]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.34s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  2.88s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.10s/it]
+number of problems for this task is 1
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:01<00:00,  1.44s/it]100%|██████████| 1/1 [00:01<00:00,  1.44s/it]
 raw generations were saved
 processed generations were saved
 references were saved

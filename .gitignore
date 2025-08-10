@@ -1,0 +1,86 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+build/
+dist/
+.eggs/
+*.egg-info/
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Type checking
+.mypy_cache/
+.pyre/
+.pytype/
+
+# Jupyter
+.ipynb_checkpoints/
+profile_default/
+*.nbconvert.ipynb
+
+# Environments
+.env
+.env.*
+.venv/
+venv/
+ENV/
+env/
+conda-env/
+.conda/
+.python-version
+
+# IDEs / Editors
+.vscode/
+.idea/
+*.code-workspace
+*.sublime-*
+.history/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Outputs and data (keep directory with .gitkeep)
+outputs/*
+!outputs/.gitkeep
+data/
+
+# Caches
+.cache/
+datasets/
+.huggingface/
+hf_cache/
+tokenizers_cache/
+transformers_cache/
+accelerate/
+wandb/
+mlruns/
+
+# Checkpoints / runs
+checkpoints/
+runs/
