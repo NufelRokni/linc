@@ -61,6 +61,9 @@ conda-env/
 .DS_Store
 Thumbs.db
 
+# GitHub configuration folder
+.github/
+
 # Logs
 logs/
 *.log
