@@ -201,7 +201,7 @@ def complete_code(
             if postprocess:
                 x = int(sample)
                 code_gens_prc[sample].append(
-                    task.postprocess_generation(gen_code[len(prefix) :], int(x))
+                    task.postprocess_generation(gen_code[len(prefix) :], x)
                 )
             else:
                 warnings.warn(
