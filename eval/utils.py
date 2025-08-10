@@ -61,7 +61,7 @@ class TokenizedDataset(IterableDataset):
         else:
             return_token_type_ids = None
 
-        self.tokenizer.padding_side = 'right'  # Add this line
+        self.tokenizer.padding_side = 'right'
         outputs = self.tokenizer(
             prompts,
             padding=True,
