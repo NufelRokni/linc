@@ -1,57 +1,0 @@
-ipex flag is deprecated, will be removed in Accelerate v1.10. From 2.7.0, PyTorch has all needed optimizations for Intel CPU and XPU.
-Selected Tasks: ['folio-neurosymbolic-2shot']
-Loading the model and tokenizer from HF (in fp32)
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.54s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.03s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.25s/it]
-number of problems for this task is 3
-  0%|          | 0/3 [00:00<?, ?it/s] 33%|███▎      | 1/3 [00:32<01:04, 32.48s/it] 67%|██████▋   | 2/3 [01:13<00:37, 37.55s/it]100%|██████████| 3/3 [01:52<00:00, 38.36s/it]100%|██████████| 3/3 [01:52<00:00, 37.63s/it]
-/app/linc/eval/evaluator.py:46: UserWarning: Number of tasks wasn't proportional to number of devices, we removed extra predictions
-  warnings.warn(
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: A term cannot be constructed from the marked string:
-
-
-    all x ((NationalCapitalCity(x) & -(%%START ERROR%%World'sMostPopulous(x)%%END ERROR%%)) -> -(Populous(x))).
-
-Fatal error:  sread_term error
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: SummerOlympics/1, SummerOlympics/2.
-
-
-Fatal error:  The following symbols are used with multiple arities: SummerOlympics/1, SummerOlympics/2
-Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
-many x. (University(x) & locatedIn(x, Beijing) & consistentlyRankAmongBest(x, AsiaPacific) & consistentlyRankAmongBest(x, World))
-     ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: A term cannot be constructed from the marked string:
-
-
-    %%START ERROR%%World'sMostPopulous(Beijing,NationalCapitalCity).%%END ERROR%%
-
-Fatal error:  sread_term error
-Error in parsing and/or evaluating LLM output: Unexpected token: 'on'.  Expected token ')'.
-all x. (Monkeypox = InfectiousDisease(x) -> Fever(x) & Headache(x) & MusclePains(x) & FeelingTired(x) & so on(x))
-                                                                                                           ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'is'.
-Monkeypox is an infectious disease caused by the monkeypox virus.
-          ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: Animal/1, Human/1, NoHuman/1.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: Animal/1, Human/1, NoHuman/1
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Monkeypox/1, Monkeypox/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Monkeypox/1, Monkeypox/0
-raw generations were saved
-processed generations were saved
-references were saved
-{
-  "config": {
-    "model": "mistralai/Mistral-7B-v0.1"
-  },
-  "folio-neurosymbolic-2shot": {
-    "accuracy (pass@1 majority)": 0.6666666666666666
-  }
-}

@@ -1,21 +1,0 @@
-ipex flag is deprecated, will be removed in Accelerate v1.10. From 2.7.0, PyTorch has all needed optimizations for Intel CPU and XPU.
-Selected Tasks: ['folio-cot-1shot']
-Loading the model and tokenizer from HF (in fp32)
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.54s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.03s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.26s/it]
-number of problems for this task is 3
-  0%|          | 0/3 [00:00<?, ?it/s] 33%|███▎      | 1/3 [00:31<01:03, 31.97s/it] 67%|██████▋   | 2/3 [00:43<00:19, 19.74s/it]100%|██████████| 3/3 [01:25<00:00, 30.04s/it]100%|██████████| 3/3 [01:25<00:00, 28.48s/it]
-/app/linc/eval/evaluator.py:46: UserWarning: Number of tasks wasn't proportional to number of devices, we removed extra predictions
-  warnings.warn(
-Error in parsing and/or evaluating LLM output: Invalid generation: Certain
-Error in parsing and/or evaluating LLM output: Invalid generation: FALSE
-raw generations were saved
-processed generations were saved
-references were saved
-{
-  "config": {
-    "model": "mistralai/Mistral-7B-v0.1"
-  },
-  "folio-cot-1shot": {
-    "accuracy (pass@1 majority)": 0.6666666666666666
-  }
-}

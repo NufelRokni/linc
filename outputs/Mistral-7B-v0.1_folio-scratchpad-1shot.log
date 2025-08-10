@@ -1,32 +1,0 @@
-ipex flag is deprecated, will be removed in Accelerate v1.10. From 2.7.0, PyTorch has all needed optimizations for Intel CPU and XPU.
-Selected Tasks: ['folio-scratchpad-1shot']
-Loading the model and tokenizer from HF (in fp32)
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.80s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.18s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.42s/it]
-number of problems for this task is 3
-  0%|          | 0/3 [00:00<?, ?it/s] 33%|███▎      | 1/3 [00:25<00:50, 25.28s/it] 67%|██████▋   | 2/3 [01:11<00:37, 37.67s/it]100%|██████████| 3/3 [01:41<00:00, 34.20s/it]100%|██████████| 3/3 [01:41<00:00, 33.90s/it]
-/app/linc/eval/evaluator.py:46: UserWarning: Number of tasks wasn't proportional to number of devices, we removed extra predictions
-  warnings.warn(
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	Beijing is the capital of the People's Republic of China.
-FOL:	Capital(Beijing, People's Republic of China)
-TEXT:	Beijing is the world's most populous national capital city.
-FOL:	((Populous(Beijing) & National(Beijing)) & Capital(Beijing, Some(Country)))
-TEXT:	Beijing is located in Northern China.
-FOL:	Located(Beijing, Northern China)
-TEXT:	Beijing hosted the 2008 Summer Olympics and 2008 Summer Paralympics Games.
-FOL:	((Hosted(Beijing, 2008, Summer, Olympics) & Hosted(Beijing, 2008, Summer, Paralympics)) | (-Hosted(Beijing, 2008, Summer, Olympics) & -Hosted(Beijing, 2008, Summer, Paralympics)))
-TEXT:	Beijing has hosted both the Summer and Winter Olympics, along with the Summer and Winter Paralympics
-FOL:	((Hosted(Beijing, Some(Year), Some(Season), Some(Games)) & Hosted(Beijing, Some(Year), Some(Season), Some(Paralympics))) | (-Hosted(Beijing, Some(Year), Some(Season), Some(Games)) & -Hosted(Beijing, Some(Year), Some(Season), Some(Paralympics))))
-TEXT:	Many of Beijing's 91 universities consistently rank among the best in the Asia-Pacific and the world.
-FOL:	((Many(x. University(x)) & Consistently(y. Rank(y) & x. Best(y)) & z. AsiaPacific(z) | -Many(x. University(x)) & -Consistently(y. Rank(y) & x. Best(y)) & z. AsiaPacific(z)) | (-Many(x. University(x)) & -Consistently(y. Rank(y) & x. Best(y)) & z. AsiaPacific(z)) & -z. World(z))
-TEXT:	Beijing is located in southern China.
-raw generations were saved
-processed generations were saved
-references were saved
-{
-  "config": {
-    "model": "mistralai/Mistral-7B-v0.1"
-  },
-  "folio-scratchpad-1shot": {
-    "accuracy (pass@1 majority)": 0.3333333333333333
-  }
-}
