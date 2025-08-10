@@ -1,6 +1,17 @@
 ipex flag is deprecated, will be removed in Accelerate v1.10. From 2.7.0, PyTorch has all needed optimizations for Intel CPU and XPU.
 Selected Tasks: ['folio-scratchpad-8shot']
 Loading the model and tokenizer from HF (in fp32)
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.55s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.05s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.27s/it]
-number of problems for this task is 60
-  0%|          | 0/600 [00:00<?, ?it/s]  0%|          | 1/600 [00:23<3:58:22, 23.88s/it]  0%|          | 2/600 [00:51<4:19:21, 26.02s/it]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.45s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  2.99s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.21s/it]
+number of problems for this task is 3
+  0%|          | 0/9 [00:00<?, ?it/s] 11%|█         | 1/9 [00:23<03:11, 23.90s/it] 22%|██▏       | 2/9 [00:51<03:03, 26.17s/it] 33%|███▎      | 3/9 [01:15<02:30, 25.09s/it] 44%|████▍     | 4/9 [01:53<02:31, 30.28s/it] 56%|█████▌    | 5/9 [02:32<02:12, 33.18s/it] 67%|██████▋   | 6/9 [03:07<01:41, 33.94s/it] 78%|███████▊  | 7/9 [03:39<01:06, 33.35s/it] 89%|████████▉ | 8/9 [04:12<00:33, 33.18s/it]100%|██████████| 9/9 [04:43<00:00, 32.61s/it]100%|██████████| 9/9 [04:43<00:00, 31.53s/it]
+raw generations were saved
+processed generations were saved
+references were saved
+{
+  "config": {
+    "model": "mistralai/Mistral-7B-v0.1"
+  },
+  "folio-scratchpad-8shot": {
+    "accuracy (pass@1 majority)": 0.0
+  }
+}

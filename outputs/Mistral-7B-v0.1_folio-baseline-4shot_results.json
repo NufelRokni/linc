@@ -3,6 +3,6 @@
     "model": "mistralai/Mistral-7B-v0.1"
   },
   "folio-baseline-4shot": {
-    "accuracy (pass@1 majority)": 0.45
+    "accuracy (pass@1 majority)": 0.0
   }
 }

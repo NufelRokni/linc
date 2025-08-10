@@ -1,431 +1,11 @@
 ipex flag is deprecated, will be removed in Accelerate v1.10. From 2.7.0, PyTorch has all needed optimizations for Intel CPU and XPU.
 Selected Tasks: ['folio-scratchpad-2shot']
 Loading the model and tokenizer from HF (in fp32)
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.34s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  2.88s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.10s/it]
-Map:   0%|          | 0/204 [00:00<?, ? examples/s]Map:  10%|█         | 21/204 [00:00<00:01, 178.42 examples/s]Map:  21%|██        | 42/204 [00:00<00:01, 112.26 examples/s]Map:  27%|██▋       | 56/204 [00:00<00:01, 99.66 examples/s] Map:  34%|███▍      | 70/204 [00:00<00:01, 93.07 examples/s]Map:  41%|████      | 84/204 [00:00<00:01, 91.58 examples/s]Map:  46%|████▌     | 94/204 [00:00<00:01, 93.43 examples/s]Map:  55%|█████▍    | 112/204 [00:01<00:00, 101.40 examples/s]Map:  62%|██████▏   | 126/204 [00:01<00:01, 41.45 examples/s] Map:  66%|██████▌   | 135/204 [00:02<00:01, 46.35 examples/s]Map:  70%|███████   | 143/204 [00:02<00:01, 50.05 examples/s]Map:  75%|███████▌  | 153/204 [00:02<00:00, 57.16 examples/s]Map:  79%|███████▉  | 162/204 [00:02<00:00, 62.31 examples/s]Map:  84%|████████▍ | 172/204 [00:02<00:00, 69.20 examples/s]Map:  91%|█████████ | 185/204 [00:02<00:00, 80.09 examples/s]Map:  97%|█████████▋| 198/204 [00:02<00:00, 79.62 examples/s]Map: 100%|██████████| 204/204 [00:02<00:00, 72.42 examples/s]
-Filter:   0%|          | 0/204 [00:00<?, ? examples/s]Filter: 100%|██████████| 204/204 [00:00<00:00, 35405.22 examples/s]
-number of problems for this task is 60
-  0%|          | 0/120 [00:00<?, ?it/s]  1%|          | 1/120 [00:22<45:27, 22.92s/it]  2%|▏         | 2/120 [00:45<45:04, 22.92s/it]  2%|▎         | 3/120 [01:16<51:45, 26.54s/it]  3%|▎         | 4/120 [01:52<58:23, 30.20s/it]  4%|▍         | 5/120 [02:26<1:00:15, 31.44s/it]  5%|▌         | 6/120 [02:57<59:27, 31.29s/it]    6%|▌         | 7/120 [03:16<51:20, 27.26s/it]  7%|▋         | 8/120 [03:32<44:26, 23.81s/it]  8%|▊         | 9/120 [04:01<46:45, 25.27s/it]  8%|▊         | 10/120 [04:31<49:08, 26.80s/it]  9%|▉         | 11/120 [04:51<44:56, 24.74s/it] 10%|█         | 12/120 [05:16<44:47, 24.89s/it] 11%|█         | 13/120 [05:42<45:06, 25.29s/it] 12%|█▏        | 14/120 [06:06<43:55, 24.86s/it] 12%|█▎        | 15/120 [06:29<42:17, 24.16s/it] 13%|█▎        | 16/120 [06:49<40:02, 23.10s/it] 14%|█▍        | 17/120 [07:24<45:50, 26.70s/it] 15%|█▌        | 18/120 [07:58<48:51, 28.75s/it] 16%|█▌        | 19/120 [08:24<46:52, 27.84s/it] 17%|█▋        | 20/120 [08:52<46:49, 28.09s/it] 18%|█▊        | 21/120 [09:26<49:07, 29.77s/it] 18%|█▊        | 22/120 [09:59<50:24, 30.86s/it] 19%|█▉        | 23/120 [10:27<48:11, 29.81s/it] 20%|██        | 24/120 [10:53<45:50, 28.65s/it] 21%|██        | 25/120 [11:10<39:57, 25.24s/it] 22%|██▏       | 26/120 [11:26<35:04, 22.39s/it] 22%|██▎       | 27/120 [11:55<37:46, 24.37s/it] 23%|██▎       | 28/120 [12:23<39:07, 25.51s/it] 24%|██▍       | 29/120 [12:41<35:17, 23.27s/it] 25%|██▌       | 30/120 [12:59<32:46, 21.85s/it] 26%|██▌       | 31/120 [13:21<32:12, 21.72s/it] 27%|██▋       | 32/120 [13:41<31:04, 21.19s/it] 28%|██▊       | 33/120 [13:55<27:43, 19.12s/it] 28%|██▊       | 34/120 [14:09<25:14, 17.61s/it] 29%|██▉       | 35/120 [14:35<28:36, 20.19s/it] 30%|███       | 36/120 [15:00<30:10, 21.55s/it] 31%|███       | 37/120 [15:27<32:10, 23.26s/it] 32%|███▏      | 38/120 [15:56<33:57, 24.85s/it] 32%|███▎      | 39/120 [16:19<33:00, 24.45s/it] 33%|███▎      | 40/120 [16:42<31:49, 23.87s/it] 34%|███▍      | 41/120 [17:22<37:56, 28.81s/it] 35%|███▌      | 42/120 [18:02<41:41, 32.07s/it] 36%|███▌      | 43/120 [18:30<39:41, 30.93s/it] 37%|███▋      | 44/120 [18:57<37:24, 29.53s/it] 38%|███▊      | 45/120 [19:30<38:29, 30.80s/it] 38%|███▊      | 46/120 [20:03<38:50, 31.49s/it] 39%|███▉      | 47/120 [20:26<35:05, 28.84s/it] 40%|████      | 48/120 [20:50<32:43, 27.28s/it] 41%|████      | 49/120 [21:01<26:27, 22.36s/it] 42%|████▏     | 50/120 [21:12<22:15, 19.09s/it] 42%|████▎     | 51/120 [21:56<30:30, 26.53s/it] 43%|████▎     | 52/120 [22:40<35:58, 31.74s/it] 44%|████▍     | 53/120 [23:09<34:25, 30.83s/it] 45%|████▌     | 54/120 [23:32<31:32, 28.68s/it] 46%|████▌     | 55/120 [24:16<35:50, 33.08s/it] 47%|████▋     | 56/120 [24:59<38:33, 36.15s/it] 48%|████▊     | 57/120 [25:43<40:20, 38.42s/it] 48%|████▊     | 58/120 [26:26<41:20, 40.00s/it] 49%|████▉     | 59/120 [27:10<41:47, 41.11s/it] 50%|█████     | 60/120 [27:54<41:53, 41.89s/it] 51%|█████     | 61/120 [28:15<35:14, 35.83s/it] 52%|█████▏    | 62/120 [28:37<30:32, 31.59s/it] 52%|█████▎    | 63/120 [29:09<30:07, 31.71s/it] 53%|█████▎    | 64/120 [29:41<29:37, 31.74s/it] 54%|█████▍    | 65/120 [30:01<25:59, 28.35s/it] 55%|█████▌    | 66/120 [30:23<23:46, 26.42s/it] 56%|█████▌    | 67/120 [30:58<25:38, 29.03s/it] 57%|█████▋    | 68/120 [31:35<27:06, 31.29s/it] 57%|█████▊    | 69/120 [32:05<26:19, 30.97s/it] 58%|█████▊    | 70/120 [32:32<24:52, 29.86s/it] 59%|█████▉    | 71/120 [32:47<20:37, 25.25s/it] 60%|██████    | 72/120 [33:02<17:44, 22.19s/it] 61%|██████    | 73/120 [33:25<17:36, 22.49s/it] 62%|██████▏   | 74/120 [33:48<17:17, 22.55s/it] 62%|██████▎   | 75/120 [34:03<15:19, 20.43s/it] 63%|██████▎   | 76/120 [34:20<14:09, 19.30s/it] 64%|██████▍   | 77/120 [34:40<13:57, 19.48s/it] 65%|██████▌   | 78/120 [34:59<13:30, 19.29s/it] 66%|██████▌   | 79/120 [35:29<15:28, 22.64s/it] 67%|██████▋   | 80/120 [35:59<16:36, 24.92s/it] 68%|██████▊   | 81/120 [36:25<16:21, 25.16s/it] 68%|██████▊   | 82/120 [36:52<16:10, 25.55s/it] 69%|██████▉   | 83/120 [37:13<14:54, 24.17s/it] 70%|███████   | 84/120 [37:34<14:03, 23.42s/it] 71%|███████   | 85/120 [38:17<17:07, 29.37s/it] 72%|███████▏  | 86/120 [39:01<18:59, 33.52s/it] 72%|███████▎  | 87/120 [39:18<15:48, 28.73s/it] 73%|███████▎  | 88/120 [39:36<13:32, 25.40s/it] 74%|███████▍  | 89/120 [39:50<11:26, 22.13s/it] 75%|███████▌  | 90/120 [40:05<09:55, 19.85s/it] 76%|███████▌  | 91/120 [40:30<10:24, 21.54s/it] 77%|███████▋  | 92/120 [40:59<10:59, 23.54s/it] 78%|███████▊  | 93/120 [41:24<10:55, 24.26s/it] 78%|███████▊  | 94/120 [41:50<10:42, 24.71s/it] 79%|███████▉  | 95/120 [42:27<11:48, 28.36s/it] 80%|████████  | 96/120 [43:01<11:58, 29.94s/it] 81%|████████  | 97/120 [43:43<12:57, 33.78s/it] 82%|████████▏ | 98/120 [44:26<13:22, 36.47s/it] 82%|████████▎ | 99/120 [45:08<13:17, 38.00s/it] 83%|████████▎ | 100/120 [45:51<13:11, 39.57s/it] 84%|████████▍ | 101/120 [46:14<10:55, 34.52s/it] 85%|████████▌ | 102/120 [46:41<09:42, 32.39s/it] 86%|████████▌ | 103/120 [47:08<08:43, 30.77s/it] 87%|████████▋ | 104/120 [47:36<07:57, 29.85s/it] 88%|████████▊ | 105/120 [48:01<07:08, 28.56s/it] 88%|████████▊ | 106/120 [48:26<06:25, 27.50s/it] 89%|████████▉ | 107/120 [48:48<05:33, 25.63s/it] 90%|█████████ | 108/120 [49:09<04:51, 24.30s/it] 91%|█████████ | 109/120 [49:44<05:04, 27.67s/it] 92%|█████████▏| 110/120 [50:19<04:57, 29.79s/it] 92%|█████████▎| 111/120 [50:37<03:55, 26.18s/it] 93%|█████████▎| 112/120 [50:54<03:08, 23.60s/it] 94%|█████████▍| 113/120 [51:17<02:42, 23.17s/it] 95%|█████████▌| 114/120 [51:39<02:17, 22.85s/it] 96%|█████████▌| 115/120 [52:11<02:08, 25.72s/it] 97%|█████████▋| 116/120 [52:44<01:51, 27.86s/it] 98%|█████████▊| 117/120 [53:11<01:23, 27.69s/it] 98%|█████████▊| 118/120 [53:38<00:54, 27.24s/it] 99%|█████████▉| 119/120 [53:56<00:24, 24.48s/it]100%|██████████| 120/120 [54:14<00:00, 22.66s/it]100%|██████████| 120/120 [54:14<00:00, 27.12s/it]
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If people own a large desktop monitor at their home, then they work regularly and often at home.
-FOL:	all x. (OwnsLargeDesktopMonitor(x) -> WorkRegularlyAndOftenAtHome(x))
-TEXT:	All people who have a fully stocked and impressive home office are people who own a large desktop monitor at their home.
-FOL:	all x. (HasFullyStockedAndImpressiveHomeOffice(x) -> OwnsLargeDesktopMonitor(x))
-TEXT:	All people who work regularly and often at home spend their free time tidying and organizing the spaces in their homes.
-FOL:	all x. (WorkRegularlyAndOftenAtHome(x) -> SpendFreeTimeTidyingAndOrganizingHome(x))
-TEXT:	All people who work regularly and often at home visit the office supply store regularly.
-FOL:	all x. (WorkRegularlyAndOftenAtHome(x) -> VisitOfficeSupplyStoreRegularly(x))
-TEXT:	If people spend their free time tidying and organizing the spaces in their home, then they do not go to bed late and wake up every day after noon.
-FOL:	all x. (SpendFreeTimeTidyingAndOrganizingHome(x) -> -GoToBedLate(x) & -WakeUpEveryDayAfterNoon(x))
-TEXT:	Remy either both goes to bed late and wakes up every day after noon and spends their free time tidying and organizing the spaces in their home, or they do not go to bed late and wake up every day after noon nor spend their free time tidying and organizing the spaces in their home.
-FOL:	((GoToBedLate(Remy) & WakeUpEveryDayAfterNoon(Remy) & SpendFreeTimeTidyingAndOrganizingHome(Remy)) | (-GoToBedLate(Remy) & -WakeUpEveryDayAfterNoon(Remy) & -SpendFreeTimeTidyingAndOrganizingHome(Remy)))
-TEXT:	Remy has a fully stocked and impressive home office and also visits the office supply store regularly.
-FOL:	(HasFullyStockedAndImpress
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If people own a large desktop monitor at their home, then they work regularly and often at home.
-FOL:	all x. (DesktopMonitor(x) -> WorkRegularlyAndOftenAtHome(x))
-TEXT:	All people who have a fully stocked and impressive home office are people who own a large desktop monitor at their home.
-FOL:	all x. (FullyStockedImpressiveHomeOffice(x) -> DesktopMonitor(x))
-TEXT:	All people who work regularly and often at home spend their free time tidying and organizing the spaces in their homes.
-FOL:	all x. (WorkRegularlyAndOftenAtHome(x) -> SpendFreeTimeTidyingAndOrganizingSpacesInHome(x))
-TEXT:	All people who work regularly and often at home visit the office supply store regularly.
-FOL:	all x. (WorkRegularlyAndOftenAtHome(x) -> VisitOfficeSupplyStoreRegularly(x))
-TEXT:	If people spend their free time tidying and organizing the spaces in their home, then they do not go to bed late and wake up every day after noon.
-FOL:	all x. (SpendFreeTimeTidyingAndOrganizingSpacesInHome(x) -> -GoToBedLate(x) & -WakeUpEveryDayAfterNoon(x))
-TEXT:	Remy either both goes to bed late and wakes up every day after noon and spends their free time tidying and organizing the spaces in their home, or they do not go to bed late and wake up every day after noon nor spend their free time tidying and organizing the spaces in their home.
-FOL:	((GoToBedLate(Remy) & WakeUpEveryDayAfterNoon(Remy) & SpendFreeTimeTidyingAndOrganizingSpacesInHome(Remy)) | (-GoToBedLate(Remy) & -WakeUpEveryDayAfterNoon(Remy) & -SpendFreeTimeTidyingAndOrganizingSpacesInHome(Remy)))
-TEXT:	Remy has a fully stocked and impressive home office and also visits the office supply store regularly.
-FOL:	((FullyStocked
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If people own a large desktop monitor at their home, then they work regularly and often at home.
-FOL:	all x. (OwnLargeDesktopMonitor(x, home) -> WorkRegularlyAndOften(x, home))
-TEXT:	All people who have a fully stocked and impressive home office are people who own a large desktop monitor at their home.
-FOL:	all x. (FullyStockedAndImpressiveHomeOffice(x) -> OwnLargeDesktopMonitor(x, home))
-TEXT:	All people who work regularly and often at home spend their free time tidying and organizing the spaces in their homes.
-FOL:	all x. (WorkRegularlyAndOften(x, home) -> SpendFreeTimeTidyingAndOrganizing(x, home))
-TEXT:	All people who work regularly and often at home visit the office supply store regularly.
-FOL:	all x. (WorkRegularlyAndOften(x, home) -> VisitOfficeSupplyStoreRegularly(x))
-TEXT:	If people spend their free time tidying and organizing the spaces in their home, then they do not go to bed late and wake up every day after noon.
-FOL:	all x. (SpendFreeTimeTidyingAndOrganizing(x, home) -> -GoToBedLate(x) & -WakeUpAfterNoon(x))
-TEXT:	Remy either both goes to bed late and wakes up every day after noon and spends their free time tidying and organizing the spaces in their home, or they do not go to bed late and wake up every day after noon nor spend their free time tidying and organizing the spaces in their home.
-FOL:	(GoToBedLate(Remy) & WakeUpAfterNoon(Remy) & SpendFreeTimeTidyingAndOrganizing(Remy, home) | -GoToBedLate(Remy) & -WakeUpAfterNoon(Remy) & -SpendFreeTimeTidyingAndOrganizing(Remy, home))
-TEXT:	Remy has a fully stocked and impressive home office and also visits the office supply store regularly.
-FOL:	FullyStockedAndImpressiveHomeOff
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If people own a large desktop monitor at their home, then they work regularly and often at home.
-FOL:	all x. (OwnsLargeDesktopMonitorAtHome(x) -> WorkRegularlyAndOftenAtHome(x))
-TEXT:	All people who have a fully stocked and impressive home office are people who own a large desktop monitor at their home.
-FOL:	all x. (FullyStockedAndImpressiveHomeOffice(x) -> OwnsLargeDesktopMonitorAtHome(x))
-TEXT:	All people who work regularly and often at home spend their free time tidying and organizing the spaces in their homes.
-FOL:	all x. (WorkRegularlyAndOftenAtHome(x) -> SpendFreeTimeTidyingAndOrganizingSpacesInHome(x))
-TEXT:	All people who work regularly and often at home visit the office supply store regularly.
-FOL:	all x. (WorkRegularlyAndOftenAtHome(x) -> VisitOfficeSupplyStoreRegularly(x))
-TEXT:	If people spend their free time tidying and organizing the spaces in their home, then they do not go to bed late and wake up every day after noon.
-FOL:	all x. (SpendFreeTimeTidyingAndOrganizingSpacesInHome(x) -> -GoToBedLate(x) & -WakeUpEveryDayAfterNoon(x))
-TEXT:	Remy either both goes to bed late and wakes up every day after noon and spends their free time tidying and organizing the spaces in their home, or they do not go to bed late and wake up every day after noon nor spend their free time tidying and organizing the spaces in their home.
-FOL:	((GoToBedLate(Remy) & WakeUpEveryDayAfterNoon(Remy) & SpendFreeTimeTidyingAndOrganizingSpacesInHome(Remy)) | (-GoToBedLate(Remy) & -WakeUpEveryDayAfterNoon(Remy) & -SpendFreeTimeTidyingAndOrganizingSpacesInHome(Remy)))
-TEXT:	Remy has a fully stocked and impressive home office and also visits the office supply store regularly
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If people own a large desktop monitor at their home, then they work regularly and often at home.
-FOL:	all x. (OwnLargeDesktopMonitorAtHome(x) -> WorkRegularlyAndOftenAtHome(x))
-TEXT:	All people who have a fully stocked and impressive home office are people who own a large desktop monitor at their home.
-FOL:	all x. (FullyStockedAndImpressiveHomeOffice(x) -> OwnLargeDesktopMonitorAtHome(x))
-TEXT:	All people who work regularly and often at home spend their free time tidying and organizing the spaces in their homes.
-FOL:	all x. (WorkRegularlyAndOftenAtHome(x) -> SpendFreeTimeTidyingAndOrganizingSpacesInHomes(x))
-TEXT:	All people who work regularly and often at home visit the office supply store regularly.
-FOL:	all x. (WorkRegularlyAndOftenAtHome(x) -> VisitOfficeSupplyStoreRegularly(x))
-TEXT:	If people spend their free time tidying and organizing the spaces in their home, then they do not go to bed late and wake up every day after noon.
-FOL:	all x. (SpendFreeTimeTidyingAndOrganizingSpacesInHomes(x) -> -GoToBedLateAndWakeUpEveryDayAfterNoon(x))
-TEXT:	Remy either both goes to bed late and wakes up every day after noon and spends their free time tidying and organizing the spaces in their home, or they do not go to bed late and wake up every day after noon nor spend their free time tidying and organizing the spaces in their home.
-FOL:	((GoToBedLateAndWakeUpEveryDayAfterNoon(Remy) & SpendFreeTimeTidyingAndOrganizingSpacesInHomes(Remy)) | (-GoToBedLateAndWakeUpEveryDayAfterNoon(Remy) & -SpendFreeTimeTidyingAndOrganizingSpacesInHomes(Remy)))
-TEXT:	Remy has a fully stocked and impressive home office and also visits the office supply store regularly.
-FOL:	(FullyStocked
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If people own a large desktop monitor at their home, then they work regularly and often at home.
-FOL:	all x. (LargeDesktopMonitor(x) -> ((WorkRegularlyAndOftenAtHome(x) & -TidyAndOrganizeSpacesInHome(x)) | (-WorkRegularlyAndOftenAtHome(x) & -TidyAndOrganizeSpacesInHome(x))))
-TEXT:	All people who have a fully stocked and impressive home office are people who own a large desktop monitor at their home.
-FOL:	all x. (FullyStockedAndImpressiveHomeOffice(x) -> LargeDesktopMonitor(x))
-TEXT:	All people who work regularly and often at home spend their free time tidying and organizing the spaces in their homes.
-FOL:	all x. (WorkRegularlyAndOftenAtHome(x) -> TidyAndOrganizeSpacesInHome(x))
-TEXT:	All people who work regularly and often at home visit the office supply store regularly.
-FOL:	all x. (WorkRegularlyAndOftenAtHome(x) -> VisitOfficeSupplyStoreRegularly(x))
-TEXT:	If people spend their free time tidying and organizing the spaces in their home, then they do not go to bed late and wake up every day after noon.
-FOL:	all x. (TidyAndOrganizeSpacesInHome(x) -> (-GoToBedLate(x) & -WakeUpAfterNoonEveryDay(x)))
-TEXT:	Remy either both goes to bed late and wakes up every day after noon and spends their free time tidying and organizing the spaces in their home, or they do not go to bed late and wake up every day after noon nor spend their free time tidying and organizing the spaces in their home.
-FOL:	((GoToBedLate(Remy) & WakeUpAfterNoonEveryDay(Remy) & TidyAndOrganizeSpacesInHome(Remy)) | (-GoToBedLate(Remy) & -WakeUpAfterNoonEveryDay(Remy) & -TidyAndOrganizeSpacesInHome(Remy)))
-TEXT:	Remy has a
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If people own a large desktop monitor at their home, then they work regularly and often at home.
-FOL:	all x. (LargeDesktopMonitorAtHome(x) -> (WorksRegularlyAndOftenAtHome(x) & -WorksSometimesAtHome(x) & -WorksRarelyAtHome(x) & -WorksAtHome(x) & -WorksNotAtHome(x)))
-TEXT:	All people who have a fully stocked and impressive home office are people who own a large desktop monitor at their home.
-FOL:	all x. (FullyStockedAndImpressiveHomeOffice(x) -> LargeDesktopMonitorAtHome(x))
-TEXT:	All people who work regularly and often at home spend their free time tidying and organizing the spaces in their homes.
-FOL:	all x. (WorksRegularlyAndOftenAtHome(x) -> (SpendsFreeTimeTidyingAndOrganizing(x) & -SpendsFreeTimeNotTidyingAndNotOrganizing(x) & -SpendsFreeTimeNotTidyingAndOrganizing(x) & -SpendsFreeTimeTidyingAndNotOrganizing(x) & -SpendsFreeTimeNotTidyingAndNotOrganizing(x)))
-TEXT:	All people who work regularly and often at home visit the office supply store regularly.
-FOL:	all x. (WorksRegularlyAndOftenAtHome(x) -> (VisitsOfficeSupplyStoreRegularly(x) & -VisitsOfficeSupplyStoreSometimes(x) & -VisitsOfficeSupplyStoreRarely(x) & -VisitsOfficeSupplyStore(x) & -VisitsOfficeSupplyStoreNotRegularly(x)))
-TEXT:	If people spend their free time tidying and organizing the spaces in their home, then they do not go to bed late and wake up every day after noon.
-FOL:	all x. (SpendsFreeTimeTidyingAndOrganizing(x) -> (DoesNotGoToBedLate(x) & -WakesUpEveryDayAfterNoon(x) & -WakesUpEveryDayBeforeNoon(x) & -WakesUpEvery
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If people own a large desktop monitor at their home, then they work regularly and often at home.
-FOL:	all x. (OwnsLargeDesktopMonitorAtHome(x) -> (WorksRegularlyAndOftenAtHome(x) & HasFullyStockedImpressiveHomeOffice(x)))
-TEXT:	All people who have a fully stocked and impressive home office are people who own a large desktop monitor at their home.
-FOL:	all x. (HasFullyStockedImpressiveHomeOffice(x) -> OwnsLargeDesktopMonitorAtHome(x))
-TEXT:	All people who work regularly and often at home spend their free time tidying and organizing the spaces in their homes.
-FOL:	all x. (WorksRegularlyAndOftenAtHome(x) -> SpendsFreeTimeTidyingAndOrganizingSpacesInHome(x))
-TEXT:	All people who work regularly and often at home visit the office supply store regularly.
-FOL:	all x. (WorksRegularlyAndOftenAtHome(x) -> VisitsOfficeSupplyStoreRegularly(x))
-TEXT:	If people spend their free time tidying and organizing the spaces in their home, then they do not go to bed late and wake up every day after noon.
-FOL:	all x. (SpendsFreeTimeTidyingAndOrganizingSpacesInHome(x) -> (DoesNotGoToBedLate(x) & DoesNotWakeUpEveryDayAfterNoon(x)))
-TEXT:	Remy either both goes to bed late and wakes up every day after noon and spends their free time tidying and organizing the spaces in their home, or they do not go to bed late and wake up every day after noon nor spend their free time tidying and organizing the spaces in their home.
-FOL:	all x. ((SpendsFreeTimeTidyingAndOrganizingSpacesInHome(Remy) & GoesToBedLate(Remy) & WakesUpEveryDayAfterNoon(Remy)) | (-SpendsFreeTimeTidyingAndOrganizingSpacesInHome(Remy) & -GoesToBedLate(Remy) & -WakesUpEveryDayAfterNo
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If people own a large desktop monitor at their home, then they work regularly and often at home.
-FOL:	if people own a large desktop monitor at their home, then they work regularly and often at home.
-TEXT:	All people who have a fully stocked and impressive home office are people who own a large desktop monitor at their home.
-FOL:	all x. (FullyStockedAndImpressiveHomeOffice(x) -> LargeDesktopMonitorAtHome(x))
-TEXT:	All people who work regularly and often at home spend their free time tidying and organizing the spaces in their homes.
-FOL:	all x. (WorkRegularlyAndOftenAtHome(x) -> FreeTimeTidyingOrganizingSpaces(x))
-TEXT:	All people who work regularly and often at home visit the office supply store regularly.
-FOL:	all x. (WorkRegularlyAndOftenAtHome(x) -> VisitOfficeSupplyStoreRegularly(x))
-TEXT:	If people spend their free time tidying and organizing the spaces in their home, then they do not go to bed late and wake up every day after noon.
-FOL:	if FreeTimeTidyingOrganizingSpaces(x) then not (GoToBedLate(x) & WakeUpEveryDayAfterNoon(x))
-TEXT:	Remy either both goes to bed late and wakes up every day after noon and spends their free time tidying and organizing the spaces in their home, or they do not go to bed late and wake up every day after noon nor spend their free time tidying and organizing the spaces in their home.
-FOL:	(GoToBedLate(Remy) & WakeUpEveryDayAfterNoon(Remy) & FreeTimeTidyingOrganizingSpaces(Remy)) | (not (GoToBedLate(Remy) & WakeUpEveryDayAfterNoon(Remy)) & not (FreeTimeTidyingOrganizingSpaces(Remy)))
-TEXT:	Remy has a fully stocked and impressive home office and also visits the office supply store regularly.
-FOL:	FullyStockedAndImpressiveHomeOffice(Remy) & VisitOfficeSupplyStoreRegularly
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	Yale University is a private Ivy League research university.
-FOL:	University(y) & Private(y) & IvyLeague(y) & Research(y) & Yale(y)
-TEXT:	Yale University moved to New Haven in 1716.
-FOL:	NewHaven(y) & -Private(y) & -IvyLeague(y) & -Research(y) & -Yale(y) & University(y) & 1716(y)
-TEXT:	Yale university's endowment was valued at $42.3 billion.
-FOL:	-Private(y) & -IvyLeague(y) & -Research(y) & -Yale(y) & University(y) & 42300000000(y)
-TEXT:	Yale University has been organized into 27 constituent colleges and schools: the residential colleges, the Yale Graduate School of Arts and Sciences, and twelve professional schools.
-FOL:	-Private(y) & -IvyLeague(y) & -Research(y) & -Yale(y) & University(y) & 27(y)
-TEXT:	A list of residential colleges at Yale: Benjamin Franklin College, Berkeley College, Branford College, Davenport College, Ezra Stiles College, Grace Hopper College, Jonathan Edwards College, Morse College, Pauli Murray College, Pierson College, Saybrook College, Silliman College, Timothy Dwight College, and Trumbull College.
-FOL:	-Private(y) & -IvyLeague(y) & -Research(y) & -Yale(y) & University(y) & College(z) & College(z) & College(z) & College(z) & College(z) & College(z) & College(z) & College(z) & College(z) & College(z) & College(z) & College(z) & College(z) & College(z) & College(z) & College(z) & College(z) & College(z) & College(z) & College(z) & College(z) & College(z) & College(z
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	Yale University is a private Ivy League research university.
-FOL:	University(y) & IvyLeague(y) & Private(y) & Research(y) & y = YaleUniversity
-TEXT:	Yale University moved to New Haven in 1716.
-FOL:	University(y) & y = YaleUniversity & moved(y, NewHaven, 1716)
-TEXT:	Yale university's endowment was valued at $42.3 billion.
-FOL:	university(y) & y = YaleUniversity & endowment(y, $42.3)
-TEXT:	Yale University has been organized into 27 constituent colleges and schools: the residential colleges, the Yale Graduate School of Arts and Sciences, and twelve professional schools.
-FOL:	university(y) & y = YaleUniversity & organized(y, [residentialCollege(c1), YaleGraduateSchoolOfArtsAndSciences(c2), professionalSchool(c3)])
-TEXT:	A list of residential colleges at Yale: Benjamin Franklin College, Berkeley College, Branford College, Davenport College, Ezra Stiles College, Grace Hopper College, Jonathan Edwards College, Morse College, Pauli Murray College, Pierson College, Saybrook College, Silliman College, Timothy Dwight College, and Trumbull College.
-FOL:	residentialCollege(BenjaminFranklinCollege) & residentialCollege(BerkeleyCollege) & residentialCollege(BranfordCollege) & residentialCollege(DavenportCollege) & residentialCollege(EzraStilesCollege) & residentialCollege(GraceHopperCollege) & residentialCollege(JonathanEdwardsCollege) & residentialCollege(MorseCollege) & residentialCollege(PauliMurrayCollege) & residentialCollege(PiersonCollege) & residentialCollege(SaybrookCollege) & residentialCollege(SillimanCollege) & residentialCollege(TimothyDwightCollege) & residentialCollege(TrumbullCollege)
-TEXT:	A private Ivy League research university moved to New Haven.
-FOL:
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	Yale University is a private Ivy League research university.
-FOL:	all x. (IvyLeague(x) & ResearchUniversity(x) -> Yale(x))
-TEXT:	Yale University moved to New Haven in 1716.
-FOL:	in(NewHaven, Yale) & before(1716, Yale)
-TEXT:	Yale university's endowment was valued at $42.3 billion.
-FOL:	Endowment(Yale, 42.3)
-TEXT:	Yale University has been organized into 27 constituent colleges and schools: the residential colleges, the Yale Graduate School of Arts and Sciences, and twelve professional schools.
-FOL:	all x. (ResidentialCollege(x) -> College(x)) & all x. (YaleGraduateSchoolofArtsandSciences(x) -> College(x)) & all x. (ProfessionalSchool(x) -> School(x))
-TEXT:	A list of residential colleges at Yale: Benjamin Franklin College, Berkeley College, Branford College, Davenport College, Ezra Stiles College, Grace Hopper College, Jonathan Edwards College, Morse College, Pauli Murray College, Pierson College, Saybrook College, Silliman College, Timothy Dwight College, and Trumbull College.
-FOL:	all x. (BenjaminFranklinCollege(x) -> College(x)) & all x. (BerkeleyCollege(x) -> College(x)) & all x. (BranfordCollege(x) -> College(x)) & all x. (DavenportCollege(x) -> College(x)) & all x. (EzraStilesCollege(x) -> College(x)) & all x. (GraceHopperCollege(x) -> College(x)) & all x. (JonathanEdwardsCollege(x) -> College(x)) & all x. (MorseCollege(x) -> College(x)) & all x. (PauliMurrayCollege(x) -> College(x)) & all x. (PiersonCollege(x) -> College(x)) & all x. (SaybrookCollege
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	Yale University is a private Ivy League research university.
-FOL:	Private(YaleUniversity) & IvyLeague(YaleUniversity) & ResearchUniversity(YaleUniversity)
-TEXT:	Yale University moved to New Haven in 1716.
-FOL:	MovedTo(YaleUniversity, NewHaven)
-TEXT:	Yale university's endowment was valued at $42.3 billion.
-FOL:	EndowmentValuedAt(YaleUniversity, 42300000000)
-TEXT:	Yale University has been organized into 27 constituent colleges and schools: the residential colleges, the Yale Graduate School of Arts and Sciences, and twelve professional schools.
-FOL:	all x. (CollegeAndSchool(x) -> (ResidentialCollege(x) | GraduateSchool(x) | ProfessionalSchool(x)))
-TEXT:	A list of residential colleges at Yale: Benjamin Franklin College, Berkeley College, Branford College, Davenport College, Ezra Stiles College, Grace Hopper College, Jonathan Edwards College, Morse College, Pauli Murray College, Pierson College, Saybrook College, Silliman College, Timothy Dwight College, and Trumbull College.
-FOL:	BenjaminFranklinCollege(YaleUniversity) & BerkeleyCollege(YaleUniversity) & BranfordCollege(YaleUniversity) & DavenportCollege(YaleUniversity) & EzraStilesCollege(YaleUniversity) & GraceHopperCollege(YaleUniversity) & JonathanEdwardsCollege(YaleUniversity) & MorseCollege(YaleUniversity) & PauliMurrayCollege(YaleUniversity) & PiersonCollege(YaleUniversity) & SaybrookCollege(YaleUniversity) & SillimanCollege(YaleUniversity) & TimothyDwightCollege(YaleUniversity) & TrumbullCollege(YaleUniversity)
-TEXT:	A private Ivy League research university moved to New Haven.
-FOL:	all x. (Private(x) & IvyLeague(x) & Research
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	Yale University is a private Ivy League research university.
-FOL:	Private(Yale) & IvyLeague(Yale) & ResearchUniversity(Yale)
-TEXT:	Yale University moved to New Haven in 1716.
-FOL:	MovedTo(Yale, NewHaven)
-TEXT:	Yale university's endowment was valued at $42.3 billion.
-FOL:	ValuedAt(Yale, $42.3)
-TEXT:	Yale University has been organized into 27 constituent colleges and schools: the residential colleges, the Yale Graduate School of Arts and Sciences, and twelve professional schools.
-FOL:	((ResidentialCollege(Yale) & GraduateSchoolOfArtsAndSciences(Yale) & TwelveProfessionalSchools(Yale)) | (-ResidentialCollege(Yale) & -GraduateSchoolOfArtsAndSciences(Yale) & -TwelveProfessionalSchools(Yale)))
-TEXT:	A list of residential colleges at Yale: Benjamin Franklin College, Berkeley College, Branford College, Davenport College, Ezra Stiles College, Grace Hopper College, Jonathan Edwards College, Morse College, Pauli Murray College, Pierson College, Saybrook College, Silliman College, Timothy Dwight College, and Trumbull College.
-FOL:	((BenjaminFranklin(College) & Berkeley(College) & Branford(College) & Davenport(College) & EzraStiles(College) & GraceHopper(College) & JonathanEdwards(College) & Morse(College) & PauliMurray(College) & Pierson(College) & Saybrook(College) & Silliman(College) & TimothyDwight(College) & Trumbull(College)) | (-BenjaminFranklin(College) & -Berkeley(College) & -Branford(College) & -Davenport(College) & -EzraStiles(College) & -GraceHopper(College) & -JonathanEdwards(College)
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	Yale University is a private Ivy League research university.
-FOL:	PrivateUniversity(Yale) & IvyLeague(Yale) & ResearchUniversity(Yale)
-TEXT:	Yale University moved to New Haven in 1716.
-FOL:	MovedTo(Yale, NewHaven) & 1716(Time)
-TEXT:	Yale university's endowment was valued at $42.3 billion.
-FOL:	(Value(Endowment(Yale)) = 42300000000)
-TEXT:	Yale University has been organized into 27 constituent colleges and schools: the residential colleges, the Yale Graduate School of Arts and Sciences, and twelve professional schools.
-FOL:	27(NumberOf(College)) & College(ResidentialCollege) & College(YaleGraduateSchoolOfArtsAndSciences) & College(ProfessionalSchool)
-TEXT:	A list of residential colleges at Yale: Benjamin Franklin College, Berkeley College, Branford College, Davenport College, Ezra Stiles College, Grace Hopper College, Jonathan Edwards College, Morse College, Pauli Murray College, Pierson College, Saybrook College, Silliman College, Timothy Dwight College, and Trumbull College.
-FOL:	(College(BenjaminFranklinCollege) & College(BerkeleyCollege) & College(BranfordCollege) & College(DavenportCollege) & College(EzraStilesCollege) & College(GraceHopperCollege) & College(JonathanEdwardsCollege) & College(MorseCollege) & College(PauliMurrayCollege) & College(PiersonCollege) & College(SaybrookCollege) & College(SillimanCollege) & College(TimothyDwightCollege) & College(TrumbullCollege))
-TEXT:	A private Ivy League research university moved to New Haven.
-FOL:	PrivateUniversity(x) & IvyLeague(x) & ResearchUniversity(x) & MovedTo(x, NewHaven) & 1716(Time)
-Error in parsing and/or evaluating LLM output: Invalid generation: 
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If a player is ranked highly by the Women's Tennis Association, then they are among the most active players in major tennis.
-FOL:	all x. (RankedHighly(WomenTennisAssociation, x) -> ActiveMajorTennisPlayer(x))
-TEXT:	Everyone who lost to Iga Świątek is ranked highly by the Women's Tennis Association.
-FOL:	all x. (Lost(IgaSwiatkowicz, x) -> RankedHighly(WomenTennisAssociation, x))
-TEXT:	All female tennis players at Roland Garros 2022 lost to Iga Świątek.
-FOL:	all x. (Female(x) & TennisPlayer(x) & RolandGarros2022(x) -> Lost(IgaSwiatkowicz, x))
-TEXT:	Either female tennis players at Roland Garros 2022 or male tennis players at Roland Garros 2022.
-FOL:	((Female(x) & TennisPlayer(x) & RolandGarros2022(x)) | (Male(x) & TennisPlayer(x) & RolandGarros2022(x)))
-TEXT:	All male tennis players at Roland Garros 2022 lost to Rafael Nadal.
-FOL:	all x. (Male(x) & TennisPlayer(x) & RolandGarros2022(x) -> Lost(RafaelNadal, x))
-TEXT:	If Coco Gauff is a player who is ranked highly by the Women's Tennis Association or a player who lost to Rafael Nadal, then Coco Gauff is not a male tennis player at Roland Garros 2022.
-FOL:	((RankedHighly(WomenTennisAssociation, CocoGauff) & CocoGauff!= MaleTennisPlayerAtRolandGarros2022) | (-RankedHighly(WomenTennisAssociation, CocoGauff) & Lost(RafaelNadal, CocoGauff) & CocoGauff!= MaleTennisPlayerAtRoland
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If a player is ranked highly by the Women's Tennis Association, then they are among the most active players in major tennis.
-FOL:	all x. (RankedHighlyByWTA(x) -> AmongTheMostActivePlayersInMajorTennis(x))
-TEXT:	Everyone who lost to Iga Świątek is ranked highly by the Women's Tennis Association.
-FOL:	all x. (LostTo(IgaŚwiątek, x) -> RankedHighlyByWTA(x))
-TEXT:	All female tennis players at Roland Garros 2022 lost to Iga Świątek.
-FOL:	all x. (FemaleTennisPlayer(x) & at(x, RolandGarros2022) -> LostTo(IgaŚwiątek, x))
-TEXT:	Either female tennis players at Roland Garros 2022 or male tennis players at Roland Garros 2022.
-FOL:	(FemaleTennisPlayer(x) & at(x, RolandGarros2022)) | (MaleTennisPlayer(x) & at(x, RolandGarros2022))
-TEXT:	All male tennis players at Roland Garros 2022 lost to Rafael Nadal.
-FOL:	all x. (MaleTennisPlayer(x) & at(x, RolandGarros2022) -> LostTo(RafaelNadal, x))
-TEXT:	If Coco Gauff is a player who is ranked highly by the Women's Tennis Association or a player who lost to Rafael Nadal, then Coco Gauff is not a male tennis player at Roland Garros 2022.
-FOL:	((RankedHighlyByWTA(CocoGauff) & -MaleTennisPlayer(CocoGauff) & at(CocoGauff, RolandGarros2022)) | (LostTo(RafaelNadal, CocoGauff) & -MaleTennisPlayer(CocoGauff) & at(CocoGauff, RolandGarros2022)))
-TEXT:
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If a player is ranked highly by the Women's Tennis Association, then they are among the most active players in major tennis.
-FOL:	all x. (RankedHighlyByWTA(x) -> AmongTheMostActivePlayersInMajorTennis(x))
-TEXT:	Everyone who lost to Iga Świątek is ranked highly by the Women's Tennis Association.
-FOL:	all x. (LostTo(IgaŚwiątek, x) -> RankedHighlyByWTA(x))
-TEXT:	All female tennis players at Roland Garros 2022 lost to Iga Świątek.
-FOL:	all x. (FemaleTennisPlayer(x) & RolandGarros2022(x) -> LostTo(IgaŚwiątek, x))
-TEXT:	Either female tennis players at Roland Garros 2022 or male tennis players at Roland Garros 2022.
-FOL:	((FemaleTennisPlayer(x) & RolandGarros2022(x)) | (MaleTennisPlayer(x) & RolandGarros2022(x)))
-TEXT:	All male tennis players at Roland Garros 2022 lost to Rafael Nadal.
-FOL:	all x. (MaleTennisPlayer(x) & RolandGarros2022(x) -> LostTo(RafaelNadal, x))
-TEXT:	If Coco Gauff is a player who is ranked highly by the Women's Tennis Association or a player who lost to Rafael Nadal, then Coco Gauff is not a male tennis player at Roland Garros 2022.
-FOL:	(RankedHighlyByWTA(CocoGauff) | LostTo(RafaelNadal, CocoGauff)) -> -MaleTennisPlayer(CocoGauff) & RolandGarros2022(CocoGauff)
-TEXT:	Coco Gauff is among the most active players in major tennis.
-FOL:	AmongTheMostActivePlayersInMajorTennis(CocoGauff)
-ANSWER
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If a player is ranked highly by the Women's Tennis Association, then they are among the most active players in major tennis.
-FOL:	all x. (RankedHighlyByWTA(x) -> AmongTheMostActivePlayersInMajorTennis(x))
-TEXT:	Everyone who lost to Iga Świątek is ranked highly by the Women's Tennis Association.
-FOL:	all x. (LostTo(x, IgaŚwiątek) -> RankedHighlyByWTA(x))
-TEXT:	All female tennis players at Roland Garros 2022 lost to Iga Świątek.
-FOL:	all x. (Female(x) & TennisPlayerAtRolandGarros2022(x) -> LostTo(x, IgaŚwiątek))
-TEXT:	Either female tennis players at Roland Garros 2022 or male tennis players at Roland Garros 2022.
-FOL:	(Female(Worksheet) & TennisPlayerAtRolandGarros2022(Worksheet)) | (Male(Worksheet) & TennisPlayerAtRolandGarros2022(Worksheet))
-TEXT:	All male tennis players at Roland Garros 2022 lost to Rafael Nadal.
-FOL:	all x. (Male(x) & TennisPlayerAtRolandGarros2022(x) -> LostTo(x, RafaelNadal))
-TEXT:	If Coco Gauff is a player who is ranked highly by the Women's Tennis Association or a player who lost to Rafael Nadal, then Coco Gauff is not a male tennis player at Roland Garros 2022.
-FOL:	((RankedHighlyByWTA(CocoGauff) | LostTo(CocoGauff, RafaelNadal)) -> -Male(CocoGauff) & -TennisPlayerAtRolandGarros2022(CocoGauff))
-TEXT:	Coco Gauff is among the most active players in major tennis.
-FOL:	AmongTheMostActive
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If a player is ranked highly by the Women's Tennis Association, then they are among the most active players in major tennis.
-FOL:	all x. (HighlyRankedByWTA(x) -> MostActivePlayerInMajorTennis(x))
-TEXT:	Everyone who lost to Iga Świątek is ranked highly by the Women's Tennis Association.
-FOL:	all x. (LostTo(IgaŚwiątek, x) -> HighlyRankedByWTA(x))
-TEXT:	All female tennis players at Roland Garros 2022 lost to Iga Świątek.
-FOL:	all x. (FemaleTennisPlayer(x) & PlayedIn(RolandGarros2022, x) -> LostTo(IgaŚwiątek, x))
-TEXT:	Either female tennis players at Roland Garros 2022 or male tennis players at Roland Garros 2022.
-FOL:	(FemaleTennisPlayer(y) & PlayedIn(RolandGarros2022, y) | MaleTennisPlayer(z) & PlayedIn(RolandGarros2022, z))
-TEXT:	All male tennis players at Roland Garros 2022 lost to Rafael Nadal.
-FOL:	all x. (MaleTennisPlayer(x) & PlayedIn(RolandGarros2022, x) -> LostTo(RafaelNadal, x))
-TEXT:	If Coco Gauff is a player who is ranked highly by the Women's Tennis Association or a player who lost to Rafael Nadal, then Coco Gauff is not a male tennis player at Roland Garros 2022.
-FOL:	(HighlyRankedByWTA(CocoGauff) | LostTo(RafaelNadal, CocoGauff) -> -MaleTennisPlayer(CocoGauff) & PlayedIn(RolandGarros2022, CocoGauff))
-TEXT:	Coco Gauff is among the most active players in major tennis.
-FOL
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If a player is ranked highly by the Women's Tennis Association, then they are among the most active players in major tennis.
-FOL:	all x. ((RankedHighlyByWTA(x) -> ActiveMajorTennis(x)) | -RankedHighlyByWTA(x))
-TEXT:	Everyone who lost to Iga Świątek is ranked highly by the Women's Tennis Association.
-FOL:	all x. ((LostTo(Iga Świątek, x) -> RankedHighlyByWTA(x)) | -LostTo(Iga Świątek, x))
-TEXT:	All female tennis players at Roland Garros 2022 lost to Iga Świątek.
-FOL:	all x. ((FemaleTennisPlayerAtRolandGarros2022(x) -> LostTo(Iga Świątek, x)) | -FemaleTennisPlayerAtRolandGarros2022(x))
-TEXT:	Either female tennis players at Roland Garros 2022 or male tennis players at Roland Garros 2022.
-FOL:	((FemaleTennisPlayerAtRolandGarros2022(Worksheet) & -MaleTennisPlayerAtRolandGarros2022(Worksheet)) | (-FemaleTennisPlayerAtRolandGarros2022(Worksheet) & MaleTennisPlayerAtRolandGarros2022(Worksheet)))
-TEXT:	All male tennis players at Roland Garros 2022 lost to Rafael Nadal.
-FOL:	all x. ((MaleTennisPlayerAtRolandGarros2022(x) -> LostTo(Rafael Nadal, x)) | -MaleTennisPlayerAtRolandGarros2022(x))
-TEXT:	If Coco Gauff is a player who is ranked highly by the Women's Tennis Association or a player who lost to Rafael Nadal, then Coco Gauff is not a male tennis player at Roland Garros 2022.
-FOL:	((RankedHighly
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If a player is ranked highly by the Women's Tennis Association, then they are among the most active players in major tennis.
-FOL:	all x. (WTARankHigh(x) -> ActivePlayerInMajorTennis(x))
-TEXT:	Everyone who lost to Iga Świątek is ranked highly by the Women's Tennis Association.
-FOL:	all x. (LostTo(x, IgaŚwiątek) -> WTARankHigh(x))
-TEXT:	All female tennis players at Roland Garros 2022 lost to Iga Świątek.
-FOL:	all x. (FemaleTennisPlayer(x) & RolandGarros2022(x) -> LostTo(x, IgaŚwiątek))
-TEXT:	Either female tennis players at Roland Garros 2022 or male tennis players at Roland Garros 2022.
-FOL:	((FemaleTennisPlayer(Work) & RolandGarros2022(Work)) | (MaleTennisPlayer(Work) & RolandGarros2022(Work)))
-TEXT:	All male tennis players at Roland Garros 2022 lost to Rafael Nadal.
-FOL:	all x. (MaleTennisPlayer(x) & RolandGarros2022(x) -> LostTo(x, RafaelNadal))
-TEXT:	If Coco Gauff is a player who is ranked highly by the Women's Tennis Association or a player who lost to Rafael Nadal, then Coco Gauff is not a male tennis player at Roland Garros 2022.
-FOL:	((WTARankHigh(CocoGauff) & -MaleTennisPlayer(CocoGauff) & RolandGarros2022(CocoGauff)) | (LostTo(CocoGauff, RafaelNadal) & -MaleTennisPlayer(CocoGauff) & RolandGarros2022(CocoGauff)))
-TEXT:	Coco Gauff has lost to Rafael Nadal.
-FOL:	LostTo(CocoGau
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If a player is ranked highly by the Women's Tennis Association, then they are among the most active players in major tennis.
-FOL:	all x. (RankedHighlyByWTA(x) -> AmongMostActivePlayersInMajorTennis(x))
-TEXT:	Everyone who lost to Iga Świątek is ranked highly by the Women's Tennis Association.
-FOL:	all x. (LostToIgaSwiattek(x) -> RankedHighlyByWTA(x))
-TEXT:	All female tennis players at Roland Garros 2022 lost to Iga Świątek.
-FOL:	all x. (FemaleTennisPlayer(x) & AtRolandGarros2022(x) -> LostToIgaSwiattek(x))
-TEXT:	Either female tennis players at Roland Garros 2022 or male tennis players at Roland Garros 2022.
-FOL:	or x. ((FemaleTennisPlayer(x) & AtRolandGarros2022(x)) | (MaleTennisPlayer(x) & AtRolandGarros2022(x)))
-TEXT:	All male tennis players at Roland Garros 2022 lost to Rafael Nadal.
-FOL:	all x. (MaleTennisPlayer(x) & AtRolandGarros2022(x) -> LostToRafaelNadal(x))
-TEXT:	If Coco Gauff is a player who is ranked highly by the Women's Tennis Association or a player who lost to Rafael Nadal, then Coco Gauff is not a male tennis player at Roland Garros 2022.
-FOL:	((RankedHighlyByWTA(CocoGauff) | LostToRafaelNadal(CocoGauff)) -> -MaleTennisPlayer(CocoGauff) & -AtRolandGarros2022(CocoGauff))
-TEXT:	Coco Gauff has lost to Rafael Nadal.
-FOL:	LostToRafaelNadal(C
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If a player is ranked highly by the Women's Tennis Association, then they are among the most active players in major tennis.
-FOL:	all x. (HighRank(x) -> ActiveInMajorTennis(x))
-TEXT:	Everyone who lost to Iga Świątek is ranked highly by the Women's Tennis Association.
-FOL:	all x. (LostToIgaSwiatek(x) -> HighRank(x))
-TEXT:	All female tennis players at Roland Garros 2022 lost to Iga Świątek.
-FOL:	all x. (FemaleTennisPlayer(x) & TennisPlayerAtRolandGarros2022(x) -> LostToIgaSwiatek(x))
-TEXT:	Either female tennis players at Roland Garros 2022 or male tennis players at Roland Garros 2022.
-FOL:	(FemaleTennisPlayer(x) & TennisPlayerAtRolandGarros2022(x)) | (MaleTennisPlayer(x) & TennisPlayerAtRolandGarros2022(x))
-TEXT:	All male tennis players at Roland Garros 2022 lost to Rafael Nadal.
-FOL:	all x. (MaleTennisPlayer(x) & TennisPlayerAtRolandGarros2022(x) -> LostToRafaelNadal(x))
-TEXT:	If Coco Gauff is a player who is ranked highly by the Women's Tennis Association or a player who lost to Rafael Nadal, then Coco Gauff is not a male tennis player at Roland Garros 2022.
-FOL:	(HighRank(CocoGauff) & -MaleTennisPlayer(CocoGauff) & TennisPlayerAtRolandGarros2022(CocoGauff)) | (-LostToRafaelNadal(CocoGauff) & -MaleTennisPlayer(CocoGauff) & TennisPlayerAtRolandGarros2022(CocoGauff))
-TEXT:	C
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If a player is ranked highly by the Women's Tennis Association, then they are among the most active players in major tennis.
-FOL:	all x. (RankedHighlyByWTA(x) -> AmongMostActivePlayersInMajorTennis(x))
-TEXT:	Everyone who lost to Iga Świątek is ranked highly by the Women's Tennis Association.
-FOL:	all x. (LostToIgaSwiatek(x) -> RankedHighlyByWTA(x))
-TEXT:	All female tennis players at Roland Garros 2022 lost to Iga Świątek.
-FOL:	all x. (FemaleTennisPlayer(x) & TennisPlayerAtRolandGarros2022(x) -> LostToIgaSwiatek(x))
-TEXT:	Either female tennis players at Roland Garros 2022 or male tennis players at Roland Garros 2022.
-FOL:	(FemaleTennisPlayer(x) & TennisPlayerAtRolandGarros2022(x)) | (MaleTennisPlayer(x) & TennisPlayerAtRolandGarros2022(x))
-TEXT:	All male tennis players at Roland Garros 2022 lost to Rafael Nadal.
-FOL:	all x. (MaleTennisPlayer(x) & TennisPlayerAtRolandGarros2022(x) -> LostToRafaelNadal(x))
-TEXT:	If Coco Gauff is a player who is ranked highly by the Women's Tennis Association or a player who lost to Rafael Nadal, then Coco Gauff is not a male tennis player at Roland Garros 2022.
-FOL:	((RankedHighlyByWTA(CocoGauff) & -MaleTennisPlayer(CocoGauff) & TennisPlayerAtRolandGarros2022(CocoGauff)) | ((LostToRafaelNadal(CocoGauff) & -MaleTennisPlayer(CocoGauff) & TennisPlayerAtRoland
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If a player is ranked highly by the Women's Tennis Association, then they are among the most active players in major tennis.
-FOL:	all x. (RankedHighlyByWTA(x) -> Active(x, major))
-TEXT:	Everyone who lost to Iga Świątek is ranked highly by the Women's Tennis Association.
-FOL:	all x. (LostTo(IgaŚwiątek, x) -> RankedHighlyByWTA(x))
-TEXT:	All female tennis players at Roland Garros 2022 lost to Iga Świątek.
-FOL:	all x. (Female(x) & TennisPlayer(x) & at(x, RolandGarros2022) -> LostTo(IgaŚwiątek, x))
-TEXT:	Either female tennis players at Roland Garros 2022 or male tennis players at Roland Garros 2022.
-FOL:	(Female(Worksheet) & TennisPlayer(Worksheet) & at(Worksheet, RolandGarros2022) | Male(Worksheet) & TennisPlayer(Worksheet) & at(Worksheet, RolandGarros2022))
-TEXT:	All male tennis players at Roland Garros 2022 lost to Rafael Nadal.
-FOL:	all x. (Male(x) & TennisPlayer(x) & at(x, RolandGarros2022) -> LostTo(RafaelNadal, x))
-TEXT:	If Coco Gauff is a player who is ranked highly by the Women's Tennis Association or a player who lost to Rafael Nadal, then Coco Gauff is not a male tennis player at Roland Garros 2022.
-FOL:	((RankedHighlyByWTA(CocoGauff) | LostTo(RafaelNadal, CocoGauff)) -> -Male(CocoGauff) & -TennisPlayer(CocoGauff) & -at(CocoGauff, RolandGarros2022))
-TEXT:	Coco Gauff has lost to Rafael Nad
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If a player is ranked highly by the Women's Tennis Association, then they are among the most active players in major tennis.
-FOL:	all x. (HighlyRanked(x) -> AmongActive(x))
-TEXT:	Everyone who lost to Iga Świątek is ranked highly by the Women's Tennis Association.
-FOL:	all x. (LostTo(IgaŚwiątek, x) -> HighlyRanked(x))
-TEXT:	All female tennis players at Roland Garros 2022 lost to Iga Świątek.
-FOL:	all x. (Female(x) & TennisPlayerAtRolandGarros2022(x) -> LostTo(IgaŚwiątek, x))
-TEXT:	Either female tennis players at Roland Garros 2022 or male tennis players at Roland Garros 2022.
-FOL:	((Female(TennisPlayerAtRolandGarros2022) & -Male(TennisPlayerAtRolandGarros2022)) | (-Female(TennisPlayerAtRolandGarros2022) & Male(TennisPlayerAtRolandGarros2022)))
-TEXT:	All male tennis players at Roland Garros 2022 lost to Rafael Nadal.
-FOL:	all x. (Male(x) & TennisPlayerAtRolandGarros2022(x) -> LostTo(RafaelNadal, x))
-TEXT:	If Coco Gauff is a player who is ranked highly by the Women's Tennis Association or a player who lost to Rafael Nadal, then Coco Gauff is not a male tennis player at Roland Garros 2022.
-FOL:	(HighlyRanked(CocoGauff) | LostTo(RafaelNadal, CocoGauff)) -> -Male(CocoGauff & TennisPlayerAtRolandGarros2022(CocoGauff))
-TEXT:	Coco Gauff has lost to Rafael Nadal.
-FOL:
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If people perform in school talent shows often, then they attend and are very engaged with school events.
-FOL:	all x. (PerformInSchoolTalentShowsOften(x) -> (AttendSchoolEvents(x) & VeryEngagedSchoolEvents(x)))
-TEXT:	People either perform in school talent shows often or are inactive and disinterested members of their community.
-FOL:	all x. ((PerformInSchoolTalentShowsOften(x) & -InactiveAndDisinterestedMemberOfCommunity(x)) | (-PerformInSchoolTalentShowsOften(x) & InactiveAndDisinterestedMemberOfCommunity(x)))
-TEXT:	If people chaperone high school dances, then they are not students who attend the school.
-FOL:	all x. (ChaperoneHighSchoolDances(x) -> -StudentWhoAttendsTheSchool(x))
-TEXT:	All people who are inactive and disinterested members of their community chaperone high school dances.
-FOL:	all x. (InactiveAndDisinterestedMemberOfCommunity(x) -> ChaperoneHighSchoolDances(x))
-TEXT:	All young children and teenagers who wish to further their academic careers and educational opportunities are students who attend the school.
-FOL:	all x. (YoungChildOrTeenager(x) & WishToFurtherAcademicCareersAndEducationalOpportunities(x) -> StudentWhoAttendsTheSchool(x))
-TEXT:	Bonnie either both attends and is very engaged with school events and is a student who attends the school, or she neither attends and is very engaged with school events nor is a student who attends the school.
-FOL:	((AttendSchoolEvents(Bonnie) & VeryEngagedSchoolEvents(Bonnie) & StudentWhoAttendsTheSchool(Bonnie)) | (-AttendSchoolEvents(Bonnie) & -VeryEngagedSchoolEvents(Bonnie) & -StudentWhoAttendsTheSchool(Bonnie)))
-TEXT:	Bonnie performs in school talent shows often.
-FOL:	PerformInSchoolTalentShowsOften(
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If people perform in school talent shows often, then they attend and are very engaged with school events.
-FOL:	all x. ((PerformInSchoolTalentShowsOften(x) & -AttendAndVeryEngagedWithSchoolEvents(x)) | AttendAndVeryEngagedWithSchoolEvents(x))
-TEXT:	People either perform in school talent shows often or are inactive and disinterested members of their community.
-FOL:	((PerformInSchoolTalentShowsOften(x) & -AttendAndVeryEngagedWithSchoolEvents(x)) | (-PerformInSchoolTalentShowsOften(x) & -AttendAndVeryEngagedWithSchoolEvents(x)))
-TEXT:	If people chaperone high school dances, then they are not students who attend the school.
-FOL:	((ChaperoneHighSchoolDances(x) & -AttendAndVeryEngagedWithSchoolEvents(x)) | -ChaperoneHighSchoolDances(x))
-TEXT:	All people who are inactive and disinterested members of their community chaperone high school dances.
-FOL:	all x. (InactiveAndDisinterestedMemberOfCommunity(x) -> ChaperoneHighSchoolDances(x))
-TEXT:	All young children and teenagers who wish to further their academic careers and educational opportunities are students who attend the school.
-FOL:	all x. ((YoungChildAndTeenager(x) & WishToFurtherAcademicCareersAndEducationalOpportunities(x)) -> AttendAndVeryEngagedWithSchoolEvents(x))
-TEXT:	Bonnie either both attends and is very engaged with school events and is a student who attends the school, or she neither attends and is very engaged with school events nor is a student who attends the school.
-FOL:	((AttendAndVeryEngagedWithSchoolEvents(Bonnie) & AttendAndVeryEngagedWithSchoolEvents(Bonnie)) | (-AttendAndVeryEngagedWithSchoolEvents(Bonnie) & -AttendAndVeryEngagedWithSchoolEvents(Bonnie)))
-TEXT:	Bonnie performs in school talent shows often.
-F
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If something is a deadly disease, then its survival rate is low.
-FOL:	all x. (DeadlyDisease(x) -> LowSurvivalRate(x))
-TEXT:	All severe cancers are deadly diseases.
-FOL:	all x. (SevereCancer(x) -> DeadlyDisease(x))
-TEXT:	Bile duct cancer is a severe cancer.
-FOL:	SevereCancer(BileDuctCancer)
-TEXT:	All Cholangiocarcinoma is bile duct cancer.
-FOL:	all x. (Cholangiocarcinoma(x) -> BileDuctCancer(x))
-TEXT:	No one with mild flu has a low survival rate.
-FOL:	all x. ((MildFlu(x) & LowSurvivalRate(x)) -> -True)
-TEXT:	If colorectal cancer is a bile duct cancer and the survival rate is low, then colorectal cancer is not a bile duct cancer.
-FOL:	((BileDuctCancer(ColorectalCancer) & LowSurvivalRate(ColorectalCancer)) -> -BileDuctCancer(ColorectalCancer))
-TEXT:	If colorectal cancer is a bile duct cancer or a Cholangiocarcinoma, then colorectal cancer is a bile duct cancer and a mild flu.
-FOL:	((BileDuctCancer(ColorectalCancer) & (Cholangiocarcinoma(ColorectalCancer) | -BileDuctCancer(ColorectalCancer))) -> BileDuctCancer(ColorectalCancer) & MildFlu(ColorectalCancer))
-TEXT:	If colorectal cancer is a bile duct cancer or a Cholangiocarcinoma, then colorectal cancer is a bile duct cancer and a mild flu.
-FOL:	((BileDuctCancer(ColorectalCancer) & (Cholangiocarcinoma(ColorectalCancer) | -BileDuctCancer(Col
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If something is a deadly disease, then its survival rate is low.
-FOL:	all x. (DeadlyDisease(x) -> LowSurvivalRate(x))
-TEXT:	All severe cancers are deadly diseases.
-FOL:	all x. (SevereCancer(x) -> DeadlyDisease(x))
-TEXT:	Bile duct cancer is a severe cancer.
-FOL:	SevereCancer(BileDuctCancer)
-TEXT:	All Cholangiocarcinoma is bile duct cancer.
-FOL:	all x. (Cholangiocarcinoma(x) -> BileDuctCancer(x))
-TEXT:	No one with mild flu has a low survival rate.
-FOL:	all x. (MildFlu(x) -> -LowSurvivalRate(x))
-TEXT:	If colorectal cancer is a bile duct cancer and the survival rate is low, then colorectal cancer is not a bile duct cancer.
-FOL:	all x. ((BileDuctCancer(ColorectalCancer) & LowSurvivalRate(ColorectalCancer)) -> -BileDuctCancer(ColorectalCancer))
-TEXT:	If colorectal cancer is a bile duct cancer or a Cholangiocarcinoma, then colorectal cancer is a bile duct cancer and a mild flu.
-FOL:	all x. ((BileDuctCancer(ColorectalCancer) | Cholangiocarcinoma(ColorectalCancer)) -> (BileDuctCancer(ColorectalCancer) & MildFlu(ColorectalCancer)))
-TEXT:	If colorectal cancer is a bile duct cancer or a Cholangiocarcinoma, then colorectal cancer is a bile duct cancer and a mild flu.
-FOL:	ColorectalCancer(BileDuctCancer) | Cholangiocarcinoma(ColorectalCancer) -> (BileDuctCancer(ColorectalCancer) & MildFlu(Colorect
-Error in parsing and/or evaluating LLM output: Invalid generation: Unc
-Error in parsing and/or evaluating LLM output: Invalid generation: TEXT:	If people are twins or triplets, then they spend a lot of time hanging out with and playing with their siblings.
-FOL:	all x. (TwinsOrTriplets(x) -> a lot of time(x, Siblings(x), HangOutWith(x, Siblings(x)) & PlayWith(x, Siblings(x))))
-TEXT:	If people have siblings who are the same age, then they are twins or triplets.
-FOL:	all x. (SameAgeSiblings(x) -> TwinsOrTriplets(x))
-TEXT:	If people complain often about annoying siblings, then they have siblings who are the same age.
-FOL:	all x. (ComplainOften(x, AnnoyingSiblings(x)) -> SameAgeSiblings(x))
-TEXT:	If people do not live at home regularly, then they do not develop strong bonds with their family members.
-FOL:	all x. (-LiveAtHomeRegularly(x) -> -DevelopStrongBonds(x, FamilyMembers(x)))
-TEXT:	If people spend a lot of time hanging out with and playing with their siblings, then they often did not live at home regularly.
-FOL:	all x. (a lot of time(x, Siblings(x), HangOutWith(x, Siblings(x)) & PlayWith(x, Siblings(x))) -> -LiveAtHomeRegularly(x))
-TEXT:	Luke is either both a twin or triplet and develops strong bonds with his family members, or he neither is a twin or triplet nor develops strong bonds with his family members.
-FOL:	(TwinsOrTriplets(Luke) & DevelopStrongBonds(Luke, FamilyMembers(Luke)) | (-TwinsOrTriplets(Luke) & -DevelopStrongBonds(Luke, FamilyMembers(Luke))))
-TEXT:	Luke spends a lot of time hanging out and playing with his siblings.
-FOL:	a lot of time(Luke, Siblings(Luke), HangOutWith(Luke, Siblings(Luke)) & PlayWith(Luke, Siblings
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.67s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.14s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.37s/it]
+number of problems for this task is 3
+  0%|          | 0/3 [00:00<?, ?it/s] 33%|███▎      | 1/3 [00:31<01:03, 31.59s/it] 67%|██████▋   | 2/3 [01:21<00:42, 42.32s/it]100%|██████████| 3/3 [02:06<00:00, 43.71s/it]100%|██████████| 3/3 [02:06<00:00, 42.26s/it]
+/app/linc/eval/evaluator.py:46: UserWarning: Number of tasks wasn't proportional to number of devices, we removed extra predictions
+  warnings.warn(
 raw generations were saved
 processed generations were saved
 references were saved
@@ -434,6 +14,6 @@ references were saved
     "model": "mistralai/Mistral-7B-v0.1"
   },
   "folio-scratchpad-2shot": {
-    "accuracy (pass@1 majority)": 0.4666666666666667
+    "accuracy (pass@1 majority)": 1.0
   }
 }

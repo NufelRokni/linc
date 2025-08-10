@@ -3,6 +3,6 @@
     "model": "mistralai/Mistral-7B-v0.1"
   },
   "folio-scratchpad-1shot": {
-    "accuracy (pass@1 majority)": 0.48333333333333334
+    "accuracy (pass@1 majority)": 0.3333333333333333
   }
 }

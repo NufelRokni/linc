@@ -1,1047 +1,46 @@
 ipex flag is deprecated, will be removed in Accelerate v1.10. From 2.7.0, PyTorch has all needed optimizations for Intel CPU and XPU.
 Selected Tasks: ['folio-neurosymbolic-1shot']
 Loading the model and tokenizer from HF (in fp32)
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.33s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  2.88s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.10s/it]
-number of problems for this task is 60
-  0%|          | 0/120 [00:00<?, ?it/s]  1%|          | 1/120 [00:17<34:45, 17.53s/it]  2%|▏         | 2/120 [00:34<33:43, 17.15s/it]  2%|▎         | 3/120 [01:02<43:21, 22.24s/it]  3%|▎         | 4/120 [01:29<46:21, 23.98s/it]  4%|▍         | 5/120 [01:50<44:06, 23.02s/it]  5%|▌         | 6/120 [02:11<42:37, 22.44s/it]  6%|▌         | 7/120 [02:25<36:36, 19.44s/it]  7%|▋         | 8/120 [02:38<32:20, 17.32s/it]  8%|▊         | 9/120 [03:02<36:05, 19.51s/it]  8%|▊         | 10/120 [03:23<36:46, 20.06s/it]  9%|▉         | 11/120 [03:39<34:22, 18.92s/it] 10%|█         | 12/120 [03:54<31:51, 17.70s/it] 11%|█         | 13/120 [04:14<32:25, 18.19s/it] 12%|█▏        | 14/120 [04:32<32:27, 18.38s/it] 12%|█▎        | 15/120 [04:49<30:59, 17.71s/it] 13%|█▎        | 16/120 [05:05<29:46, 17.17s/it] 14%|█▍        | 17/120 [05:31<34:22, 20.02s/it] 15%|█▌        | 18/120 [05:57<36:57, 21.74s/it] 16%|█▌        | 19/120 [06:16<35:11, 20.90s/it] 17%|█▋        | 20/120 [06:38<35:34, 21.35s/it] 18%|█▊        | 21/120 [07:06<38:29, 23.33s/it] 18%|█▊        | 22/120 [07:37<41:45, 25.56s/it] 19%|█▉        | 23/120 [07:58<38:56, 24.08s/it] 20%|██        | 24/120 [08:16<35:59, 22.50s/it] 21%|██        | 25/120 [08:30<31:10, 19.69s/it] 22%|██▏       | 26/120 [08:41<26:53, 17.17s/it] 22%|██▎       | 27/120 [09:03<28:43, 18.53s/it] 23%|██▎       | 28/120 [09:24<29:31, 19.26s/it] 24%|██▍       | 29/120 [09:36<26:05, 17.20s/it] 25%|██▌       | 30/120 [09:49<23:47, 15.86s/it] 26%|██▌       | 31/120 [10:05<23:32, 15.87s/it] 27%|██▋       | 32/120 [10:20<22:57, 15.66s/it] 28%|██▊       | 33/120 [10:30<20:19, 14.01s/it] 28%|██▊       | 34/120 [10:39<18:08, 12.66s/it] 29%|██▉       | 35/120 [10:59<20:50, 14.71s/it] 30%|███       | 36/120 [11:19<22:59, 16.42s/it] 31%|███       | 37/120 [11:41<24:54, 18.01s/it] 32%|███▏      | 38/120 [12:01<25:33, 18.70s/it] 32%|███▎      | 39/120 [12:16<23:36, 17.49s/it] 33%|███▎      | 40/120 [12:30<22:01, 16.52s/it] 34%|███▍      | 41/120 [12:57<25:39, 19.49s/it] 35%|███▌      | 42/120 [13:25<28:50, 22.19s/it] 36%|███▌      | 43/120 [13:45<27:26, 21.39s/it] 37%|███▋      | 44/120 [14:05<26:36, 21.01s/it] 38%|███▊      | 45/120 [14:38<30:55, 24.74s/it] 38%|███▊      | 46/120 [15:06<31:29, 25.53s/it] 39%|███▉      | 47/120 [15:22<27:42, 22.78s/it] 40%|████      | 48/120 [15:39<25:06, 20.93s/it] 41%|████      | 49/120 [15:46<19:53, 16.81s/it] 42%|████▏     | 50/120 [15:53<16:15, 13.93s/it] 42%|████▎     | 51/120 [16:28<23:14, 20.21s/it] 43%|████▎     | 52/120 [17:03<27:53, 24.61s/it] 44%|████▍     | 53/120 [17:26<26:51, 24.06s/it] 45%|████▌     | 54/120 [17:49<26:13, 23.84s/it] 46%|████▌     | 55/120 [18:23<29:13, 26.97s/it] 47%|████▋     | 56/120 [18:57<31:06, 29.17s/it] 48%|████▊     | 57/120 [19:32<32:20, 30.80s/it] 48%|████▊     | 58/120 [20:07<33:00, 31.94s/it] 49%|████▉     | 59/120 [20:41<33:16, 32.73s/it] 50%|█████     | 60/120 [21:16<33:16, 33.28s/it] 51%|█████     | 61/120 [21:32<27:33, 28.02s/it] 52%|█████▏    | 62/120 [21:48<23:50, 24.67s/it] 52%|█████▎    | 63/120 [22:10<22:35, 23.79s/it] 53%|█████▎    | 64/120 [22:34<22:14, 23.83s/it] 54%|█████▍    | 65/120 [22:56<21:26, 23.38s/it] 55%|█████▌    | 66/120 [23:20<21:02, 23.39s/it] 56%|█████▌    | 67/120 [23:47<21:45, 24.64s/it] 57%|█████▋    | 68/120 [24:13<21:38, 24.98s/it] 57%|█████▊    | 69/120 [24:32<19:40, 23.14s/it] 58%|█████▊    | 70/120 [24:59<20:15, 24.31s/it] 59%|█████▉    | 71/120 [25:11<16:44, 20.50s/it] 60%|██████    | 72/120 [25:22<14:14, 17.79s/it] 61%|██████    | 73/120 [25:38<13:33, 17.31s/it] 62%|██████▏   | 74/120 [25:56<13:24, 17.49s/it] 62%|██████▎   | 75/120 [26:08<11:47, 15.72s/it] 63%|██████▎   | 76/120 [26:19<10:30, 14.33s/it] 64%|██████▍   | 77/120 [26:33<10:13, 14.27s/it] 65%|██████▌   | 78/120 [26:47<09:58, 14.24s/it] 66%|██████▌   | 79/120 [27:08<11:09, 16.34s/it] 67%|██████▋   | 80/120 [27:31<12:04, 18.12s/it] 68%|██████▊   | 81/120 [27:54<12:46, 19.65s/it] 68%|██████▊   | 82/120 [28:14<12:30, 19.74s/it] 69%|██████▉   | 83/120 [28:32<11:51, 19.22s/it] 70%|███████   | 84/120 [28:47<10:52, 18.14s/it] 71%|███████   | 85/120 [29:22<13:23, 22.95s/it] 72%|███████▏  | 86/120 [29:56<14:55, 26.33s/it] 72%|███████▎  | 87/120 [30:08<12:10, 22.15s/it] 73%|███████▎  | 88/120 [30:21<10:21, 19.43s/it] 74%|███████▍  | 89/120 [30:31<08:29, 16.45s/it] 75%|███████▌  | 90/120 [30:41<07:14, 14.47s/it] 76%|███████▌  | 91/120 [31:01<07:46, 16.08s/it] 77%|███████▋  | 92/120 [31:26<08:52, 19.01s/it] 78%|███████▊  | 93/120 [31:55<09:48, 21.78s/it] 78%|███████▊  | 94/120 [32:21<10:03, 23.22s/it] 79%|███████▉  | 95/120 [32:50<10:23, 24.93s/it] 80%|████████  | 96/120 [33:16<10:01, 25.07s/it] 81%|████████  | 97/120 [33:49<10:36, 27.66s/it] 82%|████████▏ | 98/120 [34:19<10:23, 28.34s/it] 82%|████████▎ | 99/120 [34:50<10:13, 29.24s/it] 83%|████████▎ | 100/120 [35:25<10:14, 30.73s/it] 84%|████████▍ | 101/120 [35:41<08:22, 26.44s/it] 85%|████████▌ | 102/120 [35:58<07:05, 23.66s/it] 86%|████████▌ | 103/120 [36:21<06:36, 23.31s/it] 87%|████████▋ | 104/120 [36:42<06:03, 22.72s/it] 88%|████████▊ | 105/120 [37:02<05:30, 22.02s/it] 88%|████████▊ | 106/120 [37:21<04:52, 20.87s/it] 89%|████████▉ | 107/120 [37:38<04:17, 19.79s/it] 90%|█████████ | 108/120 [37:54<03:44, 18.74s/it] 91%|█████████ | 109/120 [38:21<03:51, 21.04s/it] 92%|█████████▏| 110/120 [38:48<03:47, 22.79s/it] 92%|█████████▎| 111/120 [39:01<02:58, 19.88s/it] 93%|█████████▎| 112/120 [39:14<02:22, 17.82s/it] 94%|█████████▍| 113/120 [39:37<02:16, 19.49s/it] 95%|█████████▌| 114/120 [39:57<01:58, 19.72s/it] 96%|█████████▌| 115/120 [40:20<01:43, 20.76s/it] 97%|█████████▋| 116/120 [40:46<01:28, 22.11s/it] 98%|█████████▊| 117/120 [41:06<01:04, 21.64s/it] 98%|█████████▊| 118/120 [41:25<00:41, 20.80s/it] 99%|█████████▉| 119/120 [41:39<00:18, 18.64s/it]100%|██████████| 120/120 [41:53<00:00, 17.26s/it]100%|██████████| 120/120 [41:53<00:00, 20.94s/it]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.67s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.11s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.34s/it]
+number of problems for this task is 3
+  0%|          | 0/3 [00:00<?, ?it/s] 33%|███▎      | 1/3 [00:24<00:48, 24.18s/it] 67%|██████▋   | 2/3 [01:01<00:32, 32.13s/it]100%|██████████| 3/3 [01:30<00:00, 30.64s/it]100%|██████████| 3/3 [01:30<00:00, 30.25s/it]
+/app/linc/eval/evaluator.py:46: UserWarning: Number of tasks wasn't proportional to number of devices, we removed extra predictions
+  warnings.warn(
 Error in parsing and/or evaluating LLM output: Unexpected token: 'v'.  Expected token ')'.
 forall x. (Person(x) -> (Studies(x) v Teaches(x)))
                                     ^
+Error in parsing and/or evaluating LLM output: Unexpected token: '&'.  Expected token ')'.
+Beijing(HasUniversity(NineOne)) & ((-Consistently(Rank(Beijing'sNineOneuniversities(Best(AsiaPacific))) & -Consistently(Rank(Beijing'sNineOneuniversities(Best(World))))
+                                                                                                        ^
+Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
+many x. University(x,Beijing) & (rank_x,the_AsiaPacific,the_world)
+     ^
 Error in parsing and/or evaluating LLM output: (FATAL)
 %%ERROR: A term cannot be constructed from the marked string:
 
 
-    (Jerry -> (%%START ERROR%%~Teaches(Jerry) & -(Manager(Jerry))%%END ERROR%%)).
+    (%%START ERROR%%(Populous(Beijing) & NationalCapital(Beijing)) & World'sMostPopulous(Beijing)%%END ERROR%%).
 
 Fatal error:  sread_term error
-Error in parsing and/or evaluating LLM output: Unexpected token: 'rank'.  Expected token ')'.
-all x. (University(x) & (Beijing_x) & (Consistently rank(x, Asia_Pacific_&_World))
-                                                    ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '&'.  Expected token ')'.
-Hosted(Beijing, TwoZeroZeroEightSummerOlympics_&_TwoZeroZeroEightSummerParalympics)
-                                               ^
-Error in parsing and/or evaluating LLM output: Unexpected token: ','.  Expected token ')'.
-Hosted(Beijing, ((Summer_Olympics, Winter_Olympics) & (Summer_Paralympics, Winter_Paralympics)))
-                                 ^
+Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
+many x. ((consistently(x) & rank(x,AsiaPacific) & rank(x,World)) | -(consistently(x) & rank(x,AsiaPacific) & rank(x,World)))
+     ^
 Error in parsing and/or evaluating LLM output: Unexpected token: '.'.  Expected token ')'.
-Many(x.University(x) & LocatedIn(x, Beijing) & Ranks(x, AsiaPacific) & Ranks(x, World))
+many(x. Universities(x), Beijing) & consistently(y. Rank(y, z). z, University(x), AsiaPacific, World)
       ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '&'.  Expected token ')'.
-Beijing(TwoZeroZeroEightSummerOlympics_&_TwoZeroZeroEightSummerParalympics)
-                                       ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '-'.  Expected token ')'.
-Beijing(most-populous-city(national_capital))
-            ^
 Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: A term cannot be constructed from the marked string:
+%%ERROR: The following symbols are used with multiple arities: Human/1, Human/0.
 
 
-    %%START ERROR%%World'sMostPopulousNationalCapitalCity(Beijing).%%END ERROR%%
-
-Fatal error:  sread_term error
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: A term cannot be constructed from the marked string:
-
-
-    ((%%START ERROR%%World'sMostPopulous(x) & NationalCapitalCity(x)%%END ERROR%%) & (x = Beijing)).
-
-Fatal error:  sread_term error
-Error in parsing and/or evaluating LLM output: Unexpected token: '<'.
-Monkeypox(X) <- (InfectiousDisease(X) & (MonkeypoxVirus(Y) <- (CausedBy(X,Y))))
-             ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: Monkeypox/1, Mammal/1.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: Monkeypox/1, Mammal/1
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: FeelingTired/1, FeelingTired/0, Monkeypox/1, Monkeypox/0, Human/1, Human/0, Animal/1, Animal/0, MonkeypoxVirus/1, MonkeypoxVirus/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: FeelingTired/1, FeelingTired/0, Monkeypox/1, Monkeypox/0, Human/1, Human/0, Animal/1, Animal/0, MonkeypoxVirus/1, MonkeypoxVirus/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Monkeypox/1, Monkeypox/0, Humans/1, Humans/0, Animals/1, Animals/0, MonkeypoxVirus/1, MonkeypoxVirus/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Monkeypox/1, Monkeypox/0, Humans/1, Humans/0, Animals/1, Animals/0, MonkeypoxVirus/1, MonkeypoxVirus/0
-Error in parsing and/or evaluating LLM output: Unexpected token: '.'.  Expression expected.
-Monkeypox(x) -> ((Fever(x) & Headache(x) & MusclePains(x) & FeelingTired(x)) |...)
-                                                                              ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'one'.
-no one = glu
-   ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'on'.  Expected token ')'.
-all x. (Monkeypox(x) -> (Fever(x) & Headache(x) & MusclePain(x) & Tired(x) & so on))
-                                                                                ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '.'.  Expression expected.
-Symptom(x) -> (IncludedIn(x, Fever) | IncludedIn(x, Headache) | IncludedIn(x, MusclePain) | IncludedIn(x, FeelingTired) |...)
-                                                                                                                         ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: Human/1.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: Human/1
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: animal/1, animal/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: animal/1, animal/0
+Fatal error:  The following symbols are used with multiple arities: Human/1, Human/0
 Error in parsing and/or evaluating LLM output: (FATAL)
 %%ERROR: The following symbols are used with multiple arities: Animal/1, Animal/0.
 
 
 Fatal error:  The following symbols are used with multiple arities: Animal/1, Animal/0
-Error in parsing and/or evaluating LLM output: Unexpected token: 'Bark'.
-if Bark(x) then -Likes(Jane, x)
-   ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
-forAll x. (HardcoverBook(x) -> PrintedText(x))
-       ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '1984'.
-if 1984(x) StreamingService(x) then 1984(x) HardcoverBook(x)
-   ^
-Error in parsing and/or evaluating LLM output: Unexpected token: ','.  Expression expected.
-some x, y. (Monday(x) & Time(x, y) & TV(y) & Rose(x, y))
-      ^
-Error in parsing and/or evaluating LLM output: Unexpected token: ','.  Expression expected.
-some m,p,t. (Monday(m) & p=8 & t=pm & RoseGivenOut(m,p,t))
-      ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: BreakingBad/1, BreakingBad/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: BreakingBad/1, BreakingBad/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: BreakingBad/1, BreakingBad/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: BreakingBad/1, BreakingBad/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: Monday/1.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: Monday/1
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: BreakingBad/1, BreakingBad/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: BreakingBad/1, BreakingBad/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: A term cannot be constructed from the marked string:
-
-
-    (%%START ERROR%%~Teaches(Jerry) & ~Manager(Jerry)%%END ERROR%%).
-
-Fatal error:  sread_term error
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: Jerry/0.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: Jerry/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Home/1, Home/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Home/1, Home/0
-Error in parsing and/or evaluating LLM output: Unexpected token: '.'.  Expected token ')'.
-((HaveLunchAtHome(x) -> WorkRemotelyFromHome(x)) & x. Employee(x))
-                                                    ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
-none x. (Manager(x) & RemoteWorkingFromHome(x))
-     ^
-Error in parsing and/or evaluating LLM output: Unexpected token: ','.  Expected token ')'.
-some x. (Monday(x) & 8PM(x) & (x,TV) & Rose(x))
-                                ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: BreakingBad/1, BreakingBad/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: BreakingBad/1, BreakingBad/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: BreakingBad/1, BreakingBad/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: BreakingBad/1, BreakingBad/0
-Error in parsing and/or evaluating LLM output: Unexpected token: '.'.  Expected token ')'.
-((GivenOutOnTV(y, BreakingBad, x) & Rose(y)) -> (DayOfWeek(x) = Monday & x.is.in.day.of.week.and.time.of.day(Eight, pm)))
-                                                                          ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'RoseGivenOut'.
-if RoseGivenOut(BreakingBad) -> (Monday(BreakingBad) & 8 pm(BreakingBad))
-   ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: On/2, On/1.
-
-
-Fatal error:  The following symbols are used with multiple arities: On/2, On/1
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: WorksInLab/1, WorksInLab/0, James/1, James/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: WorksInLab/1, WorksInLab/0, James/1, James/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: James/1, James/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: James/1, James/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: Student/1, WorkingIn/2.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: Student/1, WorkingIn/2
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: TakeDB/1, WorkPartTimeJob/1, University/1, Student/1, WorkInLab/1.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: TakeDB/1, WorkPartTimeJob/1, University/1, Student/1, WorkInLab/1
-Error in parsing and/or evaluating LLM output: Unexpected token: 'WorksInLab'.
-James WorksInLab
-      ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: DiamondMine/1, DiamondMine/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: DiamondMine/1, DiamondMine/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: DiamondMine/1, DiamondMine/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: DiamondMine/1, DiamondMine/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: ProfessionalWrestlingStable/1.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: ProfessionalWrestlingStable/1
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: ProfessionalWrestlingStable/1, FormedIn/2, Includes/2.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: ProfessionalWrestlingStable/1, FormedIn/2, Includes/2
-Error in parsing and/or evaluating LLM output: Unexpected token: 'is'.
-DiamondMine is ProWrestlingStable & formedIn(DiamondMine, WWE)
-            ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'has'.
--Imperium has a Feud with ProfessionalWrestlingStable and includes IvyNile
-          ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'isProfessionalWrestlingStable'.
-DiamondMine isProfessionalWrestlingStable & formedIn(DiamondMine, WWE)
-            ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: ProfessionalWrestlingStable/1, includes/2.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: ProfessionalWrestlingStable/1, includes/2
-Error in parsing and/or evaluating LLM output: Unexpected token: ','.  Expected token ')'.
-(-((Imperium,w)(Feud,feuds,One)) | (IvyNile(w) & (Imperium,w)(Feud,feuds,One)))
-            ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '&'.  Expected token ')'.
-all x. ((~(IvyNile(x) & ~ProfessionalWrestlingStable(x) & FormedIn(x, WWE)) & Feud(Imperium, x)) -> -Imperium(x))
-                      ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: TheOlympicGames/1.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: TheOlympicGames/1
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: In/2.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: In/2
-Error in parsing and/or evaluating LLM output: Unexpected token: '&'.  Expected token ')'.
--Tokyo(OlympicGames(x) & last(x))
-                       ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '<'.  Expected token ')'.
-((MedalCount(UnitedStates, Tokyo)) & (GreaterThan(MedalCount(UnitedStates, Tokyo), MedalCount(x, Tokyo))) & all y. (y!= UnitedStates -> MedalCount(y, Tokyo) <= MedalCount(UnitedStates, Tokyo)))
-                                                                                                                                                             ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: LastOlympicGames/1.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: LastOlympicGames/1
-Error in parsing and/or evaluating LLM output: Unexpected token: '>'.
-MedalCount(x, UnitedStates) > MedalCount(y, UnitedStates)
-                            ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '&'.  Expected token ')'.
--Last(OlympicGames_&_Tokyo)
-                   ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols cannot be used as atomic formulas, because they are variables: z, y.
-
-
-Fatal error:  The following symbols cannot be used as atomic formulas, because they are variables: z, y
-Error in parsing and/or evaluating LLM output: Unexpected token: '&'.  Expected token ')'.
-if (Animal(x) & Bark(x)) then -Likes(Jane,x)
-              ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: KiKi/0.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: KiKi/0
-Error in parsing and/or evaluating LLM output: Unexpected token: ','.  Expected token ')'.
-(Jerry, -Teaches(Jerry), -Manager(Jerry))
-      ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'or'.  Expression expected.
-(or (Studies(x)) (Teach(x)))
- ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: Jerry/0.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: Jerry/0
-Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
-no x. (Platypus(x) & Teeth(x))
-   ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: NeapolitanChronicles/1, NeapolitanChronicles/0, NewVesselPress/1, NewVesselPress/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: NeapolitanChronicles/1, NeapolitanChronicles/0, NewVesselPress/1, NewVesselPress/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: NewVesselPress/1, NewVesselPress/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: NewVesselPress/1, NewVesselPress/0
-Error in parsing and/or evaluating LLM output: Unexpected token: 'Vessel'.
-New Vessel Press(PublishingHouse) & Specializes(New Vessel Press, Translating(ForeignLiterature, English))
-    ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: NeapolitanChronicles/1, NeapolitanChronicles/0, NewVesselPress/1, NewVesselPress/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: NeapolitanChronicles/1, NeapolitanChronicles/0, NewVesselPress/1, NewVesselPress/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: English/1, English/0, translateForeignLiterature/2, translateForeignLiterature/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: English/1, English/0, translateForeignLiterature/2, translateForeignLiterature/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: InLanguage/2, InLanguage/1, Translate/2, Translate/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: InLanguage/2, InLanguage/1, Translate/2, Translate/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: English/1, English/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: English/1, English/0
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-((Cupcake(DriedThaiChili) & ProductOf(DriedThaiChili, BakedByMelissa))
-                                                                      ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: DriedThaiChilies/1, DriedThaiChilies/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: DriedThaiChilies/1, DriedThaiChilies/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: Book/1, Knowledge/1.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: Book/1, Knowledge/1
-Error in parsing and/or evaluating LLM output: 'utf-8' codec can't decode byte 0xe2 in position 542: invalid continuation byte
-Error in parsing and/or evaluating LLM output: Unexpected token: '.'.
-Smarter(Harry).
-              ^
-Error in parsing and/or evaluating LLM output: Unexpected token: ','.  Expected token ')'.
-((all_x,y) (Book(x) -> (Knowledge(y) & contains(x,y))))
-       ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: read/3, read/1.
-
-
-Fatal error:  The following symbols are used with multiple arities: read/3, read/1
-Error in parsing and/or evaluating LLM output: Unexpected token: 'of'.
-all x. Book(x) -> tons of knowledge(x)
-                       ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'Reads'.
-Harry Reads(Harry, Books(“Walden”))
-      ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Book/1, Book/2, Knowledge/1, Knowledge/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Book/1, Book/2, Knowledge/1, Knowledge/0
-Error in parsing and/or evaluating LLM output: Unexpected token: 'all'.
-for all x. (reads(x) & Book(x) -> gains knowledge x)
-    ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'is'.
-Descampe is from Belgium and is on the leaderboard of the 1992 du Maurier Classic.
-         ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'Maurier'.  Expected token ')'.
-(Tie(6, 1992, du Maurier Classic, Person(Descampe)))
-                 ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: Leaderboard/2, Steinhauer/0.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: Leaderboard/2, Steinhauer/0
-Error in parsing and/or evaluating LLM output: Unexpected token: 'in'.  Expected token ')'.
-(Descampe in 1 six-way tie in Leaderboard(OneNineNineTwo_du_Maurier_Classic))
-          ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.  Expected token ')'.
-(There_is_a_six_way_tie_on_the_leaderboard_of_OneNineNineTwo_du_Maurier_Classic) & (Some x. (x_is_one_of_the_six_way_tie_in_the_leaderboard_of_OneNineNineTwo_du_Maurier_Classic) & (x_is_from_Belgium))
-                                                                                         ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-all x. ((OnLeaderboard(x, OneNineNineTwo) -> Participated(OneNineNineTwo, x))
-                                                                             ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '-'.  Expected token ')'.
-Descampe & (six-way-tie Descampe Leaderboard(OneNineNineTwo, "du_Maurier_Classic"))
-               ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.  Expected token ')'.
-(one x. (SixWayTie(x) & Leaderboard(x) & (one y. (Person(y) & SixWayTie(y) & Leaderboard(y) & (belongs(y, x) & (belongs(Belgium, y)))))))
-     ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '.'.
-one(x).(x is a six-way tie on the leaderboard & (one(y) & Belgium(y) & (y_is_in_the_six_way_tie_in_the_leaderboard)))
-      ^
 Error in parsing and/or evaluating LLM output: Unexpected token: 'in'.
-Descampe in (1992DuMaurierClassicLeaderboard = (<Six, {Belgium}:One, {USA}:One, {Canada}:One, {Australia}:One, {UK}:One>))
-         ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: Koala/1.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: Koala/1
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Koala/1, Koala/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Koala/1, Koala/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Koala/1, Koala/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Koala/1, Koala/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Koala/1, Koala/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Koala/1, Koala/0
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-((City(Beijing) & Population(Beijing, "urban")) & ((Ch
-                                                      ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
-many x. (University(x) & Rank(x, Asia_Pacific) & Rank(x, World))
-     ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
-many x. (University(x) & Located(x, Beijing) & (RankBest(x, Asia_Pacific) | RankBest(x, World)))
-     ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Beijing/1, Beijing/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Beijing/1, Beijing/0
-Error in parsing and/or evaluating LLM output: Unexpected token: '-'.  Expected token ')'.
-university(NineOne, Beijing) & (bestIn(Asia-Pacific, university(NineOne, Beijing)) & bestIn(world, university(NineOne, Beijing)))
-                                           ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '>'.  Expected token ')'.
-((City(Beijing) & UrbanPopulation(Beijing,n) & (n > UrbanPopulation(x,n))) & -n)
-                                                  ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
-Many x. (University(x) & (ConsistentlyRank(x, AsiaPacific) & ConsistentlyRank(x, World)))
-     ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
-second x. (ChineseCityByUrbanPopulation(Beijing, x))
-       ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '.'.
-Exist(x). (University(x) & Rank(x, Asia_Pacific, World))
-        ^
-Error in parsing and/or evaluating LLM output: Unexpected token: ')'.  Expression expected.
-RomanceLanguagesAreALanguageFamily()
-                                   ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: LanguageFamily/1, LanguageFamily/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: LanguageFamily/1, LanguageFamily/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: French/0, Spanish/0.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: French/0, Spanish/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: German/0.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: German/0
-Error in parsing and/or evaluating LLM output: Unexpected token: ')'.  Expression expected.
-German() = RomanceLanguage()
-       ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: French/0, Spanish/0.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: French/0, Spanish/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: LanguageFamily/1, LanguageFamily/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: LanguageFamily/1, LanguageFamily/0
-Error in parsing and/or evaluating LLM output: Unexpected token: 'in'.  Expected token ')'.
-(-Related(Basque,x) & x in Language)
-                        ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: relatedTo/2, relatedTo/1.
-
-
-Fatal error:  The following symbols are used with multiple arities: relatedTo/2, relatedTo/1
-Error in parsing and/or evaluating LLM output: Unexpected token: '-'.
-for-all x. (Bird(x) -> Lands(x))
-   ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-all x. (WorkRegularlyOftenAtHome(x) -> ((FreeTime(x) & TidyOrganize(x)))
-                                                                        ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-((GoToBedLate(Remy) & WakeUpEveryDayAfterNoon(Remy) & SpendFreeTimeTidyingAndOrganizingSpacesInHomes(Remy)) | (WorkRegularlyAndOftenAtHome(Remy) & -GoToBedLate(Remy) & WakeUpEveryDayAfterNoon(Remy) & -S
-                                                                                                                                                                                                          ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-((LateBedtime(Remy) & WakeupAfterNoon(Remy) & FreeTimeTidyingAndOrganizingHomeSpaces(Remy)) | ((-LateBedtime(Remy) & -WakeupAfterNoon(Remy)) & -FreeTime
-                                                                                                                                                        ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-((-(GoToBedLate(Remy)) & WakeUpEveryDayAfterNoon(Remy) & FreeTimeTidyingAndOrganizingSpacesInTheirHome(Remy)) | ((-(GoToBedLate(Remy)) & WakeUpEveryDayAfterNoon(Remy)) & -FreeTimeTidyingAndOrganizingSpacesInTheir
-                                                                                                                                                                                                                    ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '&'.  Expected token ')'.
-(GoToBedLate(Remy) & WakeUpAfterNoon(Remy) & SpareTime(Remy) & (Tidying(Remy) & OrganizingTheSpacesInHome(Remy))) | (NotGoToBedLate(Remy) & WakeUpAfterNoon(Remy) & Not(SpareTime(Remy) & (Tidying(Remy) & OrganizingTheSp
-                                                                                                                                                                                        ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-(FullyStockedHomeOffice(Remy) & ImpressiveHomeOffice(Remy
-                                                         ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expression expected.
-(FullyStockedAndImpressiveHomeOffice(
-                                     ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expression expected.
-(Both(Late(Remy),AfterNoon(Remy)) & Tidy(Remy) & Organize(Remy)) | ((-Late(Remy) & -AfterNoon(Remy)) & -Tidy(Remy) & -
-                                                                                                                      ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: Season/1.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: Season/1
-Error in parsing and/or evaluating LLM output: Unexpected token: 'four'.
-[BG] four x. (Season(x, y) & (y_in_{Spring, Summer, Fall, Winter}))
-     ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Summer/1, Summer/0, Spring/1, Spring/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Summer/1, Summer/0, Spring/1, Spring/0
-Error in parsing and/or evaluating LLM output: Unexpected token: '>'.  Expected token ')'.
-all x. ((WantsToHaveALongVacation(x) & Student(x)) -> (Love(x, Summer) > Love(x, Spring)))
-                                                                       ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
-four x. (Year(x) & Season(x, Spring) & Season(x, Summer) & Season(x, Fall) & Season(x, Winter))
-     ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '.'.
-Mia.LovesSpringMost()
-   ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'all'.
-[BG] all x. Season(x)
-     ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Winter/1, Winter/0, Fall/1, Fall/0, Spring/1, Spring/0, Summer/1, Summer/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Winter/1, Winter/0, Fall/1, Fall/0, Spring/1, Spring/0, Summer/1, Summer/0
-Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
-four x. ((Season(x) & Spring(x)) | (Season(x) & Summer(x)) | (Season(x) & Fall(x)) | (Season(x) & Winter(x)))
-     ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-(Yale_University(x) & (residential_colleges(x) & (Benjamin_Franklin_College(x) & Berkeley_College(x) & Branford_College(x) & Davenport_College(x) & Ezra_Stiles_College(x) & Grace_Hopper_College(x) & Jonathan_Edwards_College(x) & Morse_College(x) & Pauli_Murray_College(x) & Pierson_College(x) & Saybrook_College(x) & Silliman_College(x) & Timothy_D
-                                                                                                                                                                                                                                                                                                                                                            ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-(ResidentialCollege(BenjaminFranklinCollege) & ResidentialCollege(BerkeleyCollege) & ResidentialCollege(BranfordCollege) & ResidentialCollege(DavenportCollege) & ResidentialCollege(EzraStilesCollege) & ResidentialCollege(GraceHopperCollege) & ResidentialCollege(JonathanEdwardsCollege) & ResidentialCollege(MorseCollege) & ResidentialCollege(PauliMurrayCollege) & ResidentialCollege(PiersonCollege) & ResidentialCollege(SaybrookCollege) & ResidentialCollege(SillimanCollege) & ResidentialCollege(TimothyDwight
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '&'.  Expected token ')'.
-(YaleUniversity & Organized(TwoSeven, ConstituentCollegesAndSchools, ResidentialColleges_&_GraduateSchoolOfArtsAndSciences_&_TwelveProfessionalSchools))
-                                                                                         ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expression expected.
-((College(BenjaminFranklin) & College(Berkeley) & College(Branford) & College(Davenport) & College(EzraStiles) & College(GraceHopper) & College(JonathanEdwards) & College(Morse) & College(PauliMurray) & College(Pierson) & College(Saybrook) & College(
-                                                                                                                                                                                                                                                          ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Moved/3, Moved/2.
-
-
-Fatal error:  The following symbols are used with multiple arities: Moved/3, Moved/2
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-(ResidentialCollege(BenjaminFranklinCollege, YaleUniversity) & ResidentialCollege(BerkeleyCollege, YaleUniversity) & ResidentialCollege(BranfordCollege, YaleUniversity) & ResidentialCollege(DavenportCollege, YaleUniversity) & ResidentialCollege(EzraStilesCollege, YaleUniversity) & ResidentialCollege(GraceHopperCollege, YaleUniversity) & ResidentialCollege(JonathanEdwardsCollege, YaleUniversity) & ResidentialCollege(MorseCollege, YaleUniversity) & ResidentialCollege(PauliMurrayCollege, YaleUniversity) & ResidentialCollege(PiersonCollege, YaleUniversity) & ResidentialCollege(SaybrookCollege, YaleUniversity) & ResidentialCollege(SillimanCollege, YaleUniversity) & ResidentialCollege(TimothyDwightCollege, YaleUniversity
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expression expected.
-Private(x) & (ResearchUniversity(x) & IvyLeague(x)) -> moved(
-                                                             ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-(University(Y) & Private(Y) & IvyLeague(Y) & ResearchUniversity(Y) & moved
-                                                                          ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '.'.
-Endowment(Yale_University) = 42.3
-                               ^
-Error in parsing and/or evaluating LLM output: 'utf-8' codec can't decode byte 0xc5 in position 556: invalid continuation byte
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-((HighlyRankedByWomensTennisAssoci
-                                  ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-((RankedHighlyByWomensTennisAssociation(x) -> AmongTheMostActivePlayersInMajorTennis(x))
-                                                                                        ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-AmongMostActivePlayersInMajorTennis(CocoGau
-                                           ^
-Error in parsing and/or evaluating LLM output: 'utf-8' codec can't decode byte 0xc5 in position 553: invalid continuation byte
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-((RankedHighlyByWomensTennisAssociation(CocoGauff) | LostToRafaelNadal(CocoGauff)) -> -MaleTennisPlayerAtRolandGarros2
-                                                                                                                      ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-(RankedHighlyByWomensTennisAssociation(Coco_Gauff) | LostTo(Rafael_Nadal)(Coco_Gauff)) -> -(MaleTennisPlayerAt
-                                                                                                              ^
-Error in parsing and/or evaluating LLM output: 'utf-8' codec can't decode byte 0xc5 in position 552: invalid continuation byte
-Error in parsing and/or evaluating LLM output: Unexpected token: 'G'.  Expected token ')'.
-Lost(Coco G
-          ^
-Error in parsing and/or evaluating LLM output: '(' is an illegal variable name.  Constants may not be quantified.
-forall(x, (WTARankedHighly(x) -> ActiveTennisPlayer(x))
-      ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expression expected.
-
-^
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-((RankedHighlyBy(x, WomensTennisAssociation) | Lost(x, RafaelNadal)) -> -(MaleTennisPlayer(x) & RolandGar
-                                                                                                         ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-LostToRafaelNadal(CocoGauff
-                           ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expression expected.
-
-^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'HardcoverBook'.
-if HardcoverBook(x) then PrintedText(x)
-   ^
-Error in parsing and/or evaluating LLM output: Unexpected token: ','.  Expected token ')'.
-all x. (Animal(x) & (x, Australia) -> TouristsLoves(x))
-                      ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: A term cannot be constructed from the marked string:
-
-
-    (LovedByTourists(x) -> (%%START ERROR%%Max'sFavoriteAnimal(x) & FavoriteAnimal(x)%%END ERROR%%)).
-
-Fatal error:  sread_term error
-Error in parsing and/or evaluating LLM output: Unexpected token: '&'.  Expected token ')'.
-if (Koala(x) & Quokka(x)) then (LoveToSleep(x) | VeryFluffy(x))
-             ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Koala/1, Koala/0, Quokka/1, Quokka/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Koala/1, Koala/0, Quokka/1, Quokka/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: Mike/0.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: Mike/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: needsToApplyForCPT/1, needsToApplyForCPT/0, Mike/1, Mike/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: needsToApplyForCPT/1, needsToApplyForCPT/0, Mike/1, Mike/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: Mike/0.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: Mike/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: Mike/0.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: Mike/0
-Error in parsing and/or evaluating LLM output: Unexpected token: 'MAN'.
-if MAN(x) & MAN(y) & taller(x,y) then block(x,shooting(y))
-   ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'a'.
-if a. (Male(a) & Male(b) & taller(a,b)) then (Block(a,b))
-   ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'is'.
-Michael is Man.
-        ^
-Error in parsing and/or evaluating LLM output: (MAX_SECONDS)
-Error in parsing and/or evaluating LLM output: (MAX_SECONDS)
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-(Man(Michael) & (forall y. ((Man(y) & inClass(y)) -> Taller(Michael, y)))
-                                                                         ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.  Expected token ')'.
-(Man(Michael) & (Every x. (Man(x) -> ((TallerThan(Michael,x)) | (-TallerThan(Michael,x))))))
-                       ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '-'.
--located-in(BulgarianSettlement(Barutin), Antarctica)
-        ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'then'.  Expected token ')'.
-if ((LocatedIn(A, B) & LocatedIn(B, C)) then (LocatedIn(A, C)))
-                                        ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: SnowIsland/1, SnowIsland/0, Antarctica/1, Antarctica/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: SnowIsland/1, SnowIsland/0, Antarctica/1, Antarctica/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Antarctica/1, Antarctica/0, BarutinCove/1, BarutinCove/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Antarctica/1, Antarctica/0, BarutinCove/1, BarutinCove/0
-Error in parsing and/or evaluating LLM output: Unexpected token: '&'.  Expected token ')'.
-(SouthShetlandIslandsInclude(SouthShetlandIslands, SnowIsland_&_GreenwichIsland_&_DeceptionIsland))
-                                                              ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: OlympicGames/1, OlympicGames/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: OlympicGames/1, OlympicGames/0
-Error in parsing and/or evaluating LLM output: Unexpected token: '->'.  Expected token ')'.
-[BG] (OlympicGames(x) -> SportingEvent(x))
-                      ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'OlympicGames'.
-[BG] OlympicGames(x) -> SportingEvent(x)
-     ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: OlympicGames/1, OlympicGames/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: OlympicGames/1, OlympicGames/0
-Error in parsing and/or evaluating LLM output: Unexpected token: 'is'.
-WorldChampionships is SportingEvent
-                   ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: A term cannot be constructed from the marked string:
-
-
-    (%%START ERROR%%~Teacher(Jerry) & ~Manager(Jerry)%%END ERROR%%).
-
-Fatal error:  sread_term error
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: Jerry/0.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: Jerry/0
-Error in parsing and/or evaluating LLM output: Unexpected token: 'and'.  Expression expected.
--and(Student(Rose) & Human(Jerry))
- ^
-Error in parsing and/or evaluating LLM output: Unexpected token: ','.  Expected token ')'.
-(Jerry, -Teaches(Jerry) & -Manager(Jerry))
-      ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '-'.  Expected token ')'.
-(Jerry:-Teaches(Jerry) & -Manager(Jerry))
-       ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Platypus/1, Platypus/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Platypus/1, Platypus/0
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-((Cow(Ted) -> -Pet(Ted))
-                        ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Alligator/1, Alligator/0, Ted/1, Ted/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Alligator/1, Alligator/0, Ted/1, Ted/0
-Error in parsing and/or evaluating LLM output: Unexpected token: '&'.  Expected token ')'.
-(atLeastOne(X, cove(X), locatedIn(X, Antarctica) & named(X, BulgariaPlace))
-                                                 ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '-'.  Expected token ')'.
-some x. ((named-after(x, BulgarianSettlementOfBarutin) & LocatedIn(x, Antarctica)))
-               ^
-Error in parsing and/or evaluating LLM output: Unexpected token: ','.  Expected token ')'.
-exists x. (Cove(x) & locatedIn(x, Antarctica) & Name(x, (Bulgarian, place)))
-                                                                  ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.  Expected token ')'.
-(Some x. (Cove(x) & (Located(x, Antarctica) & (Named(x, Barutin))))
-      ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'Cove'.  Expected token ')'.
-named(Barutin Cove, Bulgarian Settlement(Barutin))
-              ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '.'.
-atLeastOne(x). (NamedAfter(x, Barutin) & BulgarianSettlement(Barutin) & LocatedIn(x, Antarctica))
-             ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: KO/0.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: KO/0
-Error in parsing and/or evaluating LLM output: Unexpected token: '|'.  Expected token ')'.
-if (GrowthCompanyStock(KO) | Volatile(KO)) then -(CompanyStock(KO) & Volatile(KO))
-                           ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-PerformInSchoolTalentShowsOften(Bon
-                                   ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-((AttendAndAreVeryEngagedWithSchoolEvents(Bonnie) & StudentWho
-                                                              ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Alligator/1, Alligator/0, Ted/1, Ted/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Alligator/1, Alligator/0, Ted/1, Ted/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Teeth/1, Teeth/0, Mammal/1, Mammal/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Teeth/1, Teeth/0, Mammal/1, Mammal/0
-Error in parsing and/or evaluating LLM output: Unexpected token: '>'.  Expected token ')'.
-all x. (Rating(x) > 9 -> RecommendedByYelp(x))
-                  ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '>'.  Expected token ')'.
-all x. (Rating(x, n) & n > 9 -> ListedInYelpsRecommendations(x))
+MonkeypoxVirus -> occurs in animals & includes humans
                          ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '>'.  Expected token ')'.
-all x. (Rating(x,y) & y > 9 -> ListedInYelpRecommendations(x))
-                        ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '>'.  Expected token ')'.
-all x. ((Rating(x) > 9) -> YelpRecommendation(x))
-                   ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '&'.  Expected token ')'.
-if (Restaurant(x) & RecommendedInYelp(x)) then -ManyNegativeReviews(x)
-                  ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '>'.  Expected token ')'.
-all x. ((Rating(x) > 9) -> ListedInYelpsRecommendations(x))
-                   ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '>'.  Expected token ')'.
-all x. (Rating(x) > 9 -> YelpRecommend(x))
-                  ^
-Error in parsing and/or evaluating LLM output: 'y' is an illegal predicate name.  Individual variables may not be used as predicates.
-all x. ((MountainRange(x) & Texas(Location(x)) & Mine(y) & Donated(y) & y(Location(x))) -> -Mine(x))
-                                                                        ^
-Error in parsing and/or evaluating LLM output: Unexpected token: ')'.  Expression expected.
-((PicurisMountains(x) & NewMexico(x)) | ((PicurisMountains(x) & Texas(x)) &))
-                                                                           ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-((PicurisMountains(x) & JuanDeOnate(y) & Visited(x, y) & Texas(z)) | ((PicurisMountains(x) & -JuanDeOnate(y) & Visited(x, y) & Texas(z)))
-                                                                                                                                         ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
-not any x. (Texas(x) & (MountainRange(x) & any y. ((Mine(y) & (Located(y,x)) & Donated(y)))))
-        ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: PicurisMountains/1, Donated/1.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: PicurisMountains/1, Donated/1
-Error in parsing and/or evaluating LLM output: 'utf-8' codec can't decode byte 0xc3 in position 544: invalid continuation byte
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-all x. (Texas(x) -> (all y. (Mine(y) & Donated(y) -> -(PicurisMountains(y) & Texas(x))))
-                                                                                        ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'Child'.  Expected token ')'.
-all x. (HasWedding(x) -> (HasChild(x) & >= 1 Child(x)))
-                                             ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'HasChild'.
-if HasChild(John) then (not TravelsToParis(John) & not HasWedding(John))
-   ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'HasChild'.
-if HasChild(John) then -TravelToParis(John) & -HasWedding(John)
-   ^
-Error in parsing and/or evaluating LLM output: Unexpected token: ','.  Expected token ')'.
-(John, Child(x)) -> (~Travel(John, Paris) & ~Wedding(John))
-     ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: John/1, John/0, Wedding/1, Wedding/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: John/1, John/0, Wedding/1, Wedding/0
-Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
-no x. (MildFlu(x) & Low(SurvivalRate(x)))
-   ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-((ColorectalCancer(x) & (BileDuctCancer(x) | Cholangiocarcinoma(x))) -> (Col
-                                                                            ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'x'.
-if x. (DeadlyDisease(x) -> SurvivalRate(x, Low))
-   ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: BileDuctCancer/1, BileDuctCancer/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: BileDuctCancer/1, BileDuctCancer/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols cannot be used as atomic formulas, because they are variables: x.
-
-
-Fatal error:  The following symbols cannot be used as atomic formulas, because they are variables: x
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: SevereCancer/1, SevereCancer/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: SevereCancer/1, SevereCancer/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: BileDuctCancer/1, BileDuctCancer/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: BileDuctCancer/1, BileDuctCancer/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Cholangiocarcinoma/1, Cholangiocarcinoma/0, BileDuctCancer/1, BileDuctCancer/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Cholangiocarcinoma/1, Cholangiocarcinoma/0, BileDuctCancer/1, BileDuctCancer/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: SevereCancer/1, SevereCancer/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: SevereCancer/1, SevereCancer/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: SevereCancer/1, SevereCancer/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: SevereCancer/1, SevereCancer/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: liveAtHome/1.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: liveAtHome/1
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-((TwinsOrTriplets(Luke) & DevelopStrongBondsWithFamilyMembers(Luke)) | ((-TwinsOrTriplets(Luke) & -DevelopStrongBondsWithFamilyMembers(Luke)) | (-TwinsOrTriplets(Luke) & -DevelopStrongBondsWithFamilyMembers(Luke)) | (-TwinsOrTriplets(Luke) & -DevelopStrongBondsWithFamilyMembers(Luke)) | (-TwinsOrTriplets(Lu
-                                                                                                                                                                                                                                                                                                                    ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'Volatile'.
-if Volatile(x) then -RetirementFund(x)
-   ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'on'.  Expected token ')'.
-Monkeypox(x) -> (Fever(x) & Headache(x) & MusclePains(x) & Tired(x) & so on(x))
-                                                                         ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: A term cannot be constructed from the marked string:
-
-
-    (MonkeypoxVirus(x) -> Occurs(%%START ERROR%%x,?y%%END ERROR%%)).
-
-Fatal error:  sread_term error
-Error in parsing and/or evaluating LLM output: Unexpected token: '<'.
-InfectiousDisease(Monkeypox) <- MonkeypoxVirus(Monkeypox)
-                             ^
-Error in parsing and/or evaluating LLM output: Unexpected token: '&'.  Expected token ')'.
-MonkeypoxVirus(x) -> CanOccurIn(x, y) & (Some (Animal(z) & ((Animal(y) & Human(y)) | (-Animal(y) & Human(y)))))
-                                                         ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: Monkeypox/1.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: Monkeypox/1
-Error in parsing and/or evaluating LLM output: Unexpected token: 'on'.  Expected token ')'.
-Monkeypox(symptom) & (Fever(symptom) | Headache(symptom) | MusclePain(symptom) | FeelingTired(symptom) | so on(symptom))
-                                                                                                            ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: FeelingTired/1, FeelingTired/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: FeelingTired/1, FeelingTired/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: FromTheSimpsons/1, Funny/1.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: FromTheSimpsons/1, Funny/1
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Ben/1, Ben/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Ben/1, Ben/0
-Error in parsing and/or evaluating LLM output: Unexpected token: '->'.  Expected token ')'.
-if (Funny(x) -> Popular(x))
-             ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols/arities are used as both relation and function symbols: FromTheSimpsons/1, Funny/1.
-
-
-Fatal error:  The following symbols/arities are used as both relation and function symbols: FromTheSimpsons/1, Funny/1
-Error in parsing and/or evaluating LLM output: Unexpected token: 'or'.  Expression expected.
-(or (FromTheSimpsons(Ben) & -Funny(Ben)) ((-FromTheSimpsons(Ben)) & Funny(Ben)))
- ^
-Error in parsing and/or evaluating LLM output: Unexpected token: ','.  Expected token ')'.
-all x. (sell_x, more_than_one_million_copies__>_selected_x, Top_OneZero_list)
-              ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: JapaneseGameCompany/1, JapaneseGameCompany/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: JapaneseGameCompany/1, JapaneseGameCompany/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: A term cannot be constructed from the marked string:
-
-
-    ((SellsMoreThanOneMillionCopies(x) -> InTop10List(x)) & -((%%START ERROR%%~SellsMoreThanOneMillionCopies(x) -> InTop10List(x)%%END ERROR%%))).
-
-Fatal error:  sread_term error
-Error in parsing and/or evaluating LLM output: Unexpected token: '>1000000'.  Expected token ')'.
-(Sold(x,x)>1000000 -> InTop10List(x))
-          ^
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-all x. ((In(x,TopOneZeroList) -> (Game(x) & JapaneseGameCompany(Created(x))))
-                                                                             ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: JapaneseGameCompany/1, JapaneseGameCompany/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: JapaneseGameCompany/1, JapaneseGameCompany/0
-Error in parsing and/or evaluating LLM output: Unexpected token: '10'.
--Top 10(Legend_of_Zelda)
-     ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: WellPaid/1, WellPaid/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: WellPaid/1, WellPaid/0
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-((GrandSlamChampion(x) | OscarNominatedActor(x))
-                                                ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Vacuum/1, Vacuum/0, Vampire/1, Vampire/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Vacuum/1, Vacuum/0, Vampire/1, Vampire/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Vacuum/1, Vacuum/0, Vampire/1, Vampire/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Vacuum/1, Vacuum/0, Vampire/1, Vampire/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Vampire/1, Vampire/0, Vacuum/1, Vacuum/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Vampire/1, Vampire/0, Vacuum/1, Vacuum/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Vacuum/1, Vacuum/0, Vampire/1, Vampire/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Vacuum/1, Vacuum/0, Vampire/1, Vampire/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Vampire/1, Vampire/0, Vacuum/1, Vacuum/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Vampire/1, Vampire/0, Vacuum/1, Vacuum/0
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: ApplyForCPT/1, ApplyForCPT/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: ApplyForCPT/1, ApplyForCPT/0
-Error in parsing and/or evaluating LLM output: Unexpected token: 'InternationalStudent'.
-Mike InternationalStudent
-     ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'InternationalStudent'.
-Mike InternationalStudent
-     ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: A term cannot be constructed from the marked string:
-
-
-    all x (%%START ERROR%%ZahaHadid'sDesignStyle(x) -> Timeless(x)%%END ERROR%%).
-
-Fatal error:  sread_term error
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: KellyWearstlerDesignStyle/1, KellyWearstlerDesignStyle/0, ZahaHadidDesignStyle/1, ZahaHadidDesignStyle/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: KellyWearstlerDesignStyle/1, KellyWearstlerDesignStyle/0, ZahaHadidDesignStyle/1, ZahaHadidDesignStyle/0
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-((Timeless(DesignByMax(Work)) & MassProductDesign(DesignByMax(Work)) & Evocative(DesignByMax(Work))) | ((-Timeless(DesignByMax(Work)) & -MassProductDesign(DesignByMax(Work)) & -Evocative(DesignByMax(Work))))
-                                                                                                                                                                                                               ^
-Error in parsing and/or evaluating LLM output: (FATAL)
-%%ERROR: The following symbols are used with multiple arities: Ben/1, Ben/0.
-
-
-Fatal error:  The following symbols are used with multiple arities: Ben/1, Ben/0
-Error in parsing and/or evaluating LLM output: End of input found.  Expected token ')'.
-(((Yellow(Ben) & Ugly(Ben)) | (-Yellow(Ben) & -Ugly(Ben)))
-                                                          ^
-Error in parsing and/or evaluating LLM output: Unexpected token: 'all'.
-for all x. (OwnsPet(x) -> LovesAnimal(x))
-    ^
 raw generations were saved
 processed generations were saved
 references were saved
@@ -1050,6 +49,6 @@ references were saved
     "model": "mistralai/Mistral-7B-v0.1"
   },
   "folio-neurosymbolic-1shot": {
-    "accuracy (pass@1 majority)": 0.6166666666666667
+    "accuracy (pass@1 majority)": 0.3333333333333333
   }
 }
