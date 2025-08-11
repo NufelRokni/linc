@@ -5,26 +5,28 @@ set -e
 outdir="outputs"
 mkdir -p ${outdir}
 
+max_length=8192 # max model context including prompt
+if [[ ! -z "${DEBUG}" ]]; then
+    listen="--listen 0.0.0.0:5679 --wait-for-client"
+else
+    listen=""
+fi
+
 for model in "mistralai/Mistral-7B-v0.1"; do
     # for base in "folio" "proofwriter"; do
     for base in "folio"; do
-        elif [[ ${model} == "mistralai/Mistral-7B-v0.1" ]]; then
+        if [[ ${model} == "mistralai/Mistral-7B-v0.1" ]]; then
             batch_size=1
-            max_length=8192 # max model context including prompt
             precision="fp32"
+        fi
         # for n in "1" "2" "4" "8"; do
         for n in "8"; do
-            for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
-            # for mode in "scratchpad"; do
+            # for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
+                for mode in "scratchpad"; do
                 task="${base}-${mode}-${n}shot"
                 run_id="${model#*/}_${task}"
                 job="cd $(pwd); source activate linc; "
-                
-                if [[ ! -z "${DEBUG}" ]]; then
-                    job+="accelerate launch --module debugpy --listen 0.0.0.0:5679 --wait-for-client runner.py"
-                else
-                    job+="accelerate launch runner.py"
-                fi
+                job+="accelerate launch ${listen} runner.py"
                 job+=" --model ${model} --precision ${precision}"
                 job+=" --use_auth_token --limit 1"
                 job+=" --tasks ${task} --n_samples 1 --batch_size ${batch_size}"
