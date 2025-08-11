@@ -45,6 +45,9 @@ class Task(ABC):
             elif self._mode == "neurosymbolic":
                 instructions += "so that the expressions can be evaluated by a theorem solver to determine whether the conclusion follows from the premises.\n"
                 instructions += "Expressions should be adhere to the format of the Python NLTK package logic module."
+            elif self._mode == "neurosymbolicenhanced":
+                instructions += "so that the expressions can be evaluated by a theorem solver to determine whether the conclusion follows from the premises.\n"
+                instructions += "Expressions should be adhere to the format of the Python NLTK package logic module."
         return instructions + "\n\n"
 
     @abstractmethod

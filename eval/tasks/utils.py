@@ -121,3 +121,25 @@ def evaluate(premises, conclusion):
             return "False"
         else:
             return "Uncertain"
+
+def evaluate_enhanced_logic(premises, conclusion):
+    premises = [reformat_fol(p) for p in premises]
+    conclusion = reformat_fol(conclusion)
+
+    c = read_expr(conclusion)
+    p_list = []
+    for p in premises:
+        p_list.append(read_expr(p))
+    truth_value = prover.prove(c, p_list)
+    neg_c = read_expr("-(" + conclusion + ")")
+    negation_true = prover.prove(neg_c, p_list)
+    
+    if truth_value and not negation_true:
+        return "True"
+    if not truth_value and negation_true:
+        return "False"
+    if not truth_value and not negation_true:
+        return "Uncertain"
+    if truth_value and negation_true:
+        print("Inconsistent premises detected.")
+        return "inconsistent"

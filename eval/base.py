@@ -1,6 +1,6 @@
 from functools import cache
 from collections import Counter
-from eval.tasks.utils import evaluate
+from eval.tasks.utils import evaluate, evaluate_enhanced_logic
 from eval.task_base import Task
 from eval.fol_utils import (
     reformat_fol_samples_train,
@@ -144,6 +144,15 @@ class OWAFOLTask(Task):
                 ]
                 premises, conclusion = parses[:-1], parses[-1]
                 resp = evaluate(premises, conclusion)
+            elif self._mode == "neurosymbolicenhanced":
+                flag = "FOL:"
+                parses = [
+                    line.replace(flag, "").strip()
+                    for line in gen.split("\n")
+                    if flag in line
+                ]
+                premises, conclusion = parses[:-1], parses[-1]
+                resp = evaluate_enhanced_logic(premises, conclusion)
             elif self._mode == "cot":
                 flag = "ANSWER:"
                 resp = gen.split(flag)[-1].strip()
