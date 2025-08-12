@@ -30,6 +30,10 @@ class RunnerArguments:
         default=None,
         metadata={"help": "Number of samples to solve and evaluate from the benchmark"},
     )
+    max_retries: int = field(
+        default=3,
+        metadata={"help": "Maximum number of retries for failed generations of neurosymbolic tasks"},
+    )
     postprocess: bool = field(
         default=True,
         metadata={"help": "Postprocess model outputs before execution"},

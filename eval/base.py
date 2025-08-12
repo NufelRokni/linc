@@ -112,16 +112,12 @@ class OWAFOLTask(Task):
     def postprocess_generation(self, generation, idx, completion_only=False):
         """
         Defines the postprocessing for a LM generation.
-        :param generation: str
-            code generation from LM
-        :param idx: int (if needed)
-            index of doc in the dataset to which the generation belongs
-        :return: str
         """
         try:
             if completion_only:
                 gen = generation.strip()
             else:
+                idx = int(idx)  # ensure proper HF dataset indexing
                 sample = self.get_dataset()[idx]
                 prefix = self.get_prompt(sample)
                 assert generation.startswith(
@@ -143,7 +139,10 @@ class OWAFOLTask(Task):
                     if flag in line
                 ]
                 premises, conclusion = parses[:-1], parses[-1]
-                resp = evaluate(premises, conclusion)
+                try:
+                    resp = evaluate(premises, conclusion)
+                except Exception as e:
+                    return self.ERROR_TOKEN
             elif self._mode == "neurosymbolicenhanced":
                 flag = "FOL:"
                 parses = [
@@ -152,7 +151,10 @@ class OWAFOLTask(Task):
                     if flag in line
                 ]
                 premises, conclusion = parses[:-1], parses[-1]
-                resp = evaluate_enhanced_logic(premises, conclusion)
+                try:
+                    resp = evaluate_enhanced_logic(premises, conclusion)
+                except Exception as e:
+                    return self.ERROR_TOKEN
             elif self._mode == "cot":
                 flag = "ANSWER:"
                 resp = gen.split(flag)[-1].strip()
@@ -161,8 +163,7 @@ class OWAFOLTask(Task):
             assert resp in ["True", "False", "Uncertain"], f"Invalid generation: {resp}"
             return resp
         except Exception as e:
-            # TODO: explore failure cases and improve postprocessing
-            print(f"Error in parsing and/or evaluating LLM output: {e}")
+            print(f"Error Evaluating LLM output: {e}")
             return self.ERROR_TOKEN
 
     @staticmethod

@@ -111,12 +111,11 @@ def complete_code(
     batch_size=20,
     prefix="",
     postprocess=True,
+    max_retries=3,
     **gen_kwargs,
 ):
     """Generate multiple codes for each task in the dataset using multiple GPUs with accelerate.
-    dataloader sends all the prompts from the evalution dataset to the model as the following:
-    [p_0_0, p_0_1, ..., p_0_nc-1, p_1_0, ..., p_nt-1_nc-1] where nc is the number of copies of the prompt,
-    and nt is the number of tasks. nc is such that num_samples(for each task)= nc * batch_size
+    With added retry mechanism for neurosymbolic mode.
     """
 
     gen_token_dict = defaultdict(list)
@@ -152,7 +151,7 @@ def complete_code(
             generated_tasks = generated_tasks.cpu().numpy()
 
             for sample, generated_tokens in zip(generated_tasks, generated_tokens):
-                gen_token_dict[sample].append(generated_tokens)
+                gen_token_dict[int(sample)].append(generated_tokens)
 
     def parse_infill(code, tokenizer):
         """Reorder infill code and remove remaining special tokens."""
@@ -184,6 +183,9 @@ def complete_code(
 
     code_gens_raw = [[] for _ in range(n_tasks)]
     code_gens_prc = [[] for _ in range(n_tasks)]
+    
+    dataset = task.get_dataset()
+    
     for sample, generated_tokens in gen_token_dict.items():
         for s in generated_tokens:
             if INFILL_MODE:
@@ -198,11 +200,29 @@ def complete_code(
                     s, skip_special_tokens=True, clean_up_tokenization_spaces=True
                 )
             code_gens_raw[sample].append(gen_code[len(prefix) :])
+            
             if postprocess:
-                x = int(sample)
-                code_gens_prc[sample].append(
-                    task.postprocess_generation(gen_code[len(prefix) :], x)
-                )
+                result = task.postprocess_generation(gen_code[len(prefix) :], int(sample))
+                retry_count = 0
+                # Regenerate using only the sample's prompt if error occurs
+                while result == task.ERROR_TOKEN and retry_count < max_retries:
+                    retry_count += 1
+                    print(f"Attempt {retry_count}: Retrying generation for sample {sample}...")
+                    # Cast sample to int to ensure proper indexing
+                    sample_prompt = task.get_prompt(dataset[int(sample)])
+                    with torch.no_grad():
+                        retry_tokens = accelerator.unwrap_model(model).generate(
+                            input_ids=tokenizer.encode(sample_prompt, return_tensors="pt").to(accelerator.device),
+                            num_return_sequences=1,
+                            **gen_kwargs,
+                        )
+                    retry_code = tokenizer.decode(
+                        retry_tokens[0],
+                        skip_special_tokens=True,
+                        clean_up_tokenization_spaces=True
+                    )
+                    result = task.postprocess_generation(retry_code[len(prefix):], int(sample))
+                code_gens_prc[sample].append(result)
             else:
                 warnings.warn(
                     "model output is not postprocessed, this might lower evaluation scores"
