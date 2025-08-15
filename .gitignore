@@ -69,7 +69,6 @@ logs/
 *.log
 
 # Outputs and data (keep directory with .gitkeep)
-outputs/*
 !outputs/.gitkeep
 data/
 
