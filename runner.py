@@ -64,14 +64,35 @@ def main():
                 f"Non valid precision {args.precision}, choose from: fp16, fp32, bf16"
             )
         print(f"Loading the model and tokenizer from HF (in {args.precision})")
-        model = AutoModelForCausalLM.from_pretrained(
-            args.model,
-            revision=args.revision,
-            torch_dtype=dict_precisions[args.precision],
-            trust_remote_code=args.trust_remote_code,
-            token=args.use_auth_token,
-            device_map="balanced",
-        )
+        # Optional: small runtime tweaks that help with fragmentation
+        os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
+        torch.backends.cuda.matmul.allow_tf32 = True
+
+        # Switch between MP (device_map) and the default DP flow.
+        if args.model_parallel:
+            os.environ["LINC_MODEL_PARALLEL"] = "1"  # generation.py uses this to skip accelerator.prepare
+            dm = args.device_map
+            if isinstance(dm, str) and dm.endswith(".json") and os.path.isfile(dm):
+                with open(dm) as f:
+                    dm = json.load(f)
+            model = AutoModelForCausalLM.from_pretrained(
+                args.model,
+                revision=args.revision,
+                torch_dtype=dict_precisions[args.precision],
+                trust_remote_code=args.trust_remote_code,
+                token=args.use_auth_token,
+                device_map=dm,
+                low_cpu_mem_usage=True,
+            )
+        else:
+            # No device_map here; let Accelerate place/move the model.
+            model = AutoModelForCausalLM.from_pretrained(
+                args.model,
+                revision=args.revision,
+                torch_dtype=dict_precisions[args.precision],
+                trust_remote_code=args.trust_remote_code,
+                token=args.use_auth_token,
+            )
         tokenizer = AutoTokenizer.from_pretrained(
             args.model,
             revision=args.revision,

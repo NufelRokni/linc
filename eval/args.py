@@ -98,6 +98,14 @@ class HFArguments:
         default="fp32",
         metadata={"help": "Precision to use (fp32, fp16, bf16)"},
     )
+    model_parallel: bool = field(
+        default=False,
+        metadata={"help": "Use single-process model-parallel sharding with HF device_map"},
+    )
+    device_map: Optional[str] = field(
+        default="balanced",
+        metadata={"help": 'HF device_map to use in model-parallel mode. E.g. "balanced", "balanced_low_0", or path to a JSON file.'},
+    )
     revision: Optional[str] = field(
         default=None,
         metadata={"help": "Model revision to use"},

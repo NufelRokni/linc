@@ -1,6 +1,7 @@
 from collections import defaultdict
 import math
 import warnings
+import os
 
 import torch
 from torch.utils.data import IterableDataset
@@ -135,8 +136,13 @@ def complete_code(
             # Compute the maximum original length of the prompts in the batch:
             # decoded_prompt = tokenizer.decode(batch["ids"][0, :batch["input_len"].max().item()])
             # print(f"PROMPT: {decoded_prompt}") # Print first 100 chars
+            input_ids = batch["ids"][:, :batch["input_len"].max().item()]
+            # In MP mode, explicitly send tensors to the model's first device.
+            if os.environ.get("LINC_MODEL_PARALLEL", "") == "1":
+                first_dev = next(accelerator.unwrap_model(model).parameters()).device
+                input_ids = input_ids.to(first_dev, non_blocking=True)
             generated_tokens = accelerator.unwrap_model(model).generate(
-                input_ids=batch["ids"][:, :batch["input_len"].max().item()],
+                input_ids=input_ids,
                 num_return_sequences=batch_size,
                 **gen_kwargs,
             )

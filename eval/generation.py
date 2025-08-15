@@ -1,5 +1,6 @@
 import json
 import math
+import os
 
 from torch.utils.data.dataloader import DataLoader
 from transformers import StoppingCriteria, StoppingCriteriaList
@@ -78,7 +79,11 @@ def parallel_generations(task, dataset, accelerator, model, tokenizer, n_tasks, 
     # do not confuse args.batch_size, which is actually the num_return_sequences
     ds_loader = DataLoader(ds_tokenized, batch_size=1)
 
-    model, ds_loader = accelerator.prepare(model, ds_loader)
+    # If model is already sharded via HF device_map, do not re-place it.
+    if os.environ.get("LINC_MODEL_PARALLEL", "") == "1":
+        pass
+    else:
+        model, ds_loader = accelerator.prepare(model, ds_loader)
     generations_prc, generations_raw = complete_code(
         task,
         accelerator,
