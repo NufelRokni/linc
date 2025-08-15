@@ -25,9 +25,19 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                 for mode in "scratchpad"; do
                 task="${base}-${mode}-${n}shot"
                 run_id="${model#*/}_${task}"
-                job="cd $(pwd); source activate linc; unset CUDA_VISIBLE_DEVICES;"
-                job+="accelerate launch ${listen} runner.py"
-                job+=" --model ${model} --precision ${precision}"
+                if [[ ${model} == "mistralai/Mistral-7B-v0.1" ]]; then
+                    # Single-process model-parallel: run python directly so HF device_map shards across GPUs
+                    job="cd $(pwd); source activate linc; "
+                    job+="CUDA_VISIBLE_DEVICES=0,1,2,3 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True "
+                    job+="python runner.py"
+                    # prefer bf16 for Mistral when sharded
+                    job+=" --model ${model} --precision bf16 --model-parallel --device_map balanced"
+                else
+                    # default: use accelerate launch (data-parallel)
+                    job="cd $(pwd); source activate linc; unset CUDA_VISIBLE_DEVICES;"
+                    job+="accelerate launch ${listen} runner.py"
+                    job+=" --model ${model} --precision ${precision}"
+                fi
                 job+=" --use_auth_token --limit 1"
                 job+=" --tasks ${task} --n_samples 1 --batch_size ${batch_size}"
                 job+=" --max_length_generation ${max_length} --temperature 0.8"
