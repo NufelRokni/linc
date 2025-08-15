@@ -13,6 +13,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, HfArgumentParser
 from eval.args import RunnerArguments, HFArguments, GenerationArguments
 from eval.evaluator import HFEvaluator
 from eval.tasks import ALL_TASKS
+from transformers import BitsAndBytesConfig
 
 transformers.logging.set_verbosity_error()
 datasets.logging.set_verbosity_error()
@@ -59,17 +60,33 @@ def main():
             "fp16": torch.float16,
             "bf16": torch.bfloat16,
         }
-        if args.precision not in dict_precisions:
+        valid_precisions = {"fp32", "fp16", "bf16", "int8", "4bit"}
+        if args.precision not in valid_precisions:
             raise ValueError(
-                f"Non valid precision {args.precision}, choose from: fp16, fp32, bf16"
+                f"Non valid precision {args.precision}, choose from: fp16, fp32, bf16, int8, 4bit"
             )
         print(f"Loading the model and tokenizer from HF (in {args.precision})")
+        if args.precision == "int8":
+            quantization_config = BitsAndBytesConfig(load_in_8bit=True)
+            torch_dtype = None
+        elif args.precision == "4bit":
+            quantization_config = BitsAndBytesConfig(
+                load_in_4bit=True,
+                bnb_4bit_quant_type="nf4",  # You can change "nf4" to "fp4" if needed.
+                bnb_4bit_compute_dtype=torch.bfloat16  # or torch.float16
+            )
+            torch_dtype = None
+        else:
+            quantization_config = None
+            torch_dtype = dict_precisions[args.precision]
+
         model = AutoModelForCausalLM.from_pretrained(
             args.model,
             revision=args.revision,
-            torch_dtype=dict_precisions[args.precision],
+            torch_dtype=torch_dtype,
             trust_remote_code=args.trust_remote_code,
             token=args.use_auth_token,
+            quantization_config=quantization_config,
         )
         tokenizer = AutoTokenizer.from_pretrained(
             args.model,

@@ -25,7 +25,7 @@ def create_all_tasks():
 
     return {
         f"folio-{mode}-{n}shot": create_task(mode, n)
-        for mode in ["baseline", "scratchpad", "cot", "neurosymbolic", "neurosymbolicenhanced"]
+        for mode in ["baseline", "scratchpad", "cot", "neurosymbolic", "neurosymbolicenhanced", "neurosymbolic-depthproof"]
         for n in [1, 2, 4, 8, 16]
     }
 
