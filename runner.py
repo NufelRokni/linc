@@ -76,6 +76,7 @@ def main():
             revision=args.revision,
             token=args.use_auth_token,
             truncation_side="left",
+            device_map="balanced",
         )
         if not tokenizer.eos_token:
             if tokenizer.bos_token:
