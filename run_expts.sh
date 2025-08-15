@@ -25,7 +25,7 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                 for mode in "scratchpad"; do
                 task="${base}-${mode}-${n}shot"
                 run_id="${model#*/}_${task}"
-                job="cd $(pwd); source activate linc; "
+                job="cd $(pwd); source activate linc; unset CUDA_VISIBLE_DEVICES;"
                 job+="accelerate launch ${listen} runner.py"
                 job+=" --model ${model} --precision ${precision}"
                 job+=" --use_auth_token --limit 1"
