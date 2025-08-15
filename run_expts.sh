@@ -19,10 +19,10 @@ for model in "mistralai/Mistral-7B-v0.1"; do
             batch_size=1
             precision="fp32"
         fi
-        # for n in "1" "2" "4" "8"; do
-        for n in "1"; do
+        for n in "1" "2" "4" "8"; do
+        # for n in "1"; do
             # for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
-                for mode in "scratchpad"; do
+                for mode in "scratchpad" "cot" "neurosymbolic"; do
                 task="${base}-${mode}-${n}shot"
                 run_id="${model#*/}_${task}"
                 if [[ ${model} == "mistralai/Mistral-7B-v0.1" ]]; then
@@ -39,7 +39,8 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     job+="accelerate launch ${listen} runner.py"
                     job+=" --model ${model} --precision ${precision}"
                 fi
-                job+=" --use_auth_token --limit 10"
+                # job+=" --use_auth_token --limit 10"
+                job+=" --use_auth_token"
                 job+=" --tasks ${task} --n_samples 10 --batch_size ${batch_size}"
                 job+=" --max_length_generation ${max_length} --temperature 0.8"
                 job+=" --allow_code_execution --trust_remote_code --output_dir ${outdir}"
