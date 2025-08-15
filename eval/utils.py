@@ -137,12 +137,13 @@ def complete_code(
             # decoded_prompt = tokenizer.decode(batch["ids"][0, :batch["input_len"].max().item()])
             # print(f"PROMPT: {decoded_prompt}") # Print first 100 chars
             input_ids = batch["ids"][:, :batch["input_len"].max().item()]
-            # In MP mode, explicitly send tensors to the model's first device.
-            if os.environ.get("LINC_MODEL_PARALLEL", "") == "1":
-                first_dev = next(accelerator.unwrap_model(model).parameters()).device
-                input_ids = input_ids.to(first_dev, non_blocking=True)
+            # Always place tensors on the model's device to avoid CPU/CUDA mismatch.
+            first_dev = next(accelerator.unwrap_model(model).parameters()).device
+            input_ids = input_ids.to(first_dev, non_blocking=True)
+            attention_mask = torch.ones_like(input_ids, dtype=torch.long, device=first_dev)
             generated_tokens = accelerator.unwrap_model(model).generate(
                 input_ids=input_ids,
+                attention_mask=attention_mask,
                 num_return_sequences=batch_size,
                 **gen_kwargs,
             )

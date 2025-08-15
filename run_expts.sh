@@ -28,10 +28,11 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                 if [[ ${model} == "mistralai/Mistral-7B-v0.1" ]]; then
                     # Single-process model-parallel: run python directly so HF device_map shards across GPUs
                     job="cd $(pwd); source activate linc; "
-                    job+="CUDA_VISIBLE_DEVICES=0,1,2,3 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True "
+                    job+="CUDA_VISIBLE_DEVICES=0,1,2,3 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True TORCH_NCCL_ASYNC_ERROR_HANDLING=1 "
                     job+="python runner.py"
                     # prefer bf16 for Mistral when sharded
-                    job+=" --model ${model} --precision bf16 --model-parallel --device_map balanced"
+                    # using device_map=auto works on this host; keep that as default
+                    job+=" --model ${model} --precision bf16 --model-parallel --device_map auto"
                 else
                     # default: use accelerate launch (data-parallel)
                     job="cd $(pwd); source activate linc; unset CUDA_VISIBLE_DEVICES;"

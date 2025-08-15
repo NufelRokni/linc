@@ -68,31 +68,51 @@ def main():
         os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
         torch.backends.cuda.matmul.allow_tf32 = True
 
+        # Small runtime tweaks
+        os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
+        torch.backends.cuda.matmul.allow_tf32 = True
+
         # Switch between MP (device_map) and the default DP flow.
         if args.model_parallel:
             os.environ["LINC_MODEL_PARALLEL"] = "1"  # generation.py uses this to skip accelerator.prepare
-            dm = args.device_map
+            dm = args.device_map or "auto"
+            # allow passing a JSON path
             if isinstance(dm, str) and dm.endswith(".json") and os.path.isfile(dm):
                 with open(dm) as f:
                     dm = json.load(f)
-            model = AutoModelForCausalLM.from_pretrained(
-                args.model,
-                revision=args.revision,
-                torch_dtype=dict_precisions[args.precision],
-                trust_remote_code=args.trust_remote_code,
-                token=args.use_auth_token,
-                device_map="auto",
-                low_cpu_mem_usage=True,
-            )
+
+            # Try requested device_map, fall back to sensible candidates if it fails.
+            def _try_load(devmap):
+                return AutoModelForCausalLM.from_pretrained(
+                    args.model,
+                    revision=args.revision,
+                    torch_dtype=dict_precisions[args.precision],
+                    trust_remote_code=args.trust_remote_code,
+                    token=args.use_auth_token,
+                    device_map=devmap,
+                    low_cpu_mem_usage=True,
+                )
+
+            last_exc = None
+            for candidate in ([dm] if dm is not None else []) + ["auto", "balanced", "balanced_low_0"]:
+                try:
+                    model = _try_load(candidate)
+                    if candidate != dm:
+                        warn(f"Requested device_map '{dm}' failed, falling back to '{candidate}'")
+                    break
+                except Exception as e:
+                    last_exc = e
+                    continue
+            else:
+                raise RuntimeError(f"Failed to load model with any device_map candidate") from last_exc
         else:
-            # No device_map here; let Accelerate place/move the model.
+            # Data-parallel path: do not pass device_map so Accelerate can place the model.
             model = AutoModelForCausalLM.from_pretrained(
                 args.model,
                 revision=args.revision,
                 torch_dtype=dict_precisions[args.precision],
                 trust_remote_code=args.trust_remote_code,
                 token=args.use_auth_token,
-                device_map="auto",
             )
         tokenizer = AutoTokenizer.from_pretrained(
             args.model,
