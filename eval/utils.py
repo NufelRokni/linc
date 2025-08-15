@@ -135,7 +135,6 @@ def complete_code(
             # Compute the maximum original length of the prompts in the batch:
             # decoded_prompt = tokenizer.decode(batch["ids"][0, :batch["input_len"].max().item()])
             # print(f"PROMPT: {decoded_prompt}") # Print first 100 chars
-<<<<<<< HEAD
             input_ids = batch["ids"][:, :batch["input_len"].max().item()]
             # Always place tensors on the model's device to avoid CPU/CUDA mismatch.
             first_dev = next(accelerator.unwrap_model(model).parameters()).device
@@ -144,10 +143,6 @@ def complete_code(
             generated_tokens = accelerator.unwrap_model(model).generate(
                 input_ids=input_ids,
                 attention_mask=attention_mask,
-=======
-            generated_tokens = model.generate(
-                input_ids=batch["ids"][:, :batch["input_len"].max().item()],
->>>>>>> 6e7ee9a (WIP: local changes to utils)
                 num_return_sequences=batch_size,
                 **gen_kwargs,
             )
