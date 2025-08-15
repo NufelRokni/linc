@@ -81,7 +81,7 @@ def main():
                 torch_dtype=dict_precisions[args.precision],
                 trust_remote_code=args.trust_remote_code,
                 token=args.use_auth_token,
-                device_map=dm,
+                device_map="auto",
                 low_cpu_mem_usage=True,
             )
         else:
