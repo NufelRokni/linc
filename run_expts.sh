@@ -16,7 +16,7 @@ for model in "mistralai/Mistral-7B-v0.1"; do
     # for base in "folio" "proofwriter"; do
     for base in "folio"; do
         if [[ ${model} == "mistralai/Mistral-7B-v0.1" ]]; then
-            batch_size=1
+            batch_size=10
             precision="fp32"
         fi
         # for n in "1" "2" "4" "8"; do
