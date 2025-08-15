@@ -70,13 +70,13 @@ def main():
             torch_dtype=dict_precisions[args.precision],
             trust_remote_code=args.trust_remote_code,
             token=args.use_auth_token,
+            device_map="balanced",
         )
         tokenizer = AutoTokenizer.from_pretrained(
             args.model,
             revision=args.revision,
             token=args.use_auth_token,
             truncation_side="left",
-            device_map="balanced",
         )
         if not tokenizer.eos_token:
             if tokenizer.bos_token:
