@@ -1,0 +1,8 @@
+{
+  "config": {
+    "model": "mistralai/Mistral-7B-v0.1"
+  },
+  "folio-scratchpad-2shot": {
+    "accuracy (pass@1 majority)": 0.41208791208791207
+  }
+}
