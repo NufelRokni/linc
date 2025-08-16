@@ -30,22 +30,55 @@ class Task(ABC):
                 "This task will use a locally downloaded dataset, not from the HF hub."
             )
             
-    def get_instructions(self):
+    def get_instruction(self):
         instructions = ""
-        instructions += "The following is a first-order logic (FOL) problem.\n"
-        instructions += "The problem is to determine whether the conclusion follows from the premises.\n"
-        instructions += "The premises are given in the form of a set of first-order logic sentences.\n"
-        instructions += "The conclusion is given in the form of a single first-order logic sentence.\n"
+
+        instructions += "You are a strict First-Order Logic (FOL) assistant.\n"
+        instructions += "Premises are a set of FOL sentences; The conclusion is one FOL sentence.\n"
+
         if self._mode == "baseline":
-            instructions += f"The task is to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises."
-        else:
-            instructions += "The task is to translate each of the premises and conclusions into FOL expressions, "
-            if self._mode == "scratchpad":
-                instructions += f"and then to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises."
-            elif self._mode == "neurosymbolic":
-                instructions += "so that the expressions can be evaluated by a theorem solver to determine whether the conclusion follows from the premises.\n"
-                instructions += "Expressions should be adhere to the format of the Python NLTK package logic module."
-        return instructions + "\n\n"
+            instructions += "Decide whether the CONCLUSION follows from the PREMISES.\n"
+            instructions += "Labels are LIMITED to: True, False, Uncertain (case-sensitive; no quotes).\n"
+            instructions += "Output exactly one Label as ANSWER: <label>\n"
+            instructions += "add the finish end close </EVALUATE>\n\n"
+
+        if self._mode == "cot":
+            instructions += (
+                "- Output a chain of thought leading to the conclusion.\n"
+                "- Include all relevant premises in your reasoning.\n"
+                "- Clearly indicate the final conclusion\n"
+                "- At the end Output exactly one Label as ANSWER: <label>\n"
+                "Labels are case-sensitive and LIMITED to: True, False, Uncertain.\n"
+            )
+        if self._mode == "scratchpad":
+            instructions += (
+                "Translate the premises and conclusion into FOL expressions.\n"
+                "Use a scratchpad to work out the answer before responding.\n" # maybe you can call it FOL NLP reasoning
+                "- At the end Output exactly one Label as ANSWER: <label>\n"
+                "Labels are case-sensitive and LIMITED to: True, False, Uncertain.\n"
+          if self._mode == "neurosymbolic":
+            instructions += (
+                "- Translate the premises and conclusion into FOL expressions.\n"
+            )
+            instructions += "so that the expressions can be evaluated by a theorem solver to determine whether the conclusion follows from the premises.\n"
+            instructions += "Expressions should be adhere to the format of the Python NLTK package logic module."
+
+    # def get_instructions(self):
+    #     instructions = ""
+    #     instructions += "The following is a first-order logic (FOL) problem.\n"
+    #     instructions += "The problem is to determine whether the conclusion follows from the premises.\n"
+    #     instructions += "The premises are given in the form of a set of first-order logic sentences.\n"
+    #     instructions += "The conclusion is given in the form of a single first-order logic sentence.\n"
+    #     if self._mode == "baseline":
+    #         instructions += f"The task is to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises."
+    #     else:
+    #         instructions += "The task is to translate each of the premises and conclusions into FOL expressions, "
+    #         if self._mode == "scratchpad":
+    #             instructions += f"and then to evaluate the conclusion as 'True', 'False', or 'Uncertain' given the premises."
+    #         elif self._mode == "neurosymbolic":
+    #             instructions += "so that the expressions can be evaluated by a theorem solver to determine whether the conclusion follows from the premises.\n"
+    #             instructions += "Expressions should be adhere to the format of the Python NLTK package logic module."
+    #     return instructions + "\n\n"
 
     @abstractmethod
     def get_dataset(self):
