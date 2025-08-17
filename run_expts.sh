@@ -27,7 +27,7 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                 run_id="${model#*/}_${task}"
                 if [[ ${model} == "mistralai/Mistral-7B-v0.1" ]]; then
                     # Single-process model-parallel: run python directly so HF device_map shards across GPUs
-                    echo "Running inside the model-parallel environment..."
+                    # echo "Running inside the model-parallel environment..."
                     job="cd $(pwd); source activate linc; "
                     job+="CUDA_VISIBLE_DEVICES=0,1,2,3 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True TORCH_NCCL_ASYNC_ERROR_HANDLING=1 "
                     job+="python runner.py"
@@ -36,7 +36,7 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     job+=" --model ${model} --precision ${precision} --model-parallel --device_map auto"
                 else
                     # default: use accelerate launch (data-parallel)
-                    echo "Running inside the accelerate parallel environment..."
+                    # echo "Running inside the accelerate parallel environment..."
                     job="cd $(pwd); source activate linc; unset CUDA_VISIBLE_DEVICES;"
                     job+="accelerate launch ${listen} runner.py"
                     job+=" --model ${model} --precision ${precision}"
