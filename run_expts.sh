@@ -16,11 +16,11 @@ for model in "mistralai/Mistral-7B-v0.1"; do
     # for base in "folio" "proofwriter"; do
     for base in "folio"; do
         if [[ ${model} == "mistralai/Mistral-7B-v0.1" ]]; then
-            batch_size=4
+            batch_size=1
             precision="fp32"
         fi
-        for n in "1" "2" "4" "8"; do
-        # for n in "1"; do
+        # for n in "1" "2" "4" "8"; do
+        for n in "1"; do
             # for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
                 for mode in "scratchpad" "cot" "neurosymbolic"; do
                 task="${base}-${mode}-${n}shot"
