@@ -20,7 +20,7 @@ for model in "mistralai/Mistral-7B-v0.1"; do
             precision="fp32"
         fi
         # for n in "1" "2" "4" "8"; do
-        for n in "1"; do
+        for n in "2"; do
             # for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
                 for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
                 task="${base}-${mode}-${n}shot"

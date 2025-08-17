@@ -121,3 +121,19 @@ def evaluate(premises, conclusion):
             return "False"
         else:
             return "Uncertain"
+        
+def evaluate_further(premises, conclusion):
+    premises = [reformat_fol(p) for p in premises]
+    conclusion = reformat_fol(conclusion)
+
+    conclusion_expr = read_expr(conclusion)
+    conclusion_expr_negation = read_expr("-(" + conclusion + ")")
+    premises_expr_list = [read_expr(p) for p in premises]
+    
+    
+    
+
+def fol_normal_form(expr):
+    # Apply the necessary transformations to bring the expression into normal form
+    # This is a placeholder for the actual implementation
+    return expr
