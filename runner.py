@@ -68,10 +68,6 @@ def main():
         os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
         torch.backends.cuda.matmul.allow_tf32 = True
 
-        # Small runtime tweaks
-        os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
-        torch.backends.cuda.matmul.allow_tf32 = True
-
         # Switch between MP (device_map) and the default DP flow.
         if args.model_parallel:
             os.environ["LINC_MODEL_PARALLEL"] = "1"  # generation.py uses this to skip accelerator.prepare
