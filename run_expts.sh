@@ -104,10 +104,11 @@ for model in "mistralai/Mistral-7B-v0.1"; do
             # Default device map - can be overridden with DEVICE_MAP_MODE env var
             device_map="${DEVICE_MAP_MODE:-balanced_low_0}"
         fi
-        for n in "1" "2" "4" "8"; do
-        # for n in "1"; do
-            # for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
-            for mode in "baseline" "neurosymbolic"; do
+        # for n in "1" "2" "4" "8"; do
+        
+        for n in "1"; do
+            for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
+            # for mode in "baseline" "neurosymbolic"; do
                 task="${base}-${mode}-${n}shot"
                 run_id="${model#*/}_${task}"
                 if [[ ${model} == "mistralai/Mistral-7B-v0.1" ]]; then
@@ -125,6 +126,7 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     
                     # Select GPUs with >=8 GiB free and <=70% util (overridable via MIN_FREE_MB, MAX_UTIL)
                     VISIBLE_DEVICES=$(select_visible_gpus "${MIN_FREE_MB:-8192}" "${MAX_UTIL:-70}" "${EFFECTIVE_MAX_GPUS}")
+    
                     echo "[run_expts] free_cores=${FREE_CORES_EST}, selecting ${EFFECTIVE_MAX_GPUS} GPUs with min_free=${MIN_FREE_MB:-8192}MB, max_util=${MAX_UTIL:-70}%" >&2
                     echo "[run_expts] precision=${precision}, visible_gpus=${VISIBLE_DEVICES}" >&2
                     
