@@ -20,7 +20,7 @@ for model in "mistralai/Mistral-7B-v0.1"; do
             precision="fp32"
         fi
         # for n in "1" "2" "4" "8"; do
-        for n in "2"; do
+        for n in "1"; do
             # for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
                 for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
                 task="${base}-${mode}-${n}shot"
@@ -59,6 +59,7 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                 repo_root=$(git rev-parse --show-toplevel 2>/dev/null || echo "$(pwd)")
                 (
                     cd "${repo_root}"
+                    git pull
                     git add .
                     # If there are staged changes, commit and push. Wrapped in conditional to
                     # avoid failing the whole experiment run when there is nothing to commit
