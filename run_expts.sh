@@ -19,17 +19,17 @@ for model in "mistralai/Mistral-7B-v0.1"; do
             batch_size=1
             precision="fp32"
         fi
-        # for n in "1" "2" "4" "8"; do
-        for n in "1"; do
+        for n in "1" "2" "4" "8"; do
+        # for n in "1"; do
             # for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
-                for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
+            for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
                 task="${base}-${mode}-${n}shot"
                 run_id="${model#*/}_${task}"
                 if [[ ${model} == "mistralai/Mistral-7B-v0.1" ]]; then
                     # Single-process model-parallel: run python directly so HF device_map shards across GPUs
                     # echo "Running inside the model-parallel environment..."
                     job="cd $(pwd); source activate linc; "
-                    job+="CUDA_VISIBLE_DEVICES=0,1,2,3 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True TORCH_NCCL_ASYNC_ERROR_HANDLING=1 "
+                    job+="CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True TORCH_NCCL_ASYNC_ERROR_HANDLING=1 "
                     job+="python runner.py"
                     # prefer bf16 for Mistral when sharded
                     # using device_map=auto works on this host; keep that as default
