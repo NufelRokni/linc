@@ -1,4 +1,10 @@
 #! /bin/bash
+set -o pipefail  # Ensure pipe failures are caught
+trap 'echo "[run_expts] ERROR: Caught signal, exiting at $(date -u +"%Y-%m-%dT%H:%M:%SZ")" >&2' INT TERM
+
+# Redirect all stderr to both stderr and a log file
+exec > >(tee -a "run_expts_$(date -u +"%Y%m%d_%H%M%S").log") 2>&1
+echo "[run_expts] Starting script at $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 
 outdir="outputs"
 mkdir -p ${outdir}
@@ -107,8 +113,8 @@ for model in "mistralai/Mistral-7B-v0.1"; do
         # for n in "1" "2" "4" "8"; do
         
         for n in "1"; do
-            for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
-            # for mode in "baseline" "neurosymbolic"; do
+            # for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
+            for mode in "scratchpad" "cot" "neurosymbolic"; do
                 task="${base}-${mode}-${n}shot"
                 run_id="${model#*/}_${task}"
                 if [[ ${model} == "mistralai/Mistral-7B-v0.1" ]]; then
@@ -144,25 +150,51 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     fi
                     # Setup environment variables for better performance
                     job="cd $(pwd); source activate linc; "
+                    
+                    # Enforce maximum run time to prevent infinite hangs
+                    MAX_RUNTIME=${MAX_RUNTIME:-86400}  # Default 24 hours in seconds
+                    
+                    # Create a watchdog function to monitor the process and kill if it seems stuck
+                    job+="watchdog_pid=''; function cleanup() { [ -n \"\$watchdog_pid\" ] && kill \$watchdog_pid 2>/dev/null || true; }; trap cleanup EXIT; "
+                    
+                    # The job with environment configuration
                     job+="CUDA_VISIBLE_DEVICES=${VISIBLE_DEVICES} "
                     job+="OMP_NUM_THREADS=${CORES_PER_GPU} "
                     job+="MKL_NUM_THREADS=${CORES_PER_GPU} "
                     job+="TOKENIZERS_PARALLELISM=false "
                     job+="PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True "
                     job+="TORCH_NCCL_ASYNC_ERROR_HANDLING=1 "
+                    job+="PYTHONUNBUFFERED=1 PAGER=cat GIT_PAGER=cat "
                     
-                    # Launch the model with appropriate settings
-                    job+="python runner.py"
+                    # Enable core dumps for debugging potential crashes
+                    job+="ulimit -c unlimited; "
+                    
+                    # Launch the model with appropriate settings (unbuffered, line-buffered, no stdin)
+                    # Wrap with timeout to prevent infinite hangs, and monitor progress
+                    job+="(timeout -s TERM ${MAX_RUNTIME} stdbuf -oL -eL python -u runner.py"
                     job+=" --model ${model}" 
                     job+=" --precision ${precision}" 
                     job+=" --model-parallel" 
-                    job+=" --device_map ${device_map}"
+                    job+=" --device_map ${device_map} </dev/null; rc=\$?; "
+                    # Handle timeout vs normal exit
+                    job+="if [ \$rc -eq 124 ]; then echo 'ERROR: Job timed out after ${MAX_RUNTIME} seconds' >&2; elif [ \$rc -ne 0 ]; then echo \"ERROR: Job failed with code \$rc\" >&2; fi; exit \$rc)"
                 else
                     # default: use accelerate launch (data-parallel)
                     # echo "Running inside the accelerate parallel environment..."
-                    job="cd $(pwd); source activate linc; unset CUDA_VISIBLE_DEVICES;"
-                    job+="accelerate launch ${listen} runner.py"
-                    job+=" --model ${model} --precision ${precision}"
+                    # Enforce maximum run time to prevent infinite hangs
+                    MAX_RUNTIME=${MAX_RUNTIME:-86400}  # Default 24 hours in seconds
+                    
+                    job="cd $(pwd); source activate linc; unset CUDA_VISIBLE_DEVICES; "
+                    job+="PYTHONUNBUFFERED=1 PAGER=cat GIT_PAGER=cat ulimit -c unlimited; "
+                    
+                    # Create a watchdog function to monitor the process and kill if it seems stuck
+                    job+="watchdog_pid=''; function cleanup() { [ -n \"\$watchdog_pid\" ] && kill \$watchdog_pid 2>/dev/null || true; }; trap cleanup EXIT; "
+                    
+                    # Run with timeout protection
+                    job+="(timeout -s TERM ${MAX_RUNTIME} stdbuf -oL -eL accelerate launch ${listen} runner.py </dev/null"
+                    job+=" --model ${model} --precision ${precision}; rc=\$?; "
+                    # Handle timeout vs normal exit
+                    job+="if [ \$rc -eq 124 ]; then echo 'ERROR: Job timed out after ${MAX_RUNTIME} seconds' >&2; elif [ \$rc -ne 0 ]; then echo \"ERROR: Job failed with code \$rc\" >&2; fi; exit \$rc)"
                 fi
                 # job+=" --use_auth_token --limit 10"
                 job+=" --use_auth_token"
@@ -174,9 +206,16 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                 job+=" --save_generations_prc --save_generations_prc_path ${run_id}_generations_prc.json"
                 job+=" --save_references --save_references_path ${run_id}_references.json"
                 job+=" --save_results --save_results_path ${run_id}_results.json"
-                job+=" |& tee ${outdir}/${run_id}.log; exit"
+                job+=" |& tee ${outdir}/${run_id}.log; rc=\${PIPESTATUS[0]}; if [ \$rc -ne 0 ]; then echo \"COMMAND FAILED WITH CODE \$rc\" | tee -a ${outdir}/${run_id}.log; fi; exit \$rc"
+                
+                echo "[run_expts] submitting job for ${run_id} at $(date -u +'%Y-%m-%dT%H:%M:%SZ')" >&2
                 export JOB="${job}"; bash SUBMIT.sh
-                echo "Submitted ${run_id}"
+                job_rc=$?
+                if [ $job_rc -eq 0 ]; then
+                    echo "[run_expts] job for ${run_id} completed successfully at $(date -u +'%Y-%m-%dT%H:%M:%SZ')" >&2
+                else
+                    echo "[run_expts] WARNING: job for ${run_id} failed with exit code ${job_rc} at $(date -u +'%Y-%m-%dT%H:%M:%SZ')" >&2
+                fi
 
                 # After each run, auto-commit and push any changes
                 git_autocommit "${run_id}"
