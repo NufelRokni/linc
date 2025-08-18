@@ -33,7 +33,7 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     job+="python runner.py"
                     # prefer bf16 for Mistral when sharded
                     # using device_map=auto works on this host; keep that as default
-                    job+=" --model ${model} --precision ${precision} --model-parallel --device_map auto"
+                    job+=" --model ${model} --precision ${precision} --model-parallel --device_map balanced_low_0"
                 else
                     # default: use accelerate launch (data-parallel)
                     # echo "Running inside the accelerate parallel environment..."
