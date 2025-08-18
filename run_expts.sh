@@ -1,13 +1,15 @@
 #! /bin/bash
 set -o pipefail  # Ensure pipe failures are caught
+# Ignore SIGHUP so runs aren't killed if controlling terminal disappears
+trap '' HUP
 trap 'echo "[run_expts] ERROR: Caught signal, exiting at $(date -u +"%Y-%m-%dT%H:%M:%SZ")" >&2' INT TERM
 
-# Redirect all stderr to both stderr and a log file
-exec > >(tee -a "run_expts_$(date -u +"%Y%m%d_%H%M%S").log") 2>&1
-echo "[run_expts] Starting script at $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
-
 outdir="outputs"
-mkdir -p ${outdir}
+mkdir -p "${outdir}"
+
+# Redirect stdout/stderr to a timestamped log in outputs/
+exec > >(tee -a "${outdir}/run_expts_$(date -u +"%Y%m%d_%H%M%S").log") 2>&1
+echo "[run_expts] Starting script at $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 
 # Auto-pick visible GPUs by free memory (exclude near-full GPUs)
 # Usage: select_visible_gpus MIN_FREE_MB MAX_GPUS
@@ -117,6 +119,8 @@ for model in "mistralai/Mistral-7B-v0.1"; do
             for mode in "scratchpad" "cot" "neurosymbolic"; do
                 task="${base}-${mode}-${n}shot"
                 run_id="${model#*/}_${task}"
+                # Track overall success across jobs; initialize once before loop start
+                : "${overall_rc:=0}"
                 if [[ ${model} == "mistralai/Mistral-7B-v0.1" ]]; then
                     # Single-process model-parallel: run python directly so HF device_map shards across GPUs
                     # echo "Running inside the model-parallel environment..."
@@ -215,6 +219,7 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     echo "[run_expts] job for ${run_id} completed successfully at $(date -u +'%Y-%m-%dT%H:%M:%SZ')" >&2
                 else
                     echo "[run_expts] WARNING: job for ${run_id} failed with exit code ${job_rc} at $(date -u +'%Y-%m-%dT%H:%M:%SZ')" >&2
+                    overall_rc=1
                 fi
 
                 # After each run, auto-commit and push any changes
@@ -223,4 +228,13 @@ for model in "mistralai/Mistral-7B-v0.1"; do
         done
     done
 done
-# touch ${outdir}/run.done
+
+# Mark completion for Makefile target only if all jobs succeeded
+if [[ ${overall_rc:-0} -eq 0 ]]; then
+    echo "[run_expts] All jobs finished successfully at $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+    touch "${outdir}/run.done"
+    exit 0
+else
+    echo "[run_expts] One or more jobs failed; not touching ${outdir}/run.done" >&2
+    exit 1
+fi
