@@ -5,6 +5,20 @@ set -e
 outdir="outputs"
 mkdir -p ${outdir}
 
+# Auto-pick visible GPUs by free memory (exclude near-full GPUs)
+# Usage: select_visible_gpus MIN_FREE_MB MAX_GPUS
+select_visible_gpus() {
+        local min_free_mb=${1:-8192}   # default: require at least 8 GiB free
+        local max_gpus=${2:-8}
+        # List GPUs with their free memory, sort by free desc, take top N, join by comma
+        nvidia-smi --query-gpu=index,memory.free --format=csv,noheader,nounits 2>/dev/null \
+            | awk -v min=${min_free_mb} 'NF>=2 { if ($2 >= min) print $1":"$2 }' \
+            | sort -t: -k2,2nr \
+            | cut -d: -f1 \
+            | head -n ${max_gpus} \
+            | paste -sd, -
+}
+
 max_length=8192 # max model context including prompt
 if [[ ! -z "${DEBUG}" ]]; then
     listen="--listen 0.0.0.0:5679 --wait-for-client"
@@ -28,8 +42,14 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                 if [[ ${model} == "mistralai/Mistral-7B-v0.1" ]]; then
                     # Single-process model-parallel: run python directly so HF device_map shards across GPUs
                     # echo "Running inside the model-parallel environment..."
+                    # Dynamically exclude near-full GPUs; override via MIN_FREE_MB and MAX_GPUS env vars if needed
+                    VISIBLE_DEVICES=$(select_visible_gpus "${MIN_FREE_MB:-8192}" "${MAX_GPUS:-8}")
+                    # Fallback to all GPUs if the filter returned none (e.g., low free mem across the board)
+                    if [[ -z "${VISIBLE_DEVICES}" ]]; then
+                        VISIBLE_DEVICES=$(nvidia-smi --query-gpu=index --format=csv,noheader 2>/dev/null | paste -sd, -)
+                    fi
                     job="cd $(pwd); source activate linc; "
-                    job+="CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True TORCH_NCCL_ASYNC_ERROR_HANDLING=1 "
+                    job+="CUDA_VISIBLE_DEVICES=${VISIBLE_DEVICES} PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True TORCH_NCCL_ASYNC_ERROR_HANDLING=1 "
                     job+="python runner.py"
                     # prefer bf16 for Mistral when sharded
                     # using device_map=auto works on this host; keep that as default
