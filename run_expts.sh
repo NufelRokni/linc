@@ -19,6 +19,29 @@ select_visible_gpus() {
             | paste -sd, -
 }
 
+        # Estimate free CPU cores from 1-minute load average (rough heuristic)
+        # Returns at least 1. Override with FREE_CORES env to bypass.
+        estimate_free_cores() {
+            if [[ -n "${FREE_CORES}" ]]; then
+                echo "${FREE_CORES}"
+                return 0
+            fi
+            local total
+            total=$(nproc --all 2>/dev/null || nproc)
+            local load1
+            load1=$(uptime | awk -F'load average: ' '{print $2}' | cut -d, -f1)
+            if [[ -z "${load1}" ]]; then
+                # Fallback parsing if locale/format differs
+                load1=$(uptime | awk '{print $(NF-2)}' | tr -d ',')
+            fi
+            # ceil(load1)
+            local ceil_load
+            ceil_load=$(awk -v l="${load1}" 'BEGIN{printf("%d", (l==int(l)?l:int(l)+1))}')
+            local free=$(( total - ceil_load ))
+            if (( free < 1 )); then free=1; fi
+            echo "${free}"
+        }
+
 max_length=8192 # max model context including prompt
 if [[ ! -z "${DEBUG}" ]]; then
     listen="--listen 0.0.0.0:5679 --wait-for-client"
@@ -42,14 +65,21 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                 if [[ ${model} == "mistralai/Mistral-7B-v0.1" ]]; then
                     # Single-process model-parallel: run python directly so HF device_map shards across GPUs
                     # echo "Running inside the model-parallel environment..."
-                    # Dynamically exclude near-full GPUs; override via MIN_FREE_MB and MAX_GPUS env vars if needed
-                    VISIBLE_DEVICES=$(select_visible_gpus "${MIN_FREE_MB:-8192}" "${MAX_GPUS:-8}")
+                    # Dynamically exclude near-full GPUs; also cap GPUs by available CPU cores
+                    FREE_CORES_EST=$(estimate_free_cores)
+                    CORES_PER_GPU=${CORES_PER_GPU:-3}
+                    CPU_MAX_GPUS=$(( FREE_CORES_EST / CORES_PER_GPU ))
+                    if (( CPU_MAX_GPUS < 1 )); then CPU_MAX_GPUS=1; fi
+                    GPU_CAP=${MAX_GPUS:-8}
+                    EFFECTIVE_MAX_GPUS=$(( CPU_MAX_GPUS < GPU_CAP ? CPU_MAX_GPUS : GPU_CAP ))
+                    VISIBLE_DEVICES=$(select_visible_gpus "${MIN_FREE_MB:-8192}" "${EFFECTIVE_MAX_GPUS}")
+                    echo "[run_expts] free_cores=${FREE_CORES_EST} cores_per_gpu=${CORES_PER_GPU} -> max_gpus=${EFFECTIVE_MAX_GPUS}; visible=${VISIBLE_DEVICES}" >&2
                     # Fallback to all GPUs if the filter returned none (e.g., low free mem across the board)
                     if [[ -z "${VISIBLE_DEVICES}" ]]; then
                         VISIBLE_DEVICES=$(nvidia-smi --query-gpu=index --format=csv,noheader 2>/dev/null | paste -sd, -)
                     fi
                     job="cd $(pwd); source activate linc; "
-                    job+="CUDA_VISIBLE_DEVICES=${VISIBLE_DEVICES} PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True TORCH_NCCL_ASYNC_ERROR_HANDLING=1 "
+                    job+="CUDA_VISIBLE_DEVICES=${VISIBLE_DEVICES} OMP_NUM_THREADS=${CORES_PER_GPU} MKL_NUM_THREADS=${CORES_PER_GPU} TOKENIZERS_PARALLELISM=false PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True TORCH_NCCL_ASYNC_ERROR_HANDLING=1 "
                     job+="python runner.py"
                     # prefer bf16 for Mistral when sharded
                     # using device_map=auto works on this host; keep that as default
