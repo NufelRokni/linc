@@ -158,9 +158,6 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     # Enforce maximum run time to prevent infinite hangs
                     MAX_RUNTIME=${MAX_RUNTIME:-86400}  # Default 24 hours in seconds
                     
-                    # Create a watchdog function to monitor the process and kill if it seems stuck
-                    job+="watchdog_pid=''; function cleanup() { [ -n \"\$watchdog_pid\" ] && kill \$watchdog_pid 2>/dev/null || true; }; trap cleanup EXIT; "
-                    
                     # The job with environment configuration
                     job+="CUDA_VISIBLE_DEVICES=${VISIBLE_DEVICES} "
                     job+="OMP_NUM_THREADS=${CORES_PER_GPU} "
@@ -174,14 +171,21 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     job+="ulimit -c unlimited; "
                     
                     # Launch the model with appropriate settings (unbuffered, line-buffered, no stdin)
-                    # Wrap with timeout to prevent infinite hangs, and monitor progress
+                    # Wrap with timeout to prevent infinite hangs, then pipe to tee and handle rc
                     job+="(timeout -s TERM ${MAX_RUNTIME} stdbuf -oL -eL python -u runner.py"
-                    job+=" --model ${model}" 
-                    job+=" --precision ${precision}" 
-                    job+=" --model-parallel" 
-                    job+=" --device_map ${device_map} </dev/null; rc=\$?; "
-                    # Handle timeout vs normal exit
-                    job+="if [ \$rc -eq 124 ]; then echo 'ERROR: Job timed out after ${MAX_RUNTIME} seconds' >&2; elif [ \$rc -ne 0 ]; then echo \"ERROR: Job failed with code \$rc\" >&2; fi; exit \$rc)"
+                    job+=" --model ${model}"
+                    job+=" --precision ${precision}"
+                    job+=" --model-parallel"
+                    job+=" --device_map ${device_map}"
+                    job+=" --use_auth_token"
+                    job+=" --tasks ${task} --n_samples 10 --batch_size ${batch_size}"
+                    job+=" --max_length_generation ${max_length} --temperature 0.8"
+                    job+=" --allow_code_execution --trust_remote_code --output_dir ${outdir}"
+                    job+=" --save_generations_raw --save_generations_raw_path ${run_id}_generations_raw.json"
+                    job+=" --save_generations_prc --save_generations_prc_path ${run_id}_generations_prc.json"
+                    job+=" --save_references --save_references_path ${run_id}_references.json"
+                    job+=" --save_results --save_results_path ${run_id}_results.json"
+                    job+=" </dev/null) |& tee ${outdir}/${run_id}.log; rc=\${PIPESTATUS[0]}; if [ \$rc -eq 124 ]; then echo 'ERROR: Job timed out after ${MAX_RUNTIME} seconds' >&2; elif [ \$rc -ne 0 ]; then echo \"ERROR: Job failed with code \$rc\" >&2; fi; exit \$rc"
                 else
                     # default: use accelerate launch (data-parallel)
                     # echo "Running inside the accelerate parallel environment..."
@@ -191,26 +195,20 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     job="cd $(pwd); source activate linc; unset CUDA_VISIBLE_DEVICES; "
                     job+="PYTHONUNBUFFERED=1 PAGER=cat GIT_PAGER=cat ulimit -c unlimited; "
                     
-                    # Create a watchdog function to monitor the process and kill if it seems stuck
-                    job+="watchdog_pid=''; function cleanup() { [ -n \"\$watchdog_pid\" ] && kill \$watchdog_pid 2>/dev/null || true; }; trap cleanup EXIT; "
-                    
-                    # Run with timeout protection
-                    job+="(timeout -s TERM ${MAX_RUNTIME} stdbuf -oL -eL accelerate launch ${listen} runner.py </dev/null"
-                    job+=" --model ${model} --precision ${precision}; rc=\$?; "
-                    # Handle timeout vs normal exit
-                    job+="if [ \$rc -eq 124 ]; then echo 'ERROR: Job timed out after ${MAX_RUNTIME} seconds' >&2; elif [ \$rc -ne 0 ]; then echo \"ERROR: Job failed with code \$rc\" >&2; fi; exit \$rc)"
+                    # Run with timeout protection and pipe to tee
+                    job+="(timeout -s TERM ${MAX_RUNTIME} stdbuf -oL -eL accelerate launch ${listen} runner.py"
+                    job+=" --model ${model} --precision ${precision}"
+                    job+=" --use_auth_token"
+                    job+=" --tasks ${task} --n_samples 10 --batch_size ${batch_size}"
+                    job+=" --max_length_generation ${max_length} --temperature 0.8"
+                    job+=" --allow_code_execution --trust_remote_code --output_dir ${outdir}"
+                    job+=" --save_generations_raw --save_generations_raw_path ${run_id}_generations_raw.json"
+                    job+=" --save_generations_prc --save_generations_prc_path ${run_id}_generations_prc.json"
+                    job+=" --save_references --save_references_path ${run_id}_references.json"
+                    job+=" --save_results --save_results_path ${run_id}_results.json"
+                    job+=" </dev/null) |& tee ${outdir}/${run_id}.log; rc=\${PIPESTATUS[0]}; if [ \$rc -eq 124 ]; then echo 'ERROR: Job timed out after ${MAX_RUNTIME} seconds' >&2; elif [ \$rc -ne 0 ]; then echo \"ERROR: Job failed with code \$rc\" >&2; fi; exit \$rc"
                 fi
-                # job+=" --use_auth_token --limit 10"
-                job+=" --use_auth_token"
-                # Always use fixed max_length; default is 8192 unless overridden via MAX_LENGTH env
-                job+=" --tasks ${task} --n_samples 10 --batch_size ${batch_size}"
-                job+=" --max_length_generation ${max_length} --temperature 0.8"
-                job+=" --allow_code_execution --trust_remote_code --output_dir ${outdir}"
-                job+=" --save_generations_raw --save_generations_raw_path ${run_id}_generations_raw.json"
-                job+=" --save_generations_prc --save_generations_prc_path ${run_id}_generations_prc.json"
-                job+=" --save_references --save_references_path ${run_id}_references.json"
-                job+=" --save_results --save_results_path ${run_id}_results.json"
-                job+=" |& tee ${outdir}/${run_id}.log; rc=\${PIPESTATUS[0]}; if [ \$rc -ne 0 ]; then echo \"COMMAND FAILED WITH CODE \$rc\" | tee -a ${outdir}/${run_id}.log; fi; exit \$rc"
+                # Arguments were moved inside the command group above
                 
                 echo "[run_expts] submitting job for ${run_id} at $(date -u +'%Y-%m-%dT%H:%M:%SZ')" >&2
                 export JOB="${job}"; bash SUBMIT.sh
