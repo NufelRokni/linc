@@ -2,6 +2,9 @@ import os
 import fnmatch
 import json
 import pathlib
+import threading
+import random
+import time
 from warnings import warn
 
 import torch
@@ -18,7 +21,61 @@ transformers.logging.set_verbosity_error()
 datasets.logging.set_verbosity_error()
 
 
+def _start_keepalive():
+    """
+    Optional: keep the process 'active' to avoid idle timeouts on some remote shells.
+    Enable by setting KEEPALIVE_INTERVAL (seconds) > 0.
+    It prints a short token to stderr periodically.
+    """
+    try:
+        requested = float(os.getenv("KEEPALIVE_INTERVAL", "0"))
+    except ValueError:
+        requested = 0.0
+
+    # Default off unless explicitly enabled
+    if requested <= 0:
+        return
+
+    token = os.getenv("KEEPALIVE_TOKEN", "[keepalive]")
+
+    # Apply conservative minimums to avoid excessive noise
+    try:
+        min_interval = float(os.getenv("KEEPALIVE_MIN_INTERVAL", "60"))
+    except ValueError:
+        min_interval = 60.0
+
+    try:
+        non_tty_min = float(os.getenv("KEEPALIVE_NON_TTY_MIN", "300"))
+    except ValueError:
+        non_tty_min = 300.0
+
+    try:
+        jitter_pct = float(os.getenv("KEEPALIVE_JITTER_PCT", "0.1"))  # +/-10%
+    except ValueError:
+        jitter_pct = 0.1
+
+    def _run():
+        import sys
+
+        # Use stricter minimum when stderr isn't a TTY (logs/CI)
+        eff_min = max(min_interval, non_tty_min) if not sys.stderr.isatty() else min_interval
+        base = max(requested, eff_min)
+
+        while True:
+            sys.stderr.write(f"{token}\n")
+            sys.stderr.flush()
+            # Add small jitter to avoid synchronized bursts
+            jitter = 1.0 + random.uniform(-jitter_pct, jitter_pct)
+            time.sleep(max(1.0, base * jitter))
+
+    t = threading.Thread(target=_run, daemon=True)
+    t.start()
+
+
 def main():
+    # Optional heartbeat to stop 'idle pause' behaviour on some hosts
+    _start_keepalive()
+
     args = HfArgumentParser(
         [RunnerArguments, HFArguments, GenerationArguments]
     ).parse_args()

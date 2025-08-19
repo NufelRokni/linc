@@ -116,7 +116,7 @@ for model in "mistralai/Mistral-7B-v0.1"; do
         
         for n in "1"; do
             # for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
-            for mode in "scratchpad" "cot" "neurosymbolic"; do
+            for mode in "neurosymbolic"; do
                 task="${base}-${mode}-${n}shot"
                 run_id="${model#*/}_${task}"
                 # Track overall success across jobs; initialize once before loop start
@@ -165,7 +165,7 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     job+="TOKENIZERS_PARALLELISM=false "
                     job+="PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True "
                     job+="TORCH_NCCL_ASYNC_ERROR_HANDLING=1 "
-                    job+="PYTHONUNBUFFERED=1 PAGER=cat GIT_PAGER=cat "
+                    job+="PYTHONUNBUFFERED=1 "
                     
                     # Enable core dumps for debugging potential crashes
                     job+="ulimit -c unlimited; "
@@ -175,7 +175,7 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     job+="(timeout -s TERM ${MAX_RUNTIME} stdbuf -oL -eL python -u runner.py"
                     job+=" --model ${model}"
                     job+=" --precision ${precision}"
-                    job+=" --model-parallel"
+                    job+=" --model_parallel"
                     job+=" --device_map ${device_map}"
                     job+=" --use_auth_token"
                     job+=" --tasks ${task} --n_samples 10 --batch_size ${batch_size}"
@@ -193,7 +193,7 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     MAX_RUNTIME=${MAX_RUNTIME:-86400}  # Default 24 hours in seconds
                     
                     job="cd $(pwd); source activate linc; unset CUDA_VISIBLE_DEVICES; "
-                    job+="PYTHONUNBUFFERED=1 PAGER=cat GIT_PAGER=cat ulimit -c unlimited; "
+                    job+="PYTHONUNBUFFERED=1 ulimit -c unlimited; "
                     
                     # Run with timeout protection and pipe to tee
                     job+="(timeout -s TERM ${MAX_RUNTIME} stdbuf -oL -eL accelerate launch ${listen} runner.py"
