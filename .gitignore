@@ -86,3 +86,6 @@ mlruns/
 # Checkpoints / runs
 checkpoints/
 runs/
+
+# Sandbox
+test/
