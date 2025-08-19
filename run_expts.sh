@@ -116,7 +116,7 @@ for model in "mistralai/Mistral-7B-v0.1"; do
         
         for n in "2"; do
             # for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
-            for mode in "baseline"; do
+            for mode in "neurosymbolic"; do
                 task="${base}-${mode}-${n}shot"
                 run_id="${model#*/}_${task}"
                 # Track overall success across jobs; initialize once before loop start
@@ -156,7 +156,7 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     job="cd $(pwd); source activate linc; "
                     
                     # Enforce maximum run time to prevent infinite hangs
-                    MAX_RUNTIME=${MAX_RUNTIME:-86400}  # Default 24 hours in seconds
+                    MAX_RUNTIME=${MAX_RUNTIME:-115200}  # Default 32 hours in seconds
                     
                     # The job with environment configuration
                     job+="CUDA_VISIBLE_DEVICES=${VISIBLE_DEVICES} "
