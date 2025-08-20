@@ -111,7 +111,7 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     precision="${PRECISION:-fp32}"
                     # Default device map - can be overridden with DEVICE_MAP_MODE env var
                     # Use automatic device map by default for model-parallel sharding
-                    device_map="${DEVICE_MAP_MODE:-auto}"
+                    device_map="${DEVICE_MAP_MODE:-balanced}"
         fi
         # for n in "1" "2" "4" "8"; do
         
