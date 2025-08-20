@@ -107,10 +107,11 @@ for model in "mistralai/Mistral-7B-v0.1"; do
         if [[ ${model} == "mistralai/Mistral-7B-v0.1" ]]; then
             # Always use batch_size=1 for model-parallel inference (safest default)
             batch_size=1
-            # Set precision based on env var or default to fp32
-            precision="${PRECISION:-fp32}"
-            # Default device map - can be overridden with DEVICE_MAP_MODE env var
-            device_map="${DEVICE_MAP_MODE:-balanced_low_0}"
+                    # Set precision based on env var or default to fp32
+                    precision="${PRECISION:-fp32}"
+                    # Default device map - can be overridden with DEVICE_MAP_MODE env var
+                    # Use automatic device map by default for model-parallel sharding
+                    device_map="${DEVICE_MAP_MODE:-auto}"
         fi
         # for n in "1" "2" "4" "8"; do
         
@@ -134,10 +135,10 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     
                     # Precision already set above (env override supported); no further override here
                     
-                    # Select GPUs with >=8 GiB free and <=70% util (overridable via MIN_FREE_MB, MAX_UTIL)
-                    VISIBLE_DEVICES=$(select_visible_gpus "${MIN_FREE_MB:-8192}" "${MAX_UTIL:-70}" "${EFFECTIVE_MAX_GPUS}")
-    
-                    echo "[run_expts] free_cores=${FREE_CORES_EST}, selecting ${EFFECTIVE_MAX_GPUS} GPUs with min_free=${MIN_FREE_MB:-8192}MB, max_util=${MAX_UTIL:-70}%" >&2
+                    # Select GPUs with >=4 GiB free and <=70% util (overridable via MIN_FREE_MB, MAX_UTIL)
+                    VISIBLE_DEVICES=$(select_visible_gpus "${MIN_FREE_MB:-4096}" "${MAX_UTIL:-70}" "${EFFECTIVE_MAX_GPUS}")
+
+                    echo "[run_expts] free_cores=${FREE_CORES_EST}, selecting ${EFFECTIVE_MAX_GPUS} GPUs with min_free=${MIN_FREE_MB:-4096}MB, max_util=${MAX_UTIL:-70}%" >&2
                     echo "[run_expts] precision=${precision}, visible_gpus=${VISIBLE_DEVICES}" >&2
                     
                     # Fallback: if no suitable GPUs found, try more permissive selection
