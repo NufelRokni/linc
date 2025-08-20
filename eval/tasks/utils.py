@@ -115,7 +115,7 @@ def evaluate(premises, conclusion):
     if truth_value:
         return "True"
     else:
-        neg_c = read_expr("-(" + conclusion + ")")
+        neg_c = -c
         negation_true = prover.prove(neg_c, p_list)
         if negation_true:
             return "False"
@@ -127,13 +127,6 @@ def evaluate_further(premises, conclusion):
     conclusion = reformat_fol(conclusion)
 
     conclusion_expr = read_expr(conclusion)
-    conclusion_expr_negation = read_expr("-(" + conclusion + ")")
+    conclusion_expr_negation = -conclusion_expr
     premises_expr_list = [read_expr(p) for p in premises]
     
-    
-    
-
-def fol_normal_form(expr):
-    # Apply the necessary transformations to bring the expression into normal form
-    # This is a placeholder for the actual implementation
-    return expr
