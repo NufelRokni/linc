@@ -226,13 +226,3 @@ for model in "mistralai/Mistral-7B-v0.1"; do
         done
     done
 done
-
-# Mark completion for Makefile target only if all jobs succeeded
-if [[ ${overall_rc:-0} -eq 0 ]]; then
-    echo "[run_expts] All jobs finished successfully at $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-    touch "${outdir}/run.done"
-    exit 0
-else
-    echo "[run_expts] One or more jobs failed; not touching ${outdir}/run.done" >&2
-    exit 1
-fi
