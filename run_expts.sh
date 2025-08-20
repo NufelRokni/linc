@@ -172,8 +172,10 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     job+="ulimit -c unlimited; "
                     
                     # Launch the model with appropriate settings (unbuffered, line-buffered, no stdin)
+                    # Pre-reserve VRAM briefly to reduce races, then start main job.
+                    job+="(RESERVE_MARGIN_MB=${RESERVE_MARGIN_MB:-200} RESERVE_HOLD_SEC=${RESERVE_HOLD_SEC:-2} python reserve_vram.py && "
                     # Wrap with timeout to prevent infinite hangs, then pipe to tee and handle rc
-                    job+="(timeout -s TERM ${MAX_RUNTIME} stdbuf -oL -eL python -u runner.py"
+                    job+="timeout -s TERM ${MAX_RUNTIME} stdbuf -oL -eL python -u runner.py"
                     job+=" --model ${model}"
                     job+=" --precision ${precision}"
                     job+=" --model_parallel"
@@ -196,8 +198,10 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     job="cd $(pwd); source activate linc; unset CUDA_VISIBLE_DEVICES; "
                     job+="PYTHONUNBUFFERED=1 ulimit -c unlimited; "
                     
+                    # Pre-reserve VRAM briefly to reduce races, then start main job.
+                    job+="(RESERVE_MARGIN_MB=${RESERVE_MARGIN_MB:-200} RESERVE_HOLD_SEC=${RESERVE_HOLD_SEC:-2} python reserve_vram.py && "
                     # Run with timeout protection and pipe to tee
-                    job+="(timeout -s TERM ${MAX_RUNTIME} stdbuf -oL -eL accelerate launch ${listen} runner.py"
+                    job+="timeout -s TERM ${MAX_RUNTIME} stdbuf -oL -eL accelerate launch ${listen} runner.py"
                     job+=" --model ${model} --precision ${precision}"
                     job+=" --use_auth_token"
                     job+=" --tasks ${task} --n_samples 10 --batch_size ${batch_size}"
