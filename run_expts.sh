@@ -126,7 +126,7 @@ for model in "mistralai/Mistral-7B-v0.1"; do
                     # echo "Running inside the model-parallel environment..."
                     # Dynamically select GPUs that are not heavily utilized and have sufficient memory
                     FREE_CORES_EST=$(estimate_free_cores)
-                    CORES_PER_GPU=${CORES_PER_GPU:-3}
+                    CORES_PER_GPU=${CORES_PER_GPU:-2}
                     CPU_MAX_GPUS=$(( FREE_CORES_EST / CORES_PER_GPU ))
                     if (( CPU_MAX_GPUS < 1 )); then CPU_MAX_GPUS=1; fi
                     GPU_CAP=${MAX_GPUS:-8}
