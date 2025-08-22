@@ -122,28 +122,28 @@ def complete_code(
     """
 
     # Fast path: if pregenerated outputs exist, load and return to skip generation and save GPU.
-        # Fast path: load only the model-specific generations file located in the same folder as this utils.py
-        _cand = os.path.join(os.path.dirname(__file__), "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_raw.json")
-        if os.path.exists(_cand):
-            with open(_cand, "r") as _fp:
-                _gens_raw_full = json.load(_fp)
-                _gens_raw_full = _gens_raw_full[:n_tasks]
+    # Fast path: load only the model-specific generations file located in the same folder as this utils.py
+    _cand = os.path.join(os.path.dirname(__file__), "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_raw.json")
+    if os.path.exists(_cand):
+        with open(_cand, "r") as _fp:
+            _gens_raw_full = json.load(_fp)
+        _gens_raw_full = _gens_raw_full[:n_tasks]
 
-            def _strip_pref(s: str) -> str:
-                return s[len(prefix):] if prefix else s
+        def _strip_pref(s: str) -> str:
+            return s[len(prefix):] if prefix else s
 
-            _gens_raw = [[_strip_pref(c) for c in cand_list] for cand_list in _gens_raw_full]
-            if postprocess:
-                _gens_prc = [
-                    [task.postprocess_generation(c, i) for c in cand_list]
-                    for i, cand_list in enumerate(_gens_raw)
-                ]
-            else:
-                warnings.warn(
-                    "model output is not postprocessed, this might lower evaluation scores"
-                )
-                _gens_prc = [list(cand_list) for cand_list in _gens_raw]
-            return _gens_prc, _gens_raw
+        _gens_raw = [[_strip_pref(c) for c in cand_list] for cand_list in _gens_raw_full]
+        if postprocess:
+            _gens_prc = [
+                [task.postprocess_generation(c, i) for c in cand_list]
+                for i, cand_list in enumerate(_gens_raw)
+            ]
+        else:
+            warnings.warn(
+                "model output is not postprocessed, this might lower evaluation scores"
+            )
+            _gens_prc = [list(cand_list) for cand_list in _gens_raw]
+        return _gens_prc, _gens_raw
 
     gen_token_dict = defaultdict(list)
     for step, batch in tqdm(
