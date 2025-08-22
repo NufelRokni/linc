@@ -1,4 +1,6 @@
 from collections import defaultdict
+import json
+import os
 import math
 import warnings
 
@@ -16,31 +18,31 @@ class TokenizedDataset(IterableDataset):
     """
 
     def __init__(
-    # Fast path: if a pregenerated outputs file exists, load and return without generating.
-    for _cand in ("generation_raw.json", "generations_raw.json"):
-        if os.path.exists(_cand):
-            with open(_cand, "r") as _fp:
-                _gens_raw = json.load(_fp)
-            _gens_raw = _gens_raw[:n_tasks]
-            if postprocess:
-                _gens_prc = [
-                    [task.postprocess_generation(candidate, i) for candidate in cand_list]
-                    for i, cand_list in enumerate(_gens_raw)
-                ]
-            else:
-                warnings.warn(
-                    "model output is not postprocessed, this might lower evaluation scores"
-                )
-                _gens_prc = [list(cand_list) for cand_list in _gens_raw]
-            return _gens_prc, _gens_raw
-
-    gen_token_dict = defaultdict(list)
-    for step, batch in tqdm(
-        enumerate(dataloader),
-        total=math.ceil(
-            n_tasks * dataloader.dataset.n_copies / accelerator.num_processes
-        ),
+        self,
+        task,
+        dataset,
+        tokenizer,
+        num_devices,
+        max_length,
+        n_tasks=None,
+        n_copies=1,
+        prefix="",
     ):
+        self.task = task
+        self.dataset = dataset
+        self.tokenizer = tokenizer
+        self.num_devices = num_devices
+        self.max_length = max_length
+        # Ensure n_tasks does not exceed dataset length
+        self.n_tasks = min(n_tasks if n_tasks is not None else len(dataset), len(dataset))
+        self.n_copies = n_copies
+        self.prefix = prefix
+
+    def __iter__(self):
+        prompts = []
+        infill = []
+        for sample in range(self.n_tasks):
+            prompt_contents = self.task.get_prompt(self.dataset[sample])
             if isinstance(prompt_contents, str):
                 infill.append(False)
                 prompt = self.prefix + prompt_contents
@@ -118,6 +120,30 @@ def complete_code(
     [p_0_0, p_0_1, ..., p_0_nc-1, p_1_0, ..., p_nt-1_nc-1] where nc is the number of copies of the prompt,
     and nt is the number of tasks. nc is such that num_samples(for each task)= nc * batch_size
     """
+
+    # Fast path: if pregenerated outputs exist, load and return to skip generation and save GPU.
+        # Fast path: load only the model-specific generations file located in the same folder as this utils.py
+        _cand = os.path.join(os.path.dirname(__file__), "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_raw.json")
+        if os.path.exists(_cand):
+            with open(_cand, "r") as _fp:
+                _gens_raw_full = json.load(_fp)
+                _gens_raw_full = _gens_raw_full[:n_tasks]
+
+            def _strip_pref(s: str) -> str:
+                return s[len(prefix):] if prefix else s
+
+            _gens_raw = [[_strip_pref(c) for c in cand_list] for cand_list in _gens_raw_full]
+            if postprocess:
+                _gens_prc = [
+                    [task.postprocess_generation(c, i) for c in cand_list]
+                    for i, cand_list in enumerate(_gens_raw)
+                ]
+            else:
+                warnings.warn(
+                    "model output is not postprocessed, this might lower evaluation scores"
+                )
+                _gens_prc = [list(cand_list) for cand_list in _gens_raw]
+            return _gens_prc, _gens_raw
 
     gen_token_dict = defaultdict(list)
     for step, batch in tqdm(
