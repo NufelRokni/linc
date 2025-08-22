@@ -1,8 +1,0 @@
-{
-  "config": {
-    "model": "mistralai/Mistral-7B-v0.1"
-  },
-  "folio-neurosymbolic-4shot": {
-    "accuracy (pass@1 majority)": 0.6703296703296703
-  }
-}

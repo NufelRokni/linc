@@ -1,8 +1,0 @@
-{
-  "config": {
-    "model": "mistralai/Mistral-7B-v0.1"
-  },
-  "folio-baseline-1shot": {
-    "accuracy (pass@1 majority)": 0.46703296703296704
-  }
-}
