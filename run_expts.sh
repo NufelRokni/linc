@@ -114,9 +114,9 @@ for model in "mistralai/Mistral-7B-v0.1"; do
         fi
         # for n in "1" "2" "4" "8"; do
         
-        for n in "8"; do
+        for n in "1"; do
             # for mode in "baseline" "scratchpad" "cot" "neurosymbolic"; do
-            for mode in "baseline"; do
+            for mode in "neurosymbolic"; do
                 task="${base}-${mode}-${n}shot"
                 run_id="${model#*/}_${task}"
                 # Track overall success across jobs; initialize once before loop start

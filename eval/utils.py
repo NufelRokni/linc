@@ -16,31 +16,31 @@ class TokenizedDataset(IterableDataset):
     """
 
     def __init__(
-        self,
-        task,
-        dataset,
-        tokenizer,
-        num_devices,
-        max_length,
-        n_tasks=None,
-        n_copies=1,
-        prefix="",
-    ):
-        self.task = task
-        self.dataset = dataset
-        self.tokenizer = tokenizer
-        self.num_devices = num_devices
-        self.max_length = max_length
-        # Ensure n_tasks does not exceed dataset length
-        self.n_tasks = min(n_tasks if n_tasks is not None else len(dataset), len(dataset))
-        self.n_copies = n_copies
-        self.prefix = prefix
+    # Fast path: if a pregenerated outputs file exists, load and return without generating.
+    for _cand in ("generation_raw.json", "generations_raw.json"):
+        if os.path.exists(_cand):
+            with open(_cand, "r") as _fp:
+                _gens_raw = json.load(_fp)
+            _gens_raw = _gens_raw[:n_tasks]
+            if postprocess:
+                _gens_prc = [
+                    [task.postprocess_generation(candidate, i) for candidate in cand_list]
+                    for i, cand_list in enumerate(_gens_raw)
+                ]
+            else:
+                warnings.warn(
+                    "model output is not postprocessed, this might lower evaluation scores"
+                )
+                _gens_prc = [list(cand_list) for cand_list in _gens_raw]
+            return _gens_prc, _gens_raw
 
-    def __iter__(self):
-        prompts = []
-        infill = []
-        for sample in range(self.n_tasks):
-            prompt_contents = self.task.get_prompt(self.dataset[sample])
+    gen_token_dict = defaultdict(list)
+    for step, batch in tqdm(
+        enumerate(dataloader),
+        total=math.ceil(
+            n_tasks * dataloader.dataset.n_copies / accelerator.num_processes
+        ),
+    ):
             if isinstance(prompt_contents, str):
                 infill.append(False)
                 prompt = self.prefix + prompt_contents
