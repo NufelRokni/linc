@@ -117,7 +117,7 @@ class OWAFOLTask(Task):
         :param idx: int (if needed)
             index of doc in the dataset to which the generation belongs
         :return: str
-        """
+        # """
         print(f"Full generation:\n{generation}\n")
         try:
             if completion_only:

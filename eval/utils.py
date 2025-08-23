@@ -121,79 +121,79 @@ def complete_code(
     and nt is the number of tasks. nc is such that num_samples(for each task)= nc * batch_size
     """
 
-    # Fastest path: if a processed PRC file exists locally, use it directly to avoid any postprocessing.
-    _prc_path = os.path.join(
-        os.path.dirname(__file__),
-        "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_prc.json",
-    )
-    if os.path.exists(_prc_path):
-        with open(_prc_path, "r") as _pf:
-            _gens_prc_full = json.load(_pf)
-        _gens_prc = _gens_prc_full[:n_tasks]
+    # Decide where to read cached generations from and whether to force postprocessing.
+    force_reprocess = os.getenv("LINC_FORCE_POSTPROCESS", "0").strip() in {"1", "true", "True"}
 
-        # Try to load matching RAW to return alongside; if absent, synthesize empty strings.
-        _raw_path_try = os.path.join(
-            os.path.dirname(__file__),
-            "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_raw.json",
-        )
-        if os.path.exists(_raw_path_try):
-            with open(_raw_path_try, "r") as _rf:
-                _gens_raw_full = json.load(_rf)
-            _gens_raw_full = _gens_raw_full[:n_tasks]
-            def _strip_pref(s: str) -> str:
-                return s[len(prefix):] if prefix else s
-            _gens_raw = [[_strip_pref(c) for c in cand_list] for cand_list in _gens_raw_full]
-            # Mask raw candidates at positions marked Error in PRC, preserving indices
-            masked_raw = []
-            for cand_list, labels in zip(_gens_raw, _gens_prc):
-                row = [("" if lab == "Error" else c) for c, lab in zip(cand_list, labels)]
-                masked_raw.append(row)
-        else:
-            # Synthesize an equally-shaped RAW with empty strings
-            masked_raw = [["" for _ in row] for row in _gens_prc]
-        return _gens_prc, masked_raw
+    repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    outputs_dir = os.path.join(repo_root, "outputs")
+    eval_dir = os.path.dirname(__file__)
 
-    # Fast path: load only the model-specific generations RAW file located in the same folder as this utils.py
-    _raw_path = os.path.join(os.path.dirname(__file__), "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_raw.json")
-    if os.path.exists(_raw_path):
+    # Prefer outputs/ if files exist there; otherwise fall back to eval/ directory copies.
+    prc_candidates = [
+        os.path.join(outputs_dir, "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_prc.json"),
+        os.path.join(eval_dir, "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_prc.json"),
+    ]
+    raw_candidates = [
+        os.path.join(outputs_dir, "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_raw.json"),
+        os.path.join(eval_dir, "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_raw.json"),
+    ]
+
+    _prc_path = next((p for p in prc_candidates if os.path.exists(p)), None)
+    _raw_path = next((p for p in raw_candidates if os.path.exists(p)), None)
+
+    # If RAW exists, optionally recompute PRC from RAW when postprocess is requested or forced.
+    if _raw_path is not None and (force_reprocess or _prc_path is None):
         with open(_raw_path, "r") as _fp:
             _gens_raw_full = json.load(_fp)
         _gens_raw_full = _gens_raw_full[:n_tasks]
-
-        # If a processed file exists alongside, use it directly to avoid re-postprocessing and errors.
-        _prc_path = os.path.join(os.path.dirname(__file__), "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_prc.json")
 
         def _strip_pref(s: str) -> str:
             return s[len(prefix):] if prefix else s
 
         _gens_raw = [[_strip_pref(c) for c in cand_list] for cand_list in _gens_raw_full]
 
-        if os.path.exists(_prc_path):
-            with open(_prc_path, "r") as _pf:
-                _gens_prc_full = json.load(_pf)
-            _gens_prc = _gens_prc_full[:n_tasks]
-            # Mask raw candidates whose processed label is "Error" while preserving positions.
-            masked_raw = []
-            for i, (cand_list, labels) in enumerate(zip(_gens_raw, _gens_prc)):
-                row = []
-                for c, lab in zip(cand_list, labels):
-                    row.append("" if lab == "Error" else c)
-                masked_raw.append(row)
-            return _gens_prc, masked_raw
+        if postprocess:
+            print(f"Postprocessing generations from JSON (force={force_reprocess})...")
+            _gens_prc = [
+                [task.postprocess_generation(c, i) for c in cand_list]
+                for i, cand_list in enumerate(_gens_raw)
+            ]
         else:
-            # Fall back to previous behavior if prc file isn't present.
-            if postprocess:
-                print("Postprocessing generations...")
-                _gens_prc = [
-                    [task.postprocess_generation(c, i) for c in cand_list]
-                    for i, cand_list in enumerate(_gens_raw)
-                ]
-            else:
-                warnings.warn(
-                    "model output is not postprocessed, this might lower evaluation scores"
-                )
-                _gens_prc = [list(cand_list) for cand_list in _gens_raw]
-            return _gens_prc, _gens_raw
+            warnings.warn(
+                "model output is not postprocessed, this might lower evaluation scores"
+            )
+            _gens_prc = [list(cand_list) for cand_list in _gens_raw]
+
+        # Mask RAW positions where the processed label is Error
+        masked_raw = []
+        for cand_list, labels in zip(_gens_raw, _gens_prc):
+            row = [("" if lab == "Error" else c) for c, lab in zip(cand_list, labels)]
+            masked_raw.append(row)
+        return _gens_prc, masked_raw
+
+    # If PRC exists (and we are not forcing recompute), return it with masked RAW if available.
+    if _prc_path is not None and not force_reprocess:
+        with open(_prc_path, "r") as _pf:
+            _gens_prc_full = json.load(_pf)
+        _gens_prc = _gens_prc_full[:n_tasks]
+
+        if _raw_path is not None:
+            with open(_raw_path, "r") as _rf:
+                _gens_raw_full = json.load(_rf)
+            _gens_raw_full = _gens_raw_full[:n_tasks]
+
+            def _strip_pref(s: str) -> str:
+                return s[len(prefix):] if prefix else s
+
+            _gens_raw = [[_strip_pref(c) for c in cand_list] for cand_list in _gens_raw_full]
+            masked_raw = []
+            for cand_list, labels in zip(_gens_raw, _gens_prc):
+                row = [("" if lab == "Error" else c) for c, lab in zip(cand_list, labels)]
+                masked_raw.append(row)
+        else:
+            masked_raw = [["" for _ in row] for row in _gens_prc]
+        print("Loaded processed generations from JSON without re-postprocessing.")
+        return _gens_prc, masked_raw
 
     gen_token_dict = defaultdict(list)
     for step, batch in tqdm(
