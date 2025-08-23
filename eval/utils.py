@@ -121,11 +121,11 @@ def complete_code(
     and nt is the number of tasks. nc is such that num_samples(for each task)= nc * batch_size
     """
 
-    with open("Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_raw.json", "r") as f:
+    with open("Mistral-7B-v0.1_folio-1shot_generations_raw.json", "r") as f:
         gens_raw_full = json.load(f)
-    with open("Mistral-7B-v0.1_folio-neurosymbolic-1shot_references.json", "r") as f:
+    with open("Mistral-7B-v0.1_folio-1shot_references.json", "r") as f:
         gens_ref = json.load(f)
-    with open("Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_prc.json", "r") as f:
+    with open("Mistral-7B-v0.1_folio-1shot_generations_prc.json", "r") as f:
         gens_prc = json.load(f)
 
     print(f"Loaded {len(gens_raw_full)} raw generations, {len(gens_ref)} references, and {len(gens_prc)} processed generations.")
