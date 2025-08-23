@@ -121,47 +121,15 @@ def complete_code(
     and nt is the number of tasks. nc is such that num_samples(for each task)= nc * batch_size
     """
 
-    # POSTPROCESS-ONLY MODE: Always recompute PRC from RAW JSON, never call the model.
-    # 1) Find RAW file path (env override -> outputs/ -> eval/). 2) Re-postprocess it. 3) Return PRC and masked RAW.
-    repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-    outputs_dir = os.path.join(repo_root, "outputs")
-    eval_dir = os.path.dirname(__file__)
+    open the json file all the three
+    with open("Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_raw.json", "r") as f:
+        gens_raw_full = json.load(f)
+    with open("Mistral-7B-v0.1_folio-neurosymbolic-1shot_references.json", "r") as f:
+        gens_ref = json.load(f)
+    with open("Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_prc.json", "r") as f:
+        gens_prc = json.load(f)
 
-    raw_override = os.getenv("LINC_RAW_PATH", "").strip() or None
-    raw_candidates = [
-        raw_override,
-        os.path.join(outputs_dir, "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_raw.json"),
-        os.path.join(eval_dir, "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_raw.json"),
-    ]
-    raw_candidates = [p for p in raw_candidates if p]
-    _raw_path = next((p for p in raw_candidates if os.path.exists(p)), None)
-
-    if _raw_path is None:
-        raise RuntimeError(
-            "Postprocess-only mode: RAW generations JSON not found. Set LINC_RAW_PATH or place the RAW file in outputs/."
-        )
-
-    with open(_raw_path, "r") as _fp:
-        _gens_raw_full = json.load(_fp)
-    _gens_raw_full = _gens_raw_full[:n_tasks]
-
-    def _strip_pref(s: str) -> str:
-        return s[len(prefix):] if prefix and s.startswith(prefix) else s
-
-    _gens_raw = [[_strip_pref(c) for c in cand_list] for cand_list in _gens_raw_full]
-
-    if not postprocess:
-        warnings.warn("postprocess flag was False, but postprocess-only mode requires it; proceeding with postprocessing.")
-
-    print(f"Postprocess-only mode: reprocessing RAW JSON at {os.path.basename(_raw_path)} for {n_tasks} tasks…")
-    _gens_prc = [
-        [task.postprocess_generation(c, i) for c in cand_list]
-        for i, cand_list in enumerate(_gens_raw)
-    ]
-
-    # Mask RAW positions where the processed label is Error
-    masked_raw = []
-    for cand_list, labels in zip(_gens_raw, _gens_prc):
-        row = [("" if lab == "Error" else c) for c, lab in zip(cand_list, labels)]
-        masked_raw.append(row)
-    return _gens_prc, masked_raw
+    print(f"Loaded {len(gens_raw_full)} raw generations, {len(gens_ref)} references, and {len(gens_prc)} processed generations.")
+    print(f"Sample raw generation: {gens_raw_full[0]}")
+    print(f"Sample reference: {gens_ref[0]}")
+    print(f"Sample processed generation: {gens_prc[0]}")
