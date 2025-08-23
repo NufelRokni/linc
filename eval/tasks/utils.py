@@ -163,6 +163,7 @@ VERBOSE_EVAL = True
 RECURSION_DEPTH = 0
 
 def evaluate_fol_manually(premises: List[str], conclusion: str) -> str:
+    print(f"Evaluating FOL with premises: {premises} and conclusion: {conclusion}")
     premises_fmt = [reformat_fol(p) for p in premises]
     conclusion_fmt = reformat_fol(conclusion)
     
