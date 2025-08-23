@@ -153,7 +153,7 @@ class OWAFOLTask(Task):
             return resp
         except Exception as e:
             # TODO: explore failure cases and improve postprocessing
-            # print(f"Error in parsing and/or evaluating LLM output: {e}")
+            print(f"Error in parsing and/or evaluating LLM output: {e}")
             return self.ERROR_TOKEN
 
     @staticmethod

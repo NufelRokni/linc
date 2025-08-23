@@ -241,4 +241,26 @@ def complete_code(
                 )
                 code_gens_prc[sample].append(gen_code[len(prefix) :])
 
+    # Optional: skip tasks that are already marked as all-errors in the processed PRC file.
+    # Look for a prc file next to this utils.py or in the repo outputs/ folder.
+    prc_candidate = os.path.join(os.path.dirname(__file__), "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_prc.json")
+    if not os.path.exists(prc_candidate):
+        # try outputs/ folder relative to repo
+        repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+        prc_candidate = os.path.join(repo_root, "outputs", "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_prc.json")
+
+    if os.path.exists(prc_candidate):
+        try:
+            with open(prc_candidate, "r") as _fp:
+                prc_list = json.load(_fp)
+            # prc_list is list[list[str]] with length n_tasks
+            for i, labels in enumerate(prc_list[:n_tasks]):
+                # if every candidate is marked "Error", skip this task by clearing entries
+                if isinstance(labels, list) and all(x == "Error" for x in labels):
+                    code_gens_prc[i] = []
+                    code_gens_raw[i] = []
+        except Exception:
+            # if reading fails, continue without skipping
+            pass
+
     return code_gens_prc, code_gens_raw
