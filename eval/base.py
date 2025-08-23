@@ -119,17 +119,11 @@ class OWAFOLTask(Task):
         :return: str
         # """
         try:
-            if completion_only:
-                gen = generation.strip()
-            else:
-                sample = self.get_dataset()[idx]
-                prefix = self.get_prompt(sample)
-                assert generation.startswith(
-                    prefix
-                ), "Increase `--max_length_generation` to avoid truncation"
-                gen = generation[len(prefix) :].strip()
-                for stop_word in self.stop_words:
-                    gen = gen.split(stop_word)[0].strip()
+            # the index of last tag <EVALUATE> in the sentence generation
+            prefix = generation.rsplit("</EVALUATE>", 1)[0]
+            gen = generation[len(prefix) :].strip()
+            for stop_word in self.stop_words:
+                gen = gen.split(stop_word)[0].strip()
             if self._mode == "baseline":
                 resp = gen.strip()
             elif self._mode == "scratchpad":
