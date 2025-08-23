@@ -118,9 +118,10 @@ class OWAFOLTask(Task):
             index of doc in the dataset to which the generation belongs
         :return: str
         # """
+        print(generation)
         try:
             print(f"Length of generation: {len(generation)}")
-            print(f"")
+            print(f"Index of tag <EVALUATE>: {generation.index('<EVALUATE>')}")
             gen = generation[len(prefix) :].strip()
             for stop_word in self.stop_words:
                 gen = gen.split(stop_word)[0].strip()
