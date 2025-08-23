@@ -120,7 +120,7 @@ class OWAFOLTask(Task):
         # """
         try:
             # the index of last tag <EVALUATE> in the sentence generation
-            prefix = generation.rsplit("</EVALUATE>", 1)[0]
+            prefix = generation.rsplit("<EVALUATE>", 1)[0]
             gen = generation[len(prefix) :].strip()
             for stop_word in self.stop_words:
                 gen = gen.split(stop_word)[0].strip()
