@@ -121,197 +121,47 @@ def complete_code(
     and nt is the number of tasks. nc is such that num_samples(for each task)= nc * batch_size
     """
 
-    # Decide where to read cached generations from and whether to force postprocessing.
-    force_reprocess = os.getenv("LINC_FORCE_POSTPROCESS", "0").strip() in {"1", "true", "True"}
-
+    # POSTPROCESS-ONLY MODE: Always recompute PRC from RAW JSON, never call the model.
+    # 1) Find RAW file path (env override -> outputs/ -> eval/). 2) Re-postprocess it. 3) Return PRC and masked RAW.
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
     outputs_dir = os.path.join(repo_root, "outputs")
     eval_dir = os.path.dirname(__file__)
 
-    # Prefer outputs/ if files exist there; otherwise fall back to eval/ directory copies.
-    prc_candidates = [
-        os.path.join(outputs_dir, "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_prc.json"),
-        os.path.join(eval_dir, "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_prc.json"),
-    ]
+    raw_override = os.getenv("LINC_RAW_PATH", "").strip() or None
     raw_candidates = [
+        raw_override,
         os.path.join(outputs_dir, "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_raw.json"),
         os.path.join(eval_dir, "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_raw.json"),
     ]
-
-    _prc_path = next((p for p in prc_candidates if os.path.exists(p)), None)
+    raw_candidates = [p for p in raw_candidates if p]
     _raw_path = next((p for p in raw_candidates if os.path.exists(p)), None)
 
-    # If RAW exists, optionally recompute PRC from RAW when postprocess is requested or forced.
-    if _raw_path is not None and (force_reprocess or _prc_path is None):
-        with open(_raw_path, "r") as _fp:
-            _gens_raw_full = json.load(_fp)
-        _gens_raw_full = _gens_raw_full[:n_tasks]
+    if _raw_path is None:
+        raise RuntimeError(
+            "Postprocess-only mode: RAW generations JSON not found. Set LINC_RAW_PATH or place the RAW file in outputs/."
+        )
 
-        def _strip_pref(s: str) -> str:
-            return s[len(prefix):] if prefix else s
+    with open(_raw_path, "r") as _fp:
+        _gens_raw_full = json.load(_fp)
+    _gens_raw_full = _gens_raw_full[:n_tasks]
 
-        _gens_raw = [[_strip_pref(c) for c in cand_list] for cand_list in _gens_raw_full]
+    def _strip_pref(s: str) -> str:
+        return s[len(prefix):] if prefix and s.startswith(prefix) else s
 
-        if postprocess:
-            print(f"Postprocessing generations from JSON (force={force_reprocess})...")
-            _gens_prc = [
-                [task.postprocess_generation(c, i) for c in cand_list]
-                for i, cand_list in enumerate(_gens_raw)
-            ]
-        else:
-            warnings.warn(
-                "model output is not postprocessed, this might lower evaluation scores"
-            )
-            _gens_prc = [list(cand_list) for cand_list in _gens_raw]
+    _gens_raw = [[_strip_pref(c) for c in cand_list] for cand_list in _gens_raw_full]
 
-        # Mask RAW positions where the processed label is Error
-        masked_raw = []
-        for cand_list, labels in zip(_gens_raw, _gens_prc):
-            row = [("" if lab == "Error" else c) for c, lab in zip(cand_list, labels)]
-            masked_raw.append(row)
-        return _gens_prc, masked_raw
+    if not postprocess:
+        warnings.warn("postprocess flag was False, but postprocess-only mode requires it; proceeding with postprocessing.")
 
-    # If PRC exists (and we are not forcing recompute), return it with masked RAW if available.
-    if _prc_path is not None and not force_reprocess:
-        with open(_prc_path, "r") as _pf:
-            _gens_prc_full = json.load(_pf)
-        _gens_prc = _gens_prc_full[:n_tasks]
+    print(f"Postprocess-only mode: reprocessing RAW JSON at {os.path.basename(_raw_path)} for {n_tasks} tasks…")
+    _gens_prc = [
+        [task.postprocess_generation(c, i) for c in cand_list]
+        for i, cand_list in enumerate(_gens_raw)
+    ]
 
-        if _raw_path is not None:
-            with open(_raw_path, "r") as _rf:
-                _gens_raw_full = json.load(_rf)
-            _gens_raw_full = _gens_raw_full[:n_tasks]
-
-            def _strip_pref(s: str) -> str:
-                return s[len(prefix):] if prefix else s
-
-            _gens_raw = [[_strip_pref(c) for c in cand_list] for cand_list in _gens_raw_full]
-            masked_raw = []
-            for cand_list, labels in zip(_gens_raw, _gens_prc):
-                row = [("" if lab == "Error" else c) for c, lab in zip(cand_list, labels)]
-                masked_raw.append(row)
-        else:
-            masked_raw = [["" for _ in row] for row in _gens_prc]
-        print("Loaded processed generations from JSON without re-postprocessing.")
-        return _gens_prc, masked_raw
-
-    gen_token_dict = defaultdict(list)
-    for step, batch in tqdm(
-        enumerate(dataloader),
-        total=math.ceil(
-            n_tasks * dataloader.dataset.n_copies / accelerator.num_processes
-        ),
-    ):
-        with torch.no_grad():
-            if task.stop_words:
-                # print("Using stopping criteria ===============================")
-                # print("input_len.max()", int(batch["input_len"].max().item()))
-                # print("ids.shape[-1] (padded)", batch["ids"].shape[-1])
-                gen_kwargs["stopping_criteria"][0].start_length = batch["input_len"].max().item()
-            # Compute the maximum original length of the prompts in the batch:
-            # decoded_prompt = tokenizer.decode(batch["ids"][0, :batch["input_len"].max().item()])
-            # print(f"PROMPT: {decoded_prompt}") # Print first 100 chars
-            input_ids = batch["ids"][:, :batch["input_len"].max().item()]
-            # Always place tensors on the model's device to avoid CPU/CUDA mismatch.
-            first_dev = next(accelerator.unwrap_model(model).parameters()).device
-            input_ids = input_ids.to(first_dev, non_blocking=True)
-            attention_mask = torch.ones_like(input_ids, dtype=torch.long, device=first_dev)
-            generated_tokens = accelerator.unwrap_model(model).generate(
-                input_ids=input_ids,
-                attention_mask=attention_mask,
-                num_return_sequences=batch_size,
-                **gen_kwargs,
-            )
-            generated_tasks = batch["task_id"].repeat(batch_size)
-            generated_tokens = accelerator.pad_across_processes(
-                generated_tokens, dim=1, pad_index=tokenizer.pad_token_id
-            )
-
-            generated_tokens, generated_tasks = accelerator.gather(
-                (generated_tokens, generated_tasks)
-            )
-            generated_tokens = generated_tokens.cpu().numpy()
-            generated_tasks = generated_tasks.cpu().numpy()
-
-            for sample, generated_tokens in zip(generated_tasks, generated_tokens):
-                gen_token_dict[sample].append(generated_tokens)
-
-    def parse_infill(code, tokenizer):
-        """Reorder infill code and remove remaining special tokens."""
-        model_id = tokenizer.name_or_path
-        if model_id in ["facebook/incoder-1B", "facebook/incoder-6B"]:
-            parts = code.split("<|mask:0|>")
-            if len(parts) < 3:
-                raise ValueError("Malformed infill output for InCoder.")
-            prefix, suffix, infill = parts[0], parts[1], parts[2]
-            infill = infill.split("<|endofmask|>")[0]
-        elif model_id.startswith("mistralai"):
-            # New branch for Mistral infill parsing.
-            if "<fim-suffix>" not in code or "<fim-middle>" not in code:
-                raise ValueError("Malformed infill output for Mistral.")
-            prefix, rest = code.split("<fim-suffix>", 1)
-            suffix, infill = rest.split("<fim-middle>", 1)
-            infill = infill.split("<|endoftext|>")[0]
-        else:
-            raise ValueError(f"Infilling not yet supported for: {model_id}")
-            
-        code = "".join([prefix, infill, suffix])
-        for k, v in tokenizer.special_tokens_map.items():
-            if k == "additional_special_tokens":
-                for t in v:
-                    code = code.replace(t, "")
-            else:
-                code = code.replace(v, "")
-        return code
-
-    code_gens_raw = [[] for _ in range(n_tasks)]
-    code_gens_prc = [[] for _ in range(n_tasks)]
-    for sample, generated_tokens in gen_token_dict.items():
-        for s in generated_tokens:
-            if INFILL_MODE:
-                gen_code = parse_infill(
-                    tokenizer.decode(
-                        s, skip_special_tokens=False, clean_up_tokenization_spaces=False
-                    ),
-                    tokenizer,
-                )
-            else:
-                gen_code = tokenizer.decode(
-                    s, skip_special_tokens=True, clean_up_tokenization_spaces=True
-                )
-            code_gens_raw[sample].append(gen_code[len(prefix) :])
-            if postprocess:
-                x = int(sample)
-                code_gens_prc[sample].append(
-                    task.postprocess_generation(gen_code[len(prefix) :], x)
-                )
-            else:
-                warnings.warn(
-                    "model output is not postprocessed, this might lower evaluation scores"
-                )
-                code_gens_prc[sample].append(gen_code[len(prefix) :])
-
-    # Optional: skip tasks that are already marked as all-errors in the processed PRC file.
-    # Look for a prc file next to this utils.py or in the repo outputs/ folder.
-    prc_candidate = os.path.join(os.path.dirname(__file__), "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_prc.json")
-    if not os.path.exists(prc_candidate):
-        # try outputs/ folder relative to repo
-        repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-        prc_candidate = os.path.join(repo_root, "outputs", "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_prc.json")
-
-    if os.path.exists(prc_candidate):
-        try:
-            with open(prc_candidate, "r") as _fp:
-                prc_list = json.load(_fp)
-            # prc_list is list[list[str]] with length n_tasks
-            for i, labels in enumerate(prc_list[:n_tasks]):
-                if isinstance(labels, list):
-                    for j, lab in enumerate(labels):
-                        if lab == "Error" and j < len(code_gens_raw[i]):
-                            # mask raw candidate to indicate skip, preserve positions
-                            code_gens_raw[i][j] = ""
-        except Exception:
-            # if reading fails, continue without skipping
-            pass
-
-    return code_gens_prc, code_gens_raw
+    # Mask RAW positions where the processed label is Error
+    masked_raw = []
+    for cand_list, labels in zip(_gens_raw, _gens_prc):
+        row = [("" if lab == "Error" else c) for c, lab in zip(cand_list, labels)]
+        masked_raw.append(row)
+    return _gens_prc, masked_raw
