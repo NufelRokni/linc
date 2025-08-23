@@ -1,6 +1,6 @@
 from functools import cache
 from collections import Counter
-from eval.tasks.utils import evaluate
+from eval.tasks.utils import evaluate_fol_manually
 from eval.task_base import Task
 from eval.fol_utils import (
     reformat_fol_samples_train,
@@ -143,7 +143,7 @@ class OWAFOLTask(Task):
                     if flag in line
                 ]
                 premises, conclusion = parses[:-1], parses[-1]
-                resp = evaluate(premises, conclusion)
+                resp = evaluate_fol_manually(premises, conclusion)
             elif self._mode == "cot":
                 flag = "ANSWER:"
                 resp = gen.split(flag)[-1].strip()
