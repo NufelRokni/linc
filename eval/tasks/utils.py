@@ -103,6 +103,26 @@ def reformat_fol(fol):
         fol = fol.replace(variable, variable_new)
     return fol
 
+# def evaluate(premises, conclusion):
+#     premises = [reformat_fol(p) for p in premises]
+#     conclusion = reformat_fol(conclusion)
+
+#     c = read_expr(conclusion)
+#     p_list = []
+#     for p in premises:
+#         p_list.append(read_expr(p))
+#     truth_value = prover.prove(c, p_list)
+#     if truth_value:
+#         return "True"
+#     else:
+#         neg_c = -c
+#         negation_true = prover.prove(neg_c, p_list)
+#         if negation_true:
+#             return "False"
+#         else:
+#             return "Uncertain"
+
+
 def evaluate(premises, conclusion):
     premises = [reformat_fol(p) for p in premises]
     conclusion = reformat_fol(conclusion)
@@ -121,12 +141,5 @@ def evaluate(premises, conclusion):
             return "False"
         else:
             return "Uncertain"
-        
-def evaluate_further(premises, conclusion):
-    premises = [reformat_fol(p) for p in premises]
-    conclusion = reformat_fol(conclusion)
 
-    conclusion_expr = read_expr(conclusion)
-    conclusion_expr_negation = -conclusion_expr
-    premises_expr_list = [read_expr(p) for p in premises]
     
