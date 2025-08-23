@@ -122,7 +122,7 @@ def reformat_fol(fol):
 #         else:
 #             return "Uncertain"
 
-from fol_normalization import normal_form
+from .fol_normalization import normal_form
 from typing import List
 from nltk.sem import Expression
 from nltk.sem import logic
