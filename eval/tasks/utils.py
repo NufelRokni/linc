@@ -122,11 +122,28 @@ def reformat_fol(fol):
 #         else:
 #             return "Uncertain"
 
+from fol_normalization import normal_form
+from typing import List
+from nltk.sem import Expression
+from nltk.sem import logic
+from nltk.sem.logic import (
+    Expression,
+    AndExpression,
+    OrExpression,
+    ImpExpression,
+    IffExpression,
+    NegatedExpression,
+    AllExpression,
+    ExistsExpression,
+    EqualityExpression,
+    ApplicationExpression,
+)
 
 def evaluate(premises, conclusion):
     premises = [reformat_fol(p) for p in premises]
     conclusion = reformat_fol(conclusion)
 
+    
     c = read_expr(conclusion)
     p_list = []
     for p in premises:
@@ -141,5 +158,40 @@ def evaluate(premises, conclusion):
             return "False"
         else:
             return "Uncertain"
+        
+VERBOSE_EVAL = True
+RECURSION_DEPTH = 0
+
+def evaluate_fol_manually(premises: List[str], conclusion: str) -> str:
+    premises_fmt = [reformat_fol(p) for p in premises]
+    conclusion_fmt = reformat_fol(conclusion)
+    
+    premises_expr: List[Expression] = [read_expr(p) for p in premises_fmt]
+    conclusion_expr: Expression = read_expr(conclusion_fmt)
+    
+    if VERBOSE_EVAL:
+        # for p_expr in premises_expr: print(f"Premise: {p_expr}")
+        print(f"\nInitial Conclusion: {conclusion_expr}\n")
+
+    # nf_conclusion could be produced by a normal_form() routine; for now keep the parsed expression
+    nf_conclusion: Expression = normal_form(conclusion_expr)
+    if VERBOSE_EVAL:
+        print(f"Normal Form Conclusion: {nf_conclusion}\n")
+
+    # Optional sanity check: NF should be equivalent to original conclusion (up to prover power)
+    if VERBOSE_EVAL:
+        try:
+            a_impl_b = (-conclusion_expr) | nf_conclusion
+            b_impl_a = (-nf_conclusion) | conclusion_expr
+            eq1 = prover.prove(a_impl_b, [])
+            eq2 = prover.prove(b_impl_a, [])
+            print(f"Equivalence checks: orig -> NF: {'✓' if eq1 else '·'}, NF -> orig: {'✓' if eq2 else '·'}")
+            return "equivalence check complete"
+        except Exception:
+            print(f"Error occurred during equivalence checks")
+            return "normalization error"
+
+    # return recursive_evaluate(premises_expr, nf_conclusion, depth=RECURSION_DEPTH)
+
 
     
