@@ -143,6 +143,7 @@ class OWAFOLTask(Task):
                     if flag in line
                 ]
                 premises, conclusion = parses[:-1], parses[-1]
+                print(f"Evaluating FOL with premises: {premises} and conclusion: {conclusion}")
                 resp = evaluate_fol_manually(premises, conclusion)
             elif self._mode == "cot":
                 flag = "ANSWER:"
