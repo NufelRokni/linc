@@ -121,29 +121,46 @@ def complete_code(
     and nt is the number of tasks. nc is such that num_samples(for each task)= nc * batch_size
     """
 
-    # Fast path: if pregenerated outputs exist, load and return to skip generation and save GPU.
     # Fast path: load only the model-specific generations file located in the same folder as this utils.py
-    _cand = os.path.join(os.path.dirname(__file__), "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_raw.json")
-    if os.path.exists(_cand):
-        with open(_cand, "r") as _fp:
+    _raw_path = os.path.join(os.path.dirname(__file__), "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_raw.json")
+    if os.path.exists(_raw_path):
+        with open(_raw_path, "r") as _fp:
             _gens_raw_full = json.load(_fp)
         _gens_raw_full = _gens_raw_full[:n_tasks]
+
+        # If a processed file exists alongside, use it directly to avoid re-postprocessing and errors.
+        _prc_path = os.path.join(os.path.dirname(__file__), "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_prc.json")
 
         def _strip_pref(s: str) -> str:
             return s[len(prefix):] if prefix else s
 
         _gens_raw = [[_strip_pref(c) for c in cand_list] for cand_list in _gens_raw_full]
-        if postprocess:
-            _gens_prc = [
-                [task.postprocess_generation(c, i) for c in cand_list]
-                for i, cand_list in enumerate(_gens_raw)
-            ]
+
+        if os.path.exists(_prc_path):
+            with open(_prc_path, "r") as _pf:
+                _gens_prc_full = json.load(_pf)
+            _gens_prc = _gens_prc_full[:n_tasks]
+            # Mask raw candidates whose processed label is "Error" while preserving positions.
+            masked_raw = []
+            for i, (cand_list, labels) in enumerate(zip(_gens_raw, _gens_prc)):
+                row = []
+                for c, lab in zip(cand_list, labels):
+                    row.append("" if lab == "Error" else c)
+                masked_raw.append(row)
+            return _gens_prc, masked_raw
         else:
-            warnings.warn(
-                "model output is not postprocessed, this might lower evaluation scores"
-            )
-            _gens_prc = [list(cand_list) for cand_list in _gens_raw]
-        return _gens_prc, _gens_raw
+            # Fall back to previous behavior if prc file isn't present.
+            if postprocess:
+                _gens_prc = [
+                    [task.postprocess_generation(c, i) for c in cand_list]
+                    for i, cand_list in enumerate(_gens_raw)
+                ]
+            else:
+                warnings.warn(
+                    "model output is not postprocessed, this might lower evaluation scores"
+                )
+                _gens_prc = [list(cand_list) for cand_list in _gens_raw]
+            return _gens_prc, _gens_raw
 
     gen_token_dict = defaultdict(list)
     for step, batch in tqdm(
@@ -255,10 +272,11 @@ def complete_code(
                 prc_list = json.load(_fp)
             # prc_list is list[list[str]] with length n_tasks
             for i, labels in enumerate(prc_list[:n_tasks]):
-                # if every candidate is marked "Error", skip this task by clearing entries
-                if isinstance(labels, list) and all(x == "Error" for x in labels):
-                    code_gens_prc[i] = []
-                    code_gens_raw[i] = []
+                if isinstance(labels, list):
+                    for j, lab in enumerate(labels):
+                        if lab == "Error" and j < len(code_gens_raw[i]):
+                            # mask raw candidate to indicate skip, preserve positions
+                            code_gens_raw[i][j] = ""
         except Exception:
             # if reading fails, continue without skipping
             pass
