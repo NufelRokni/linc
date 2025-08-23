@@ -119,7 +119,8 @@ class OWAFOLTask(Task):
         :return: str
         # """
         try:
-            # the index of last tag <EVALUATE> in the sentence generation
+            print(f"Length of generation: {len(generation)}")
+            print(f"")
             gen = generation[len(prefix) :].strip()
             for stop_word in self.stop_words:
                 gen = gen.split(stop_word)[0].strip()
