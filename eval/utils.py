@@ -121,7 +121,39 @@ def complete_code(
     and nt is the number of tasks. nc is such that num_samples(for each task)= nc * batch_size
     """
 
-    # Fast path: load only the model-specific generations file located in the same folder as this utils.py
+    # Fastest path: if a processed PRC file exists locally, use it directly to avoid any postprocessing.
+    _prc_path = os.path.join(
+        os.path.dirname(__file__),
+        "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_prc.json",
+    )
+    if os.path.exists(_prc_path):
+        with open(_prc_path, "r") as _pf:
+            _gens_prc_full = json.load(_pf)
+        _gens_prc = _gens_prc_full[:n_tasks]
+
+        # Try to load matching RAW to return alongside; if absent, synthesize empty strings.
+        _raw_path_try = os.path.join(
+            os.path.dirname(__file__),
+            "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_raw.json",
+        )
+        if os.path.exists(_raw_path_try):
+            with open(_raw_path_try, "r") as _rf:
+                _gens_raw_full = json.load(_rf)
+            _gens_raw_full = _gens_raw_full[:n_tasks]
+            def _strip_pref(s: str) -> str:
+                return s[len(prefix):] if prefix else s
+            _gens_raw = [[_strip_pref(c) for c in cand_list] for cand_list in _gens_raw_full]
+            # Mask raw candidates at positions marked Error in PRC, preserving indices
+            masked_raw = []
+            for cand_list, labels in zip(_gens_raw, _gens_prc):
+                row = [("" if lab == "Error" else c) for c, lab in zip(cand_list, labels)]
+                masked_raw.append(row)
+        else:
+            # Synthesize an equally-shaped RAW with empty strings
+            masked_raw = [["" for _ in row] for row in _gens_prc]
+        return _gens_prc, masked_raw
+
+    # Fast path: load only the model-specific generations RAW file located in the same folder as this utils.py
     _raw_path = os.path.join(os.path.dirname(__file__), "Mistral-7B-v0.1_folio-neurosymbolic-1shot_generations_raw.json")
     if os.path.exists(_raw_path):
         with open(_raw_path, "r") as _fp:
@@ -151,6 +183,7 @@ def complete_code(
         else:
             # Fall back to previous behavior if prc file isn't present.
             if postprocess:
+                print("Postprocessing generations...")
                 _gens_prc = [
                     [task.postprocess_generation(c, i) for c in cand_list]
                     for i, cand_list in enumerate(_gens_raw)
