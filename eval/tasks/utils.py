@@ -93,51 +93,40 @@ def reformat_fol(fol):
         "’": "",
         "-": "_",
         "'": "",
+        # "\"": "",
         " ": "_"
+        
     }
+    # Handle equality specially: turn `a = b` into an atomic predicate `Equals(a,b)`
+    # This keeps equality as an atomic formula during normalization and avoids
+    # accidental token mangling when replacing characters.
+    def _replace_equality(match):
+        left = match.group(1).strip()
+        right = match.group(2).strip()
+        # Convert standalone digits to word constants within equality
+        digit_word = {
+            "0": "Zero", "1": "One", "2": "Two", "3": "Three", "4": "Four",
+            "5": "Five", "6": "Six", "7": "Seven", "8": "Eight", "9": "Nine",
+        }
+        if left in digit_word:
+            left = digit_word[left]
+        if right in digit_word:
+            right = digit_word[right]
+        return f"Equals({left},{right})"
+
+    # Match terms that are either simple tokens or function applications like f(x)
+    eq_pattern = r'([A-Za-z0-9_]+\([^()]*\)|[A-Za-z0-9_]+)\s*=\s*([A-Za-z0-9_]+\([^()]*\)|[A-Za-z0-9_]+)'
+    fol = re.sub(eq_pattern, _replace_equality, fol)
+
+    # Normalize variables/terms that appear inside parentheses (function args)
     all_variables = get_all_variables(fol)
     for variable in all_variables:
         variable_new = variable[:]
         for k, v in translation_map.items():
             variable_new = variable_new.replace(k, v)
         fol = fol.replace(variable, variable_new)
+
     return fol
-
-# def evaluate(premises, conclusion):
-#     premises = [reformat_fol(p) for p in premises]
-#     conclusion = reformat_fol(conclusion)
-
-#     c = read_expr(conclusion)
-#     p_list = []
-#     for p in premises:
-#         p_list.append(read_expr(p))
-#     truth_value = prover.prove(c, p_list)
-#     if truth_value:
-#         return "True"
-#     else:
-#         neg_c = -c
-#         negation_true = prover.prove(neg_c, p_list)
-#         if negation_true:
-#             return "False"
-#         else:
-#             return "Uncertain"
-
-from .fol_normalization import normal_form
-from typing import List
-from nltk.sem import Expression
-from nltk.sem import logic
-from nltk.sem.logic import (
-    Expression,
-    AndExpression,
-    OrExpression,
-    ImpExpression,
-    IffExpression,
-    NegatedExpression,
-    AllExpression,
-    ExistsExpression,
-    EqualityExpression,
-    ApplicationExpression,
-)
 
 def evaluate(premises, conclusion):
     premises = [reformat_fol(p) for p in premises]
@@ -159,6 +148,23 @@ def evaluate(premises, conclusion):
         else:
             return "Uncertain"
         
+from .fol_normalization import normal_form
+from typing import List
+from nltk.sem import Expression
+from nltk.sem import logic
+from nltk.sem.logic import (
+    Expression,
+    AndExpression,
+    OrExpression,
+    ImpExpression,
+    IffExpression,
+    NegatedExpression,
+    AllExpression,
+    ExistsExpression,
+    EqualityExpression,
+    ApplicationExpression,
+)
+        
 VERBOSE_EVAL = True
 RECURSION_DEPTH = 0
 
@@ -170,14 +176,14 @@ def evaluate_fol_manually(premises: List[str], conclusion: str) -> str:
     premises_expr: List[Expression] = [read_expr(p) for p in premises_fmt]
     conclusion_expr: Expression = read_expr(conclusion_fmt)
     
-    if VERBOSE_EVAL:
-        # for p_expr in premises_expr: print(f"Premise: {p_expr}")
-        print(f"\nInitial Conclusion: {conclusion_expr}\n")
+    # if VERBOSE_EVAL:
+    #     # for p_expr in premises_expr: print(f"Premise: {p_expr}")
+    #     print(f"\nInitial Conclusion: {conclusion_expr}\n")
 
     # nf_conclusion could be produced by a normal_form() routine; for now keep the parsed expression
     nf_conclusion: Expression = normal_form(conclusion_expr)
-    if VERBOSE_EVAL:
-        print(f"Normal Form Conclusion: {nf_conclusion}\n")
+    # if VERBOSE_EVAL:
+    #     print(f"Normal Form Conclusion: {nf_conclusion}\n")
 
     # Optional sanity check: NF should be equivalent to original conclusion (up to prover power)
     if VERBOSE_EVAL:
@@ -186,11 +192,15 @@ def evaluate_fol_manually(premises: List[str], conclusion: str) -> str:
             b_impl_a = (-nf_conclusion) | conclusion_expr
             eq1 = prover.prove(a_impl_b, [])
             eq2 = prover.prove(b_impl_a, [])
-            print(f"Equivalence checks: orig -> NF: {'✓' if eq1 else '·'}, NF -> orig: {'✓' if eq2 else '·'}")
-            return "equivalence check complete"
+            
+            # print(f"Equivalence checks: orig -> NF: {'✓' if eq1 else '·'}, NF -> orig: {'✓' if eq2 else '·'}")
+            if eq1 and eq2:
+                return "valid equivalence"
+            else:
+                return "invalid equivalence"
         except Exception:
             print(f"Error occurred during equivalence checks")
-            return "normalization error"
+            return "Error occurred"
 
     # return recursive_evaluate(premises_expr, nf_conclusion, depth=RECURSION_DEPTH)
 

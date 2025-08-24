@@ -13,35 +13,6 @@ from nltk.sem.logic import (
     EqualityExpression,
     ApplicationExpression,
 )
-
-def normal_form(expr: Expression) -> Expression:
-     """
-     Convert any well-formed first-order logic formula to an equivalent Disjunctive Normal Form (DNF)
-     while preserving all quantifiers. The transformation steps are:
-        1. Eliminate implications and biconditionals (→, ↔) using only ∧, ∨, ¬.
-        2. Convert to Negation Normal Form (NNF): push ¬ inwards to apply only to atomic formulas.
-        3. Standardize apart all quantifiers (α-conversion) so each quantifier has a unique variable name.
-            (Also ensure no bound variable name conflicts with any free variable in the formula.)
-        4. Convert to Prenex Normal Form (PNF): pull all quantifiers out front (prefix) without changing scope.
-        5. Distribute ∧ over ∨ in the quantifier-free matrix to obtain DNF (an OR of AND-clauses).
-            (Quantifiers remain in the prefix, preserving the original structure.)
-     No Skolemization is performed. The returned formula is provably equivalent to the input under classical FOL semantics.
-     """
-     # Step 1: eliminate -> and <-> 
-     nnf_input = _eliminate_implications(expr)
-     # Step 2: push negations to get NNF
-     nnf_expr = _nnf(nnf_input)
-     # Step 3: standardize apart (rename) bound variables to avoid collisions 
-     #         (including with each other and with any free variables)
-     free_vars = _free_variables(nnf_expr)
-     std_expr = _standardise_apart(nnf_expr, used=free_vars)
-     # Step 4: extract quantifier prefix and quantifier-free matrix (PNF)
-     prefix, matrix = _to_prenex(std_expr)
-     # Step 5: convert the matrix (quantifier-free) to DNF
-     matrix_dnf = _to_dnf(matrix)
-     # Recombine prefix and matrix
-     return _wrap_prefix(prefix, matrix_dnf)
-
 def _eliminate_implications(expr: Expression) -> Expression:
     """Recursively eliminate → and ↔ from the expression, using only ¬, ∧, ∨."""
     if isinstance(expr, IffExpression):
@@ -59,7 +30,7 @@ def _eliminate_implications(expr: Expression) -> Expression:
     if isinstance(expr, OrExpression):
         return _eliminate_implications(expr.first) | _eliminate_implications(expr.second)
     if isinstance(expr, NegatedExpression):
-        return -_eliminate_implications(expr.term)
+        return -(_eliminate_implications(expr.term))
     if isinstance(expr, AllExpression):
         return AllExpression(expr.variable, _eliminate_implications(expr.term))
     if isinstance(expr, ExistsExpression):
@@ -67,14 +38,6 @@ def _eliminate_implications(expr: Expression) -> Expression:
     return expr  # Atomic (no implications to eliminate)
 
 def _nnf(expr: Expression) -> Expression:
-    """
-    Convert to Negation Normal Form: push ¬ inwards to apply only to atoms.
-    Uses standard De Morgan rules and quantifier negation rules:
-      ¬(A ∧ B) ≡ (¬A ∨ ¬B)
-      ¬(A ∨ B) ≡ (¬A ∧ ¬B)
-      ¬∀x.φ ≡ ∃x.¬φ
-      ¬∃x.φ ≡ ∀x.¬φ
-    """
     if isinstance(expr, NegatedExpression):
         t = expr.term
         if isinstance(t, NegatedExpression):
@@ -106,50 +69,46 @@ def _nnf(expr: Expression) -> Expression:
 
 def _free_variables(expr: Expression, bound=None) -> set:
     """
-    Gather the names of all free (unbound) variables in the expression.
-    This helps avoid naming collisions when standardizing apart.
+    Gather the names of all free (unbound) individual variables in the expression.
+    Robust across NLTK versions for ApplicationExpression (.args or .argument).
     """
     if bound is None:
         bound = set()
-    free = set()
-    # Quantifiers: mark the variable as bound in the subformula
-    if isinstance(expr, AllExpression) or isinstance(expr, ExistsExpression):
-        var_name = expr.variable.name
-        free |= _free_variables(expr.term, bound | {var_name})
-        return free
-    # Boolean connectives: combine free vars from subexpressions
-    if isinstance(expr, AndExpression) or isinstance(expr, OrExpression):
-        free |= _free_variables(expr.first, bound)
-        free |= _free_variables(expr.second, bound)
-        return free
+
+    # Quantifiers
+    if isinstance(expr, (AllExpression, ExistsExpression)):
+        v = expr.variable.name
+        return _free_variables(expr.term, bound | {v})
+
+    # Negation
     if isinstance(expr, NegatedExpression):
         return _free_variables(expr.term, bound)
-    # Atomic expressions:
-    # For an equality or predicate application, collect any variable not in 'bound'
-    try:
-        # NLTK logic ApplicationExpression (predicate or function application)
-        # provides .args for arguments and .function for the functor.
-        # We traverse both function and arguments, in case of complex terms.
-        if isinstance(expr, logic.ApplicationExpression):
-            # Check the function part
-            func = expr.function
-            if isinstance(func, logic.Expression):
-                free |= _free_variables(func, bound)
-            for arg in expr.args:
-                free |= _free_variables(arg, bound)
-            return free
-        # Individual variable expression
-        if isinstance(expr, logic.IndividualVariableExpression):
-            var_name = expr.variable.name
-            if var_name not in bound:
-                free.add(var_name)
-        # Other atomic terms (constants, function symbols) do not contribute free variables
-    except AttributeError:
-        # In case expr is an EqualityExpression or other atomic without .function/.args:
-        if isinstance(expr, logic.EqualityExpression):
-            free |= _free_variables(expr.first, bound)
-            free |= _free_variables(expr.second, bound)
-    return free
+
+    # Binary connectives (including equality)
+    if isinstance(expr, (AndExpression, OrExpression, logic.EqualityExpression)):
+        return _free_variables(expr.first, bound) | _free_variables(expr.second, bound)
+
+    # ApplicationExpression: traverse functor and args
+    if isinstance(expr, logic.ApplicationExpression):
+        free = set()
+        if isinstance(expr.function, logic.Expression):
+            free |= _free_variables(expr.function, bound)
+        args = []
+        if hasattr(expr, 'args') and expr.args is not None:
+            args = list(expr.args)
+        elif hasattr(expr, 'argument') and expr.argument is not None:
+            args = [expr.argument]
+        for a in args:
+            free |= _free_variables(a, bound)
+        return free
+
+    # Individual variable
+    if isinstance(expr, logic.IndividualVariableExpression):
+        name = expr.variable.name
+        return {name} if name not in bound else set()
+
+    # Other atoms/terms: no free individual variables contributed
+    return set()
 
 def _standardise_apart(expr: Expression, used: set = None) -> Expression:
     """
@@ -215,9 +174,10 @@ def _collect_bound_names(expr: Expression) -> set:
 def _to_prenex(expr: Expression):
     """
     Move all quantifiers to the front (prefix), returning (prefix_list, matrix).
-    `prefix_list` is a list of tuples (type, Variable) with type "all" or "exists", 
+    `prefix_list` is a list of tuples (type, Variable) with type "all" or "exists",
     in the **outermost-first** order.
-    This step assumes all bound variable names are unique (standardized apart).
+    This step assumes bound variable names are unique (standardized apart).
+    Returns (prefix_list, matrix_expr).
     """
     # Quantified formula: hoist the quantifier out and continue inside
     if isinstance(expr, AllExpression):
@@ -241,7 +201,6 @@ def _to_prenex(expr: Expression):
     # Atomic formula (or literal) with no quantifiers
     return ([], expr)
 
-
 def _wrap_prefix(prefix: list, matrix: Expression) -> Expression:
     """Wrap the quantifier prefix around the matrix to rebuild a complete formula."""
     result = matrix
@@ -253,66 +212,106 @@ def _wrap_prefix(prefix: list, matrix: Expression) -> Expression:
             result = ExistsExpression(var, result)
     return result
 
-# ---- DNF on the quantifier-free matrix ----
+def log_difference(expr1, expr2, prefix=None):
+    VERBOSE_NORMAL_FORM = True
+    if VERBOSE_NORMAL_FORM and str(expr1) != str(expr2):
+        print(f"Difference:\n  {expr1}\n  {expr2}")
+        if prefix is not None:
+            print(f"Prefix: {prefix}")
 
-def _flatten_or(expr: Expression) -> list:
-    """Flatten nested disjunctions into a list of disjuncts."""
-    if isinstance(expr, OrExpression):
-        return _flatten_or(expr.first) + _flatten_or(expr.second)
-    return [expr]
+def normal_form(expr: Expression) -> Expression:
+    # Step 1: eliminate -> and <-> 
+    nnf_input = _eliminate_implications(expr)
+    # log_difference(expr, nnf_input)
+    
+    #  Step 2: push negations to get NNF
+    nnf_expr = _nnf(nnf_input)
+    # log_difference(nnf_input, nnf_expr)
+
+    # Step 3: standardize apart (rename) bound variables to avoid collisions
+    #         (including with each other and with any free variables)
+    free_vars = _free_variables(nnf_expr)
+    std_expr = _standardise_apart(nnf_expr, used=free_vars)
+    # log_difference(nnf_expr, std_expr)
+    
+    # Step 4: extract quantifier prefix and quantifier-free matrix (PNF) and rebuild
+    prefix, matrix = _to_prenex(std_expr)
+    # log_difference(std_expr, matrix, prefix)
+
+     # Step 5: convert the matrix (quantifier-free) to DNF
+     matrix_dnf = _to_dnf(matrix)
+     
+     # Recombine prefix and matrix
+    #  return _wrap_prefix(prefix, matrix_dnf)
 
 
-def _flatten_and(expr: Expression) -> list:
-    """Flatten nested conjunctions into a list of conjuncts."""
-    if isinstance(expr, AndExpression):
-        return _flatten_and(expr.first) + _flatten_and(expr.second)
-    return [expr]
 
 
-def _join_or(expr_list: list) -> Expression:
-    """Join a list of expressions into a single disjunction chain."""
-    if not expr_list:
-        return logic.TRUE   # edge case: no disjuncts (should not happen in practice)
-    result = expr_list[0]
-    for disj in expr_list[1:]:
-        result = result | disj
-    return result
 
 
-def _to_dnf(expr: Expression, clause_cap: int = 256) -> Expression:
-    """
-    Distribute ∧ over ∨ in the quantifier-free expression to obtain DNF (OR-of-ANDs of literals).
-    A soft `clause_cap` limits expansion to avoid exponential blow-up; if distribution would produce 
-    more than `clause_cap` clauses, it is aborted (the result remains logically correct but not fully distributed).
-    """
-    if isinstance(expr, AndExpression):
-        # Convert both sides to DNF, then distribute
-        A = _to_dnf(expr.first, clause_cap)
-        B = _to_dnf(expr.second, clause_cap)
-        return _distribute_and(A, B, clause_cap)
-    if isinstance(expr, OrExpression):
-        # Convert both sides to DNF and flatten
-        left_dnf = _to_dnf(expr.first, clause_cap)
-        right_dnf = _to_dnf(expr.second, clause_cap)
-        # Flatten any nested ORs, then OR together all parts
-        disjuncts = _flatten_or(left_dnf) + _flatten_or(right_dnf)
-        return _join_or(disjuncts)
-    # At this point, expr is either a negated atom or an atomic literal (cannot distribute further)
-    return expr
 
-def _distribute_and(A: Expression, B: Expression, clause_cap: int) -> Expression:
-    """Distribute A ∧ B over any disjunctions within, to help form DNF."""
-    # If one side is a disjunction, distribute conjunction across each disjunct
-    if isinstance(A, OrExpression):
-        disjuncts = _flatten_or(A)
-        # If expanding would exceed the clause cap, abort distribution (return as a conjunction)
-        if len(disjuncts) * 2 > clause_cap:
-            return A & B
-        return _join_or([_to_dnf(disj & B, clause_cap) for disj in disjuncts])
-    if isinstance(B, OrExpression):
-        disjuncts = _flatten_or(B)
-        if len(disjuncts) * 2 > clause_cap:
-            return A & B
-        return _join_or([_to_dnf(A & disj, clause_cap) for disj in disjuncts])
-    # Neither A nor B is an OR-expression: just rebuild the conjunction (both are already in DNF or literal form)
-    return A & B
+
+
+# # ---- DNF on the quantifier-free matrix ----
+
+# def _flatten_or(expr: Expression) -> list:
+#     """Flatten nested disjunctions into a list of disjuncts."""
+#     if isinstance(expr, OrExpression):
+#         return _flatten_or(expr.first) + _flatten_or(expr.second)
+#     return [expr]
+
+
+# def _flatten_and(expr: Expression) -> list:
+#     """Flatten nested conjunctions into a list of conjuncts."""
+#     if isinstance(expr, AndExpression):
+#         return _flatten_and(expr.first) + _flatten_and(expr.second)
+#     return [expr]
+
+
+# def _join_or(expr_list: list) -> Expression:
+#     """Join a list of expressions into a single disjunction chain."""
+#     if not expr_list:
+#         return logic.TRUE   # edge case: no disjuncts (should not happen in practice)
+#     result = expr_list[0]
+#     for disj in expr_list[1:]:
+#         result = result | disj
+#     return result
+
+
+# def _to_dnf(expr: Expression, clause_cap: int = 256) -> Expression:
+#     """
+#     Distribute ∧ over ∨ in the quantifier-free expression to obtain DNF (OR-of-ANDs of literals).
+#     A soft `clause_cap` limits expansion to avoid exponential blow-up; if distribution would produce 
+#     more than `clause_cap` clauses, it is aborted (the result remains logically correct but not fully distributed).
+#     """
+#     if isinstance(expr, AndExpression):
+#         # Convert both sides to DNF, then distribute
+#         A = _to_dnf(expr.first, clause_cap)
+#         B = _to_dnf(expr.second, clause_cap)
+#         return _distribute_and(A, B, clause_cap)
+#     if isinstance(expr, OrExpression):
+#         # Convert both sides to DNF and flatten
+#         left_dnf = _to_dnf(expr.first, clause_cap)
+#         right_dnf = _to_dnf(expr.second, clause_cap)
+#         # Flatten any nested ORs, then OR together all parts
+#         disjuncts = _flatten_or(left_dnf) + _flatten_or(right_dnf)
+#         return _join_or(disjuncts)
+#     # At this point, expr is either a negated atom or an atomic literal (cannot distribute further)
+#     return expr
+
+# def _distribute_and(A: Expression, B: Expression, clause_cap: int) -> Expression:
+#     """Distribute A ∧ B over any disjunctions within, to help form DNF."""
+#     # If one side is a disjunction, distribute conjunction across each disjunct
+#     if isinstance(A, OrExpression):
+#         disjuncts = _flatten_or(A)
+#         # If expanding would exceed the clause cap, abort distribution (return as a conjunction)
+#         if len(disjuncts) * 2 > clause_cap:
+#             return A & B
+#         return _join_or([_to_dnf(disj & B, clause_cap) for disj in disjuncts])
+#     if isinstance(B, OrExpression):
+#         disjuncts = _flatten_or(B)
+#         if len(disjuncts) * 2 > clause_cap:
+#             return A & B
+#         return _join_or([_to_dnf(A & disj, clause_cap) for disj in disjuncts])
+#     # Neither A nor B is an OR-expression: just rebuild the conjunction (both are already in DNF or literal form)
+#     return A & B
