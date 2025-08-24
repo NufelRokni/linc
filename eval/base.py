@@ -18,6 +18,8 @@ def postprocess_generation(generation):
         # print("Evaluation result:", resp)
         # if resp not in ("True", "False", "Uncertain"):
         #     print("Unexpected evaluation result:", resp)
+        # if resp in "contradiction": 
+        #     print(f"Contradiction found in: {premises} and {conclusion}")
         return resp
     except Exception as e:
         # print the exact line that can produce the error of Error evaluating FOL: Unexpected token: 'consistently'.  Expected token ')'.

@@ -93,7 +93,7 @@ def reformat_fol(fol):
         "’": "",
         "-": "_",
         "'": "",
-        # "\"": "",
+        "\"": "",
         " ": "_"
         
     }
@@ -149,24 +149,10 @@ def evaluate(premises, conclusion):
             return "Uncertain"
         
 from .fol_normalization import normal_form
+from .recursive_eval import recursive_evaluate
 from typing import List
-from nltk.sem import Expression
-from nltk.sem import logic
-from nltk.sem.logic import (
-    Expression,
-    AndExpression,
-    OrExpression,
-    ImpExpression,
-    IffExpression,
-    NegatedExpression,
-    AllExpression,
-    ExistsExpression,
-    EqualityExpression,
-    ApplicationExpression,
-)
-        
+
 VERBOSE_EVAL = True
-RECURSION_DEPTH = 0
 
 def evaluate_fol_manually(premises: List[str], conclusion: str) -> str:
     # print(f"Evaluating FOL with premises: {premises} and conclusion: {conclusion}")
@@ -195,14 +181,14 @@ def evaluate_fol_manually(premises: List[str], conclusion: str) -> str:
             
             # print(f"Equivalence checks: orig -> NF: {'✓' if eq1 else '·'}, NF -> orig: {'✓' if eq2 else '·'}")
             if eq1 and eq2:
-                return "valid equivalence"
+                pass
             else:
                 return "invalid equivalence"
         except Exception:
             print(f"Error occurred during equivalence checks")
             return "Error occurred"
 
-    # return recursive_evaluate(premises_expr, nf_conclusion, depth=RECURSION_DEPTH)
+    return recursive_evaluate(premises_expr, nf_conclusion, depth=0)
 
 
     

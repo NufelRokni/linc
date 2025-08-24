@@ -238,11 +238,12 @@ def normal_form(expr: Expression) -> Expression:
     prefix, matrix = _to_prenex(std_expr)
     # log_difference(std_expr, matrix, prefix)
 
-     # Step 5: convert the matrix (quantifier-free) to DNF
-     matrix_dnf = _to_dnf(matrix)
-     
-     # Recombine prefix and matrix
-    #  return _wrap_prefix(prefix, matrix_dnf)
+    # Step 5: convert the matrix (quantifier-free) to DNF
+    matrix_dnf = _to_dnf(matrix)
+    # log_difference(matrix, matrix_dnf)
+    
+    # Recombine prefix and matrix
+    return _wrap_prefix(prefix, matrix_dnf)
 
 
 
@@ -252,66 +253,60 @@ def normal_form(expr: Expression) -> Expression:
 
 
 
-# # ---- DNF on the quantifier-free matrix ----
+# ---- DNF on the quantifier-free matrix ----
 
-# def _flatten_or(expr: Expression) -> list:
-#     """Flatten nested disjunctions into a list of disjuncts."""
-#     if isinstance(expr, OrExpression):
-#         return _flatten_or(expr.first) + _flatten_or(expr.second)
-#     return [expr]
-
-
-# def _flatten_and(expr: Expression) -> list:
-#     """Flatten nested conjunctions into a list of conjuncts."""
-#     if isinstance(expr, AndExpression):
-#         return _flatten_and(expr.first) + _flatten_and(expr.second)
-#     return [expr]
+def _flatten_or(expr: Expression) -> list:
+    """Flatten nested disjunctions into a list of disjuncts."""
+    if isinstance(expr, OrExpression):
+        return _flatten_or(expr.first) + _flatten_or(expr.second)
+    return [expr]
 
 
-# def _join_or(expr_list: list) -> Expression:
-#     """Join a list of expressions into a single disjunction chain."""
-#     if not expr_list:
-#         return logic.TRUE   # edge case: no disjuncts (should not happen in practice)
-#     result = expr_list[0]
-#     for disj in expr_list[1:]:
-#         result = result | disj
-#     return result
+def _flatten_and(expr: Expression) -> list:
+    """Flatten nested conjunctions into a list of conjuncts."""
+    if isinstance(expr, AndExpression):
+        return _flatten_and(expr.first) + _flatten_and(expr.second)
+    return [expr]
 
 
-# def _to_dnf(expr: Expression, clause_cap: int = 256) -> Expression:
-#     """
-#     Distribute ∧ over ∨ in the quantifier-free expression to obtain DNF (OR-of-ANDs of literals).
-#     A soft `clause_cap` limits expansion to avoid exponential blow-up; if distribution would produce 
-#     more than `clause_cap` clauses, it is aborted (the result remains logically correct but not fully distributed).
-#     """
-#     if isinstance(expr, AndExpression):
-#         # Convert both sides to DNF, then distribute
-#         A = _to_dnf(expr.first, clause_cap)
-#         B = _to_dnf(expr.second, clause_cap)
-#         return _distribute_and(A, B, clause_cap)
-#     if isinstance(expr, OrExpression):
-#         # Convert both sides to DNF and flatten
-#         left_dnf = _to_dnf(expr.first, clause_cap)
-#         right_dnf = _to_dnf(expr.second, clause_cap)
-#         # Flatten any nested ORs, then OR together all parts
-#         disjuncts = _flatten_or(left_dnf) + _flatten_or(right_dnf)
-#         return _join_or(disjuncts)
-#     # At this point, expr is either a negated atom or an atomic literal (cannot distribute further)
-#     return expr
+def _join_or(expr_list: list) -> Expression:
+    """Join a list of expressions into a single disjunction chain."""
+    if not expr_list:
+        return logic.TRUE   # edge case: no disjuncts (should not happen in practice)
+    result = expr_list[0]
+    for disj in expr_list[1:]:
+        result = result | disj
+    return result
 
-# def _distribute_and(A: Expression, B: Expression, clause_cap: int) -> Expression:
-#     """Distribute A ∧ B over any disjunctions within, to help form DNF."""
-#     # If one side is a disjunction, distribute conjunction across each disjunct
-#     if isinstance(A, OrExpression):
-#         disjuncts = _flatten_or(A)
-#         # If expanding would exceed the clause cap, abort distribution (return as a conjunction)
-#         if len(disjuncts) * 2 > clause_cap:
-#             return A & B
-#         return _join_or([_to_dnf(disj & B, clause_cap) for disj in disjuncts])
-#     if isinstance(B, OrExpression):
-#         disjuncts = _flatten_or(B)
-#         if len(disjuncts) * 2 > clause_cap:
-#             return A & B
-#         return _join_or([_to_dnf(A & disj, clause_cap) for disj in disjuncts])
-#     # Neither A nor B is an OR-expression: just rebuild the conjunction (both are already in DNF or literal form)
-#     return A & B
+
+def _to_dnf(expr: Expression, clause_cap: int = 256) -> Expression:
+    """
+    Distribute ∧ over ∨ in the quantifier-free expression to obtain DNF (OR-of-ANDs of literals).
+    Note: `clause_cap` is accepted for API compatibility but is not enforced; the function fully distributes.
+    """
+    if isinstance(expr, AndExpression):
+        # Convert both sides to DNF, then distribute
+        A = _to_dnf(expr.first, clause_cap)
+        B = _to_dnf(expr.second, clause_cap)
+        return _distribute_and(A, B, clause_cap)
+    if isinstance(expr, OrExpression):
+        # Convert both sides to DNF and flatten
+        left_dnf = _to_dnf(expr.first, clause_cap)
+        right_dnf = _to_dnf(expr.second, clause_cap)
+        # Flatten any nested ORs, then OR together all parts
+        disjuncts = _flatten_or(left_dnf) + _flatten_or(right_dnf)
+        return _join_or(disjuncts)
+    # At this point, expr is either a negated atom or an atomic literal (cannot distribute further)
+    return expr
+
+def _distribute_and(A: Expression, B: Expression, clause_cap: int) -> Expression:
+    """Distribute A ∧ B over any disjunctions within, to help form DNF."""
+    # If one side is a disjunction, distribute conjunction across each disjunct
+    if isinstance(A, OrExpression):
+        disjuncts = _flatten_or(A)
+        return _join_or([_to_dnf(disj & B, clause_cap) for disj in disjuncts])
+    if isinstance(B, OrExpression):
+        disjuncts = _flatten_or(B)
+        return _join_or([_to_dnf(A & disj, clause_cap) for disj in disjuncts])
+    # Neither A nor B is an OR-expression: just rebuild the conjunction (both are already in DNF or literal form)
+    return A & B

@@ -18,7 +18,7 @@ def complete_code():
         list_raw_valid = []
         list_prc_valid = []
         for raw, prc in zip(list_raw, list_prc):
-            if ref == prc and prc != "Error" and prc != "Uncertain":
+            if ref == prc and prc != "Error" and prc == "True":
                 if not raw in list_raw_valid:
                     list_raw_valid.append(raw)
                     list_prc_valid.append(prc)
